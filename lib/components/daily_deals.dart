@@ -24,7 +24,6 @@ class _DailyDealsState extends State<DailyDeals> {
     this.currency = prefs.getString('currency');
     BlocProvider.of<HomeBloc>(context)
         .add(FetchTodaysDealsByDate(prefs.getString('currency')));
-
   }
 
   @override
@@ -36,10 +35,7 @@ class _DailyDealsState extends State<DailyDeals> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
       color: Colors.white12,
-
-
       child: DealsList(),
     );
   }
@@ -56,7 +52,6 @@ class _DealsListState extends State<DealsList> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -64,9 +59,7 @@ class _DealsListState extends State<DealsList> {
     return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
       deals = BlocProvider.of<HomeBloc>(context).dealslist;
 
-
       if (state is TodaysDealsLoadingState) {
-
         return Center(
             child: SpinKitRipple(
           color: Theme.of(context).primaryColor,
@@ -76,7 +69,7 @@ class _DealsListState extends State<DealsList> {
       if (state is TodaysDealsErrorState) {
         return Container();
       }
-      if(deals.isNotEmpty){
+      if (deals.isNotEmpty) {
         return Container(
           color: AppColors.WHITE,
           constraints: BoxConstraints(
@@ -90,15 +83,29 @@ class _DealsListState extends State<DealsList> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ListHeader(
-                      headerName: 'Best Deals',
+                      headerName: 'Accessories',//Best Deals
                       onTap: () {},
                     ),
-                    OutlinedButton(onPressed: () async {
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DealsFullPage(currency:prefs.getString('currency'),)));
-                    }, child: Text('View All',style: TextStyle(fontSize: 16,color: AppColors.LOGO_ORANGE),),style: OutlinedButton.styleFrom(
-                      side: BorderSide(width: 2,color: AppColors.LOGO_ORANGE)
-                    ))
+                    OutlinedButton(
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DealsFullPage(
+                                      currency: prefs.getString('currency'),
+                                    )));
+                      },
+                      child: Text(
+                        'View All',
+                        style: TextStyle(
+                            fontSize: 16, color: AppColors.LOGO_ORANGE),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                              width: 2, color: AppColors.LOGO_ORANGE)),
+                    )
                   ],
                 ),
               ),
@@ -110,7 +117,7 @@ class _DealsListState extends State<DealsList> {
                     itemBuilder: (BuildContext context, int index) {
                       return DealsCardNew(
                         deal: deals[index],
-                        rrating: 3.9+ rnd.nextDouble(),
+                        rrating: 3.9 + rnd.nextDouble(),
                       );
                     }),
               ),
@@ -124,13 +131,9 @@ class _DealsListState extends State<DealsList> {
       }
       return Center(
           child: SpinKitRipple(
-            color: Theme.of(context).primaryColor,
-            size: 50,
-          ));
-
-
-
-
+        color: Theme.of(context).primaryColor,
+        size: 50,
+      ));
     });
   }
 }

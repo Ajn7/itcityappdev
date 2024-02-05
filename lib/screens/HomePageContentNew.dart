@@ -12,7 +12,6 @@ import 'package:itcity_online_store/components/FeaturedProduct.dart';
 import 'package:itcity_online_store/components/PopularProducts.dart';
 import 'package:itcity_online_store/components/category_card.dart';
 
-
 import 'package:itcity_online_store/components/components.dart';
 import 'package:itcity_online_store/components/computer_collections.dart';
 import 'package:itcity_online_store/components/home_ads_banner.dart';
@@ -20,7 +19,6 @@ import 'package:itcity_online_store/components/home_ads_banner.dart';
 import 'package:itcity_online_store/components/mobile_collections.dart';
 import 'package:itcity_online_store/resources/values.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class HomePageContentNew extends StatefulWidget {
   @override
@@ -38,9 +36,12 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   bool isCommon = false;
   void initPref() async {
     prefs = await SharedPreferences.getInstance();
-    BlocProvider.of<HomeBloc>(context).add(FetchFeaturedProduct(prefs.getString('currency')));
-    BlocProvider.of<HomeBloc>(context).add(FetchPopularProduct(prefs.getString('currency')));
-    BlocProvider.of<HomeBloc>(context).add(FetchMobileCollections(prefs.getString('currency')));
+    BlocProvider.of<HomeBloc>(context)
+        .add(FetchFeaturedProduct(prefs.getString('currency')));
+    BlocProvider.of<HomeBloc>(context)
+        .add(FetchPopularProduct(prefs.getString('currency')));
+    BlocProvider.of<HomeBloc>(context)
+        .add(FetchMobileCollections(prefs.getString('currency')));
     // if (prefs.containsKey("email")) {
     //   BlocProvider.of<WishlistBloc>(context)
     //       .add(FetchWishlistEvent(prefs.getString("email"),));
@@ -48,6 +49,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
     //   BlocProvider.of<WishlistBloc>(context).add(FetchWishlistEvent(" "));
     // }
   }
+
   @override
   void initState() {
     initPref();
@@ -57,236 +59,235 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
 
   @override
   Widget build(BuildContext context) {
-    if (BlocProvider.of<HomeBloc>(context).state is HomeInitial) {
-
-    }
+    if (BlocProvider.of<HomeBloc>(context).state is HomeInitial) {}
     return BlocBuilder<HomeBloc, HomeState>(builder: (context, homeState) {
-
       homeAdImages = BlocProvider.of<HomeBloc>(context).homeadslist;
       featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
       popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
       wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
       mobileCollections = BlocProvider.of<HomeBloc>(context).mobileColletions;
 
-
       return BlocListener<CartBloc, CartState>(
-  listener: (context, state) {
-    if (state is AddProductToCartLoadingState) {
+        listener: (context, state) {
+          if (state is AddProductToCartLoadingState) {
+            Loader.show(context,
+                isAppbarOverlay: true,
+                isBottomBarOverlay: false,
+                progressIndicator: CircularProgressIndicator(),
+                themeData: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.fromSwatch()
+                        .copyWith(secondary: Colors.black38)),
+                overlayColor: Colors.black26);
+          } else if (state is AddProductToCartSuccessState) {
+            Loader.hide();
 
-      Loader.show(context,
-          isAppbarOverlay: true,
-          isBottomBarOverlay: false,
-          progressIndicator: CircularProgressIndicator(),
-          themeData:
-          Theme.of(context).copyWith(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.black38)),
-          overlayColor: Colors.black26);
-    } else if (state is AddProductToCartSuccessState) {
-      Loader.hide();
-
-      if(BlocProvider.of<CartBloc>(context).page!.compareTo('cartpage') ==1 ){
-        showModalBottomSheet(
-            context: context,
-            builder: (context) {
-
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Text(
-                      "Product added to Cart",
-                      style: TextStyle(fontSize: 27),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          constraints: BoxConstraints(
-                            minHeight:
-                            MediaQuery.of(context).size.height * .07,
+            if (BlocProvider.of<CartBloc>(context)
+                    .page!
+                    .compareTo('cartpage') ==
+                1) {
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 25,
                           ),
-                          width: MediaQuery.of(context).size.width * .35,
-                          child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    AppColors.WHITE),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                        side: BorderSide(
-                                            color: AppColors.LOGO_ORANGE))),
-                                foregroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    AppColors.LOGO_ORANGE),
+                          Text(
+                            "Product added to Cart",
+                            style: TextStyle(fontSize: 27),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(
+                                  minHeight:
+                                      MediaQuery.of(context).size.height * .07,
+                                ),
+                                width: MediaQuery.of(context).size.width * .35,
+                                child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              AppColors.WHITE),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              side: BorderSide(
+                                                  color:
+                                                      AppColors.LOGO_ORANGE))),
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              AppColors.LOGO_ORANGE),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      "CONTINUE SHOPPING",
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.center,
+                                    )),
                               ),
-                              onPressed: () {
-
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                "CONTINUE SHOPPING",
-                                style: TextStyle(fontSize: 16),
-                                textAlign: TextAlign.center,
-                              )),
+                              Container(
+                                constraints: BoxConstraints(
+                                  minHeight:
+                                      MediaQuery.of(context).size.height * .07,
+                                ),
+                                width: MediaQuery.of(context).size.width * .35,
+                                child: TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              AppColors.LOGO_ORANGE),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              side: BorderSide(
+                                                  color:
+                                                      AppColors.LOGO_ORANGE))),
+                                      foregroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              AppColors.WHITE),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, "/cart", (route) => false);
+                                    },
+                                    child: Text(
+                                      "GO TO CART",
+                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.center,
+                                    )),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 35,
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+            }
+          } else if (state is AddProductToCartErrorState) {
+            Loader.hide();
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 35,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
                         ),
-                        Container(
-                          constraints: BoxConstraints(
-                            minHeight:
-                            MediaQuery.of(context).size.height * .07,
-                          ),
-                          width: MediaQuery.of(context).size.width * .35,
-                          child: TextButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    AppColors.LOGO_ORANGE),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0),
-                                        side: BorderSide(
-                                            color: AppColors.LOGO_ORANGE))),
-                                foregroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    AppColors.WHITE),
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, "/cart", (route) => false);
-                              },
-                              child: Text(
-                                "GO TO CART",
-                                style: TextStyle(fontSize: 16),
-                                textAlign: TextAlign.center,
-                              )),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                  ],
-                ),
-              );
-            });
-      }
+                        child: Icon(
+                          Icons.clear_outlined,
+                          color: AppColors.WHITE,
+                          size: 75,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      Text(
+                        "Something Went Wrong",
+                        style: TextStyle(fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Please Try Again Later",
+                        style: TextStyle(fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 35,
+                      ),
+                    ],
+                  );
+                });
+          } else {
+            Loader.hide();
+          }
 
-    } else if (state is AddProductToCartErrorState) {
-      Loader.hide();
-      showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 35,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.clear_outlined,
-                    color: AppColors.WHITE,
-                    size: 75,
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  "Something Went Wrong",
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Please Try Again Later",
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 35,
-                ),
-              ],
-            );
-          });
-    } else {
-      Loader.hide();
-    }
-
-    // TODO: implement listener
-  },
-  child: Container(
-        //decoration: kContainerDecoration,
-        child: LayoutBuilder(builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: ScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Column(children: [
-                BannerList(),
-                CategoryCard(),
-                new HomeAdsBanner(
-                  index: 0,
-                  imageAds: homeAdImages,
-                ),
-                DailyDeals(),
-                new HomeAdsBanner(
-                  index: 1,
-                  imageAds: homeAdImages,
-                ),
-                MobileCollections(),
-                homeAdImages!.length >= 3?
-                HomeAdsBanner(
-                  index: 2,
-                  imageAds: homeAdImages,
-                ):Container(),
-
-                PopularProducts(),
-                homeAdImages!.length >= 4?
-                HomeAdsBanner(
-                  index: 3,
-                  imageAds: homeAdImages,
-                ):Container(
-                  height: 10,
-                ),
-
-
-                ComputerCollections(),
-                homeAdImages!.length >= 5?
-                  HomeAdsBanner(
-                    index: 4,
+          // TODO: implement listener
+        },
+        child: Container(
+          //decoration: kContainerDecoration,
+          child: LayoutBuilder(builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: ScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Column(children: [
+                  BannerList(),
+                  CategoryCard(),
+                  new HomeAdsBanner(
+                    index: 0,
                     imageAds: homeAdImages,
-                  ):Container(
-                  height: 10,
-                ),
+                  ),
+                  DailyDeals(), //best deals
+                  new HomeAdsBanner(
+                    index: 1,
+                    imageAds: homeAdImages,
+                  ),
+                  MobileCollections(),
+                  homeAdImages!.length >= 3
+                      ? HomeAdsBanner(
+                          index: 2,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(),
 
+                  PopularProducts(),
+                  homeAdImages!.length >= 4
+                      ? HomeAdsBanner(
+                          index: 3,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
 
-                FeaturedProduct()
-              ]),
-            ),
-          );
-        }),
-      ),
-);
+                  ComputerCollections(),
+                  homeAdImages!.length >= 5
+                      ? HomeAdsBanner(
+                          index: 4,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+
+                  FeaturedProduct()
+                ]),
+              ),
+            );
+          }),
+        ),
+      );
     });
   }
 }
@@ -328,9 +329,7 @@ class _TimerAppState extends State<TimerApp> {
           setState(() {
             if (eventTime != DateTime.now()) {
               timeDiff = timeDiff - 1;
-            } else {
-
-            }
+            } else {}
           });
         }
       }
