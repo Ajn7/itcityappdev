@@ -11,6 +11,7 @@ import 'dart:async';
 
 class ProductApi {
   final ApiClient _apiClient = ApiClient();
+  final NewApiClient _newApiClient = NewApiClient();
   Random rnd = new Random();
 
   String _productPath = '/findAllProducts';
@@ -44,13 +45,13 @@ class ProductApi {
   }
 
   Future<List<Category>> getCategory() async {
-    Response response = await _apiClient.invokeAPI(_categoryPath, 'GET', null);
+    Response response = await _newApiClient.invokeAPI(_categoryPath, 'GET', null);
     print("Category>>>>>"+response.body.toString());
     return Category.listFromJson(jsonDecode(response.body)['data']);
   }
 
   Future<List<Product>> getProductByCategory(int? id,String? currency) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_productByCategoryPath?category_id=$id&cur=$currency', 'GET', null);
     return Product.listFromJson(jsonDecode(response.body)['data']);
   }
@@ -70,7 +71,7 @@ class ProductApi {
     return Product.listFromJson(jsonDecode(response.body)['data']);
   }
   Future<List<Product>> getpopularProductFull(String? currency) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_popularProductFullPath?cur=$currency', 'GET', null);
     return Product.listFromJson(jsonDecode(response.body)['data']);
   }
@@ -80,7 +81,7 @@ class ProductApi {
     return Product.listFromJson(jsonDecode(response.body)['data']);
   }
   Future<Product> getProductByProductId(String? id,String? currency) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_productByProductIdPath?product_id=$id&cur=$currency', 'GET', null);
     return Product.fromJson(jsonDecode(response.body)['data'][0]);
   }
