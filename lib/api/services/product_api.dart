@@ -76,7 +76,7 @@ class ProductApi {
     return Product.listFromJson(jsonDecode(response.body)['data']);
   }
   Future<List<Product>> getfeaturedProductFull(String? currency) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_featuredProductFullPath?cur=$currency', 'GET', null);
     return Product.listFromJson(jsonDecode(response.body)['data']);
   }
@@ -166,7 +166,7 @@ class ProductApi {
   Future<List<Product>> search(String term, String? currency) async {
     var url = "/searchProductOrBrandOrCategory?value=$term&cur=$currency";
     print(url);
-    Response response =  await _apiClient.invokeAPI(url, 'GET', null);
+    Response response =  await _newApiClient.invokeAPI(url, 'GET', null);
     return Product.listFromJson(jsonDecode(response.body)['data']['data']);
   }
 
