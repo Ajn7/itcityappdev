@@ -24,7 +24,6 @@ class _DailyDealsState extends State<DailyDeals> {
     this.currency = prefs.getString('currency');
     BlocProvider.of<HomeBloc>(context)
         .add(FetchTodaysDealsByDate(prefs.getString('currency')));
-
   }
 
   @override
@@ -72,7 +71,7 @@ class _DailyDealsState extends State<DailyDeals> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ListHeader(
-                      headerName: 'Best Deals',
+                      headerName: 'Accessories',//Best Deals
                       onTap: () {},
                     ),
                     OutlinedButton(

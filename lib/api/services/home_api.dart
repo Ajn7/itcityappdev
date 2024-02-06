@@ -36,6 +36,11 @@ class HomeApi {
   //   return HomeImages.listFromJson(jsonDecode(response.body)['data']);
   // }
 
+  // Future<List<HomeAds>> fetchHomeAds() async {
+  //   Response response = await _newApiClient.invokeAPI(_homeAdsPath, 'GET', null);
+  //   return HomeAds.listFromJson(jsonDecode(response.body)['data']);
+  // }
+
   Future<List<HomeAds>> fetchHomeAds() async {
     List<HomeAds> combinedList = [];
 
