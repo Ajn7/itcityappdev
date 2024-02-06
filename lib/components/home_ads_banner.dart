@@ -33,7 +33,7 @@ class _HomeAdsBannerState extends State<HomeAdsBanner> {
             height: MediaQuery.of(context).size.width * .40,
             width: MediaQuery.of(context).size.width,
 
-            child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.contain,),
+            child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.fill,),
 
           );
         } else if(state is HomeAdsErrorState) {
@@ -51,14 +51,14 @@ class _HomeAdsBannerState extends State<HomeAdsBanner> {
           height: MediaQuery.of(context).size.width * .40,
           width: MediaQuery.of(context).size.width,
 
-          child: Image.network(widget.imageAds![widget.index!]==null ? " " : homeAds + widget.imageAds![widget.index!].image!,fit: BoxFit.contain,),
+          child: Image.network(widget.imageAds![widget.index!]==null ? " " : homeAds + widget.imageAds![widget.index!].image!,fit: BoxFit.fill,),
 
         ): Container(
 
           height: MediaQuery.of(context).size.width * .40,
           width: MediaQuery.of(context).size.width,
 
-          child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.contain,),
+          child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.fill,),
 
         );
       },
