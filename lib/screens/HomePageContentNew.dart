@@ -19,6 +19,7 @@ import 'package:itcity_online_store/components/home_ads_banner.dart';
 import 'package:itcity_online_store/components/mobile_collections.dart';
 import 'package:itcity_online_store/resources/values.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../components/home_products.dart';
 
 class HomePageContentNew extends StatefulWidget {
   @override
@@ -36,10 +37,10 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   bool isCommon = false;
   void initPref() async {
     prefs = await SharedPreferences.getInstance();
-    BlocProvider.of<HomeBloc>(context)
-        .add(FetchFeaturedProduct(prefs.getString('currency')));
-    BlocProvider.of<HomeBloc>(context)
-        .add(FetchPopularProduct(prefs.getString('currency')));
+    // BlocProvider.of<HomeBloc>(context)
+    //     .add(FetchFeaturedProduct(prefs.getString('currency')));
+    // BlocProvider.of<HomeBloc>(context)
+    //     .add(FetchPopularProduct(prefs.getString('currency')));
     BlocProvider.of<HomeBloc>(context)
         .add(FetchMobileCollections(prefs.getString('currency')));
     // if (prefs.containsKey("email")) {
@@ -248,20 +249,18 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                     index: 0,
                     imageAds: homeAdImages,
                   ),
-                  DailyDeals(), //best deals
-                  new HomeAdsBanner(
-                    index: 1,
-                    imageAds: homeAdImages,
-                  ),
-                  MobileCollections(),
+                  DailyDeals(),
+                  // new HomeAdsBanner(
+                  //   index: 1,
+                  //   imageAds: homeAdImages,
+                  // ),
                   homeAdImages!.length >= 3
                       ? HomeAdsBanner(
                           index: 2,
                           imageAds: homeAdImages,
                         )
                       : Container(),
-
-                  PopularProducts(),
+                  HomeProducts(title: 'Accessories'), //PopularProducts(),
                   homeAdImages!.length >= 4
                       ? HomeAdsBanner(
                           index: 3,
@@ -270,7 +269,6 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                       : Container(
                           height: 10,
                         ),
-
                   ComputerCollections(),
                   homeAdImages!.length >= 5
                       ? HomeAdsBanner(
@@ -280,8 +278,70 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                       : Container(
                           height: 10,
                         ),
-
-                  FeaturedProduct()
+                  MobileCollections(),
+                  homeAdImages!.length >= 6
+                      ? HomeAdsBanner(
+                          index: 5,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+                  HomeProducts(title: 'Tablets Collections'),
+                  homeAdImages!.length >= 7
+                      ? HomeAdsBanner(
+                          index: 6,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+                  HomeProducts(title: 'Home Appliances'), //FeaturedProduct(),
+                  homeAdImages!.length >= 8
+                      ? HomeAdsBanner(
+                          index: 7,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+                  HomeProducts(title: 'Watches \& Perfumes'),
+                  homeAdImages!.length >= 9
+                      ? HomeAdsBanner(
+                          index: 8,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+               HomeProducts(title: 'Travel Bags'),
+                  homeAdImages!.length >= 10
+                      ? HomeAdsBanner(
+                          index: 9,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+                 HomeProducts(title: 'Personal Care Collections'),
+                  homeAdImages!.length >= 11
+                      ? HomeAdsBanner(
+                          index: 10,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+                 HomeProducts(title: 'Cameras \& Drones'),
+                  homeAdImages!.length >= 12
+                      ? HomeAdsBanner(
+                          index: 11,
+                          imageAds: homeAdImages,
+                        )
+                      : Container(
+                          height: 10,
+                        ),
+                  HomeProducts(title: 'Gaming Collections'),
                 ]),
               ),
             );

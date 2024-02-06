@@ -28,10 +28,9 @@ class _HomeAdsBannerState extends State<HomeAdsBanner> {
           return Container(
             height: MediaQuery.of(context).size.width * .40,
             width: MediaQuery.of(context).size.width,
-            child: Image.asset(
-              'assets/images/homebanner.jpeg',
-              fit: BoxFit.fill,
-            ),
+
+            child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.fill,),
+
           );
         } else if (state is HomeAdsErrorState) {
           return InkWell(
@@ -42,25 +41,21 @@ class _HomeAdsBannerState extends State<HomeAdsBanner> {
                 alignment: Alignment.center, child: Icon(Icons.refresh)),
           );
         }
-        return widget.imageAds!.isNotEmpty
-            ? Container(
-                height: MediaQuery.of(context).size.width * .40,
-                width: MediaQuery.of(context).size.width,
-                child: Image.network(
-                  widget.imageAds![widget.index!] == null
-                      ? " "
-                      : homeAds + widget.imageAds![widget.index!].image!,
-                  fit: BoxFit.fill,
-                ),
-              )
-            : Container(
-                height: MediaQuery.of(context).size.width * .40,
-                width: MediaQuery.of(context).size.width,
-                child: Image.asset(
-                  'assets/images/homebanner.jpeg',
-                  fit: BoxFit.fill,
-                ),
-              );
+        return widget.imageAds!.isNotEmpty ? Container(
+
+          height: MediaQuery.of(context).size.width * .40,
+          width: MediaQuery.of(context).size.width,
+
+          child: Image.network(widget.imageAds![widget.index!]==null ? " " : homeAds + widget.imageAds![widget.index!].image!,fit: BoxFit.fill,),
+
+        ): Container(
+
+          height: MediaQuery.of(context).size.width * .40,
+          width: MediaQuery.of(context).size.width,
+
+          child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.fill,),
+
+        );
       },
     );
   }
