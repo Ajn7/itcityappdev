@@ -151,7 +151,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       productListByCategory = productlist;
       emit(ProductByCategoryIdLoadedState());
     } catch (e) {
-      print("error");
+      print("error while fetching!!");
       print(e);
     }
   }
