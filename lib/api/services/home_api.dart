@@ -12,23 +12,27 @@ class HomeApi {
   String _todaysDealsPath = '/getTodaysDealByDate';
   String _popularProductPath = '/popularproduct';
   String _featuredProductPath = '/featuresproduct';
-  String _mobileCollectionsPath ='/findlimtProductbyCategoryid?category_id=82'; //'/findmobileProductbyCategoryid';
-  String _computerCollectionsPath ='/findlimtProductbyCategoryid?category_id=98'; //'/findcomputerProductbyCategoryid';
+  String _mobileCollectionsPath =
+      '/findlimtProductbyCategoryid?category_id=82'; //'/findmobileProductbyCategoryid';
+  String _computerCollectionsPath =
+      '/findlimtProductbyCategoryid?category_id=98'; //'/findcomputerProductbyCategoryid';
   String _homeAdsPath = '/homeads';
 
   String _accessoriesPath = '/findlimtProductbyCategoryid?category_id=99';
-   String _allPath = '/findlimtProductbyCategoryid';
+  String _allPath = '/findlimtProductbyCategoryid';
 
-  String _homeAdsPath1 = '/homeadsaccessories';
-  String _homeAdsPath2 = '/homeadscomputers';//homeadscamara
-  String _homeAdsPath3 = '/homeadsmobiles';
-  String _homeAdsPath4 = '/homeadstablets';
-  String _homeAdsPath5 = '/homeadshomeappliances';
-  String _homeAdsPath6 = '/homeadswatchesandperfume';
-  String _homeAdsPath7 = '/homeadstravel';
-  String _homeAdsPath8 = '/homeadspersonalcare';
-  String _homeAdsPath9 = '/homeadscamara';
-  String _homeAdsPath10 = '/homeadsgame';
+  List<String> _homeAdsPathList = [
+    '/homeadsaccessories',
+    '/homeadscomputers',
+    '/homeadsmobiles',
+    '/homeadstablets',
+    '/homeadshomeappliances',
+    '/homeadswatchesandperfume',
+    '/homeadstravel',
+    '/homeadspersonalcare',
+    '/homeadscamara',
+    '/homeadsgame'
+  ];
 
   // Future<List<HomeImages>> fetchHomeimages() async {
   //   Response response =
@@ -42,39 +46,50 @@ class HomeApi {
   // }
 
   Future<List<HomeAds>> fetchHomeAds() async {
-    List<HomeAds> combinedList = [];
+    //List<HomeAds> combinedList = [];
 
     Response homeAdsResponse =
         await _newApiClient.invokeAPI(_homeAdsPath, 'GET', null);
     List<HomeAds> homeAdsList =
         HomeAds.listFromJson(jsonDecode(homeAdsResponse.body)['data']);
-    combinedList.addAll(homeAdsList);
+    // combinedList.addAll(homeAdsList);
 
-    List<String> additionalPaths = [
-      _homeAdsPath1,
-      _homeAdsPath2,
-      _homeAdsPath3,
-      _homeAdsPath4,
-      _homeAdsPath5,
-      _homeAdsPath6,
-      _homeAdsPath7,
-      _homeAdsPath8,
-      _homeAdsPath9,
-      _homeAdsPath10
-    ];
+    // List<String> additionalPaths = [
+    //   _homeAdsPath1,
+    //   _homeAdsPath2,
+    //   _homeAdsPath3,
+    //   _homeAdsPath4,
+    //   _homeAdsPath5,
+    //   _homeAdsPath6,
+    //   _homeAdsPath7,
+    //   _homeAdsPath8,
+    //   _homeAdsPath9,
+    //   _homeAdsPath10
+    // ];
 
-    for (String path in additionalPaths) {
-      Response additionalDataResponse =
-          await _newApiClient.invokeAPI(path, 'GET', null);
-      Map<String, dynamic> additionalData =
-          jsonDecode(additionalDataResponse.body)['data'];
+    // for (String path in additionalPaths) {
+    //   Response additionalDataResponse =
+    //       await _newApiClient.invokeAPI(path, 'GET', null);
+    //   Map<String, dynamic> additionalData =
+    //       jsonDecode(additionalDataResponse.body)['data'];
 
-      HomeAds additionalHomeAd =
-          HomeAds.fromJson(additionalData); // Convert map to HomeAds object
-      combinedList.add(additionalHomeAd);
-    }
+    //   HomeAds additionalHomeAd =
+    //       HomeAds.fromJson(additionalData); // Convert map to HomeAds object
+    //   combinedList.add(additionalHomeAd);
+    // }
+    return homeAdsList;
+  }
 
-    return combinedList;
+  Future<HomeAds> fetchHomeAdsCategory(int id) async {
+    Response additionalDataResponse =
+        await _newApiClient.invokeAPI(_homeAdsPathList[id], 'GET', null);
+    Map<String, dynamic> additionalData =
+        jsonDecode(additionalDataResponse.body)['data'];
+
+    HomeAds additionalHomeAd =
+        HomeAds.fromJson(additionalData); // Convert map to HomeAds object
+    print('Web Urls ${_homeAdsPathList[id]}');
+    return additionalHomeAd;
   }
 
   Future<List<Brands>> fetchBrandDetails() async {
@@ -90,14 +105,15 @@ class HomeApi {
     return DealOfTheDay.listFromJson(jsonDecode(response.body)['data']);
   }
 
-   Future<List<DealOfTheDay>> fetchAcessoriesDeals(String currency) async {
+  Future<List<DealOfTheDay>> fetchAcessoriesDeals(String currency) async {
     String url = '$_accessoriesPath&cur=$currency';
     Response response = await _newApiClient.invokeAPI(url, 'GET', null);
     print("Accesoried Deals test >>>>" + response.body.toString());
     return DealOfTheDay.listFromJson(jsonDecode(response.body)['data']);
   }
 
-  Future<List<DealOfTheDay>> fetchHomeAllDeals(String currency,String id) async {
+  Future<List<DealOfTheDay>> fetchHomeAllDeals(
+      String currency, String id) async {
     String url = '$_allPath?category_id=$id&cur=$currency';
     Response response = await _newApiClient.invokeAPI(url, 'GET', null);
     print("Accesoried Deals test >>>>" + response.body.toString());

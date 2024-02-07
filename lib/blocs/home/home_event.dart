@@ -77,3 +77,16 @@ class FetchDealsProductByProductId extends HomeEvent {
   final String productid;
   FetchDealsProductByProductId(this.productid);
 }
+
+//HomeAds
+class FetchHomeAdsAccessory extends HomeEvent {}
+class FetchHomeAdsComputer extends HomeEvent {}
+class FetchHomeAdsMobile extends HomeEvent {}
+class FetchHomeAdsTab extends HomeEvent {}
+class FetchHomeAdsHomeAppliance extends HomeEvent {}
+class FetchHomeAdsWatch extends HomeEvent {}
+class FetchHomeAdsBag extends HomeEvent {}
+class FetchHomeAdsPersonalCare extends HomeEvent {}
+class FetchHomeAdsCamera extends HomeEvent {}
+class FetchHomeAdsGaming extends HomeEvent {}
+

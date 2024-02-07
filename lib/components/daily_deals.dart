@@ -71,7 +71,7 @@ class _DailyDealsState extends State<DailyDeals> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ListHeader(
-                      headerName: 'Accessories',//Best Deals
+                      headerName: 'Best Deals',//
                       onTap: () {},
                     ),
                     OutlinedButton(

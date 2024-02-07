@@ -34,6 +34,18 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   List<HomeAds>? homeAdImages;
   late SharedPreferences prefs;
 
+  //HomeAds
+  HomeAds accessories = HomeAds();
+  HomeAds computer = HomeAds();
+  HomeAds mobile = HomeAds();
+  HomeAds tab = HomeAds();
+  HomeAds homeAppliance = HomeAds();
+  HomeAds watch = HomeAds();
+  HomeAds bag = HomeAds();
+  HomeAds personalCare = HomeAds();
+  HomeAds camera = HomeAds();
+  HomeAds gaming = HomeAds();
+
   bool isCommon = false;
   void initPref() async {
     prefs = await SharedPreferences.getInstance();
@@ -61,294 +73,271 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   @override
   Widget build(BuildContext context) {
     if (BlocProvider.of<HomeBloc>(context).state is HomeInitial) {}
-    return BlocBuilder<HomeBloc, HomeState>(builder: (context, homeState) {
-      homeAdImages = BlocProvider.of<HomeBloc>(context).homeadslist;
-      featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
-      popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
-      wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
-      mobileCollections = BlocProvider.of<HomeBloc>(context).mobileColletions;
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, homeState) {
+        homeAdImages = BlocProvider.of<HomeBloc>(context).homeadslist;
+        featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
+        popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
+        wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
+        mobileCollections = BlocProvider.of<HomeBloc>(context).mobileColletions;
 
-      return BlocListener<CartBloc, CartState>(
-        listener: (context, state) {
-          if (state is AddProductToCartLoadingState) {
-            Loader.show(context,
-                isAppbarOverlay: true,
-                isBottomBarOverlay: false,
-                progressIndicator: CircularProgressIndicator(),
-                themeData: Theme.of(context).copyWith(
-                    colorScheme: ColorScheme.fromSwatch()
-                        .copyWith(secondary: Colors.black38)),
-                overlayColor: Colors.black26);
-          } else if (state is AddProductToCartSuccessState) {
-            Loader.hide();
+        accessories = BlocProvider.of<HomeBloc>(context).homeadsAccessory;
+        computer = BlocProvider.of<HomeBloc>(context).homeadsComputer;
+        mobile = BlocProvider.of<HomeBloc>(context).homeadsMobile;
+        tab = BlocProvider.of<HomeBloc>(context).homeadsTab;
+        homeAppliance = BlocProvider.of<HomeBloc>(context).homeadsHomeappliance;
+        watch = BlocProvider.of<HomeBloc>(context).homeadsWatch;
+        bag = BlocProvider.of<HomeBloc>(context).homeadsBag;
+        personalCare = BlocProvider.of<HomeBloc>(context).homeadsPersonalCare;
+        camera = BlocProvider.of<HomeBloc>(context).homeadsCamera;
+        gaming = BlocProvider.of<HomeBloc>(context).homeadsGaming;
 
-            if (BlocProvider.of<CartBloc>(context)
-                    .page!
-                    .compareTo('cartpage') ==
-                1) {
+        return BlocListener<CartBloc, CartState>(
+          listener: (context, state) {
+            if (state is AddProductToCartLoadingState) {
+              Loader.show(context,
+                  isAppbarOverlay: true,
+                  isBottomBarOverlay: false,
+                  progressIndicator: CircularProgressIndicator(),
+                  themeData: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.fromSwatch()
+                          .copyWith(secondary: Colors.black38)),
+                  overlayColor: Colors.black26);
+            } else if (state is AddProductToCartSuccessState) {
+              Loader.hide();
+
+              if (BlocProvider.of<CartBloc>(context)
+                      .page!
+                      .compareTo('cartpage') ==
+                  1) {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Text(
+                              "Product added to Cart",
+                              style: TextStyle(fontSize: 27),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  constraints: BoxConstraints(
+                                    minHeight:
+                                        MediaQuery.of(context).size.height *
+                                            .07,
+                                  ),
+                                  width:
+                                      MediaQuery.of(context).size.width * .35,
+                                  child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                AppColors.WHITE),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                side: BorderSide(
+                                                    color: AppColors
+                                                        .LOGO_ORANGE))),
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                AppColors.LOGO_ORANGE),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        "CONTINUE SHOPPING",
+                                        style: TextStyle(fontSize: 16),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                ),
+                                Container(
+                                  constraints: BoxConstraints(
+                                    minHeight:
+                                        MediaQuery.of(context).size.height *
+                                            .07,
+                                  ),
+                                  width:
+                                      MediaQuery.of(context).size.width * .35,
+                                  child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                AppColors.LOGO_ORANGE),
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                side: BorderSide(
+                                                    color: AppColors
+                                                        .LOGO_ORANGE))),
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                AppColors.WHITE),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context, "/cart", (route) => false);
+                                      },
+                                      child: Text(
+                                        "GO TO CART",
+                                        style: TextStyle(fontSize: 16),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 35,
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+              }
+            } else if (state is AddProductToCartErrorState) {
+              Loader.hide();
               showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SizedBox(
-                            height: 25,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 35,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
                           ),
-                          Text(
-                            "Product added to Cart",
-                            style: TextStyle(fontSize: 27),
-                            textAlign: TextAlign.center,
+                          child: Icon(
+                            Icons.clear_outlined,
+                            color: AppColors.WHITE,
+                            size: 75,
                           ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                constraints: BoxConstraints(
-                                  minHeight:
-                                      MediaQuery.of(context).size.height * .07,
-                                ),
-                                width: MediaQuery.of(context).size.width * .35,
-                                child: TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              AppColors.WHITE),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              side: BorderSide(
-                                                  color:
-                                                      AppColors.LOGO_ORANGE))),
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              AppColors.LOGO_ORANGE),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text(
-                                      "CONTINUE SHOPPING",
-                                      style: TextStyle(fontSize: 16),
-                                      textAlign: TextAlign.center,
-                                    )),
-                              ),
-                              Container(
-                                constraints: BoxConstraints(
-                                  minHeight:
-                                      MediaQuery.of(context).size.height * .07,
-                                ),
-                                width: MediaQuery.of(context).size.width * .35,
-                                child: TextButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              AppColors.LOGO_ORANGE),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              side: BorderSide(
-                                                  color:
-                                                      AppColors.LOGO_ORANGE))),
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              AppColors.WHITE),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, "/cart", (route) => false);
-                                    },
-                                    child: Text(
-                                      "GO TO CART",
-                                      style: TextStyle(fontSize: 16),
-                                      textAlign: TextAlign.center,
-                                    )),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 35,
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Text(
+                          "Something Went Wrong",
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Please Try Again Later",
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 35,
+                        ),
+                      ],
                     );
                   });
+            } else {
+              Loader.hide();
             }
-          } else if (state is AddProductToCartErrorState) {
-            Loader.hide();
-            showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 35,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.clear_outlined,
-                          color: AppColors.WHITE,
-                          size: 75,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Text(
-                        "Something Went Wrong",
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "Please Try Again Later",
-                        style: TextStyle(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: 35,
-                      ),
-                    ],
-                  );
-                });
-          } else {
-            Loader.hide();
-          }
 
-          // TODO: implement listener
-        },
-        child: Container(
-          //decoration: kContainerDecoration,
-          child: LayoutBuilder(builder: (context, constraints) {
-            return SingleChildScrollView(
-              physics: ScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Column(children: [
-                  BannerList(),
-                  CategoryCard(),
-                  new HomeAdsBanner(
-                    index: 0,
-                    imageAds: homeAdImages,
+            // TODO: implement listener
+          },
+          child: Container(
+            //decoration: kContainerDecoration,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
+                    child: Column(
+                      children: [
+                        BannerList(),
+                        CategoryCard(),
+                        new HomeAdsBanner(
+                          imageAds: homeAdImages![0],
+                        ),
+                        DailyDeals(),
+                        // new HomeAdsBanner(
+                        //   index: 1,
+                        //   imageAds: homeAdImages,
+                        // ),
+
+                        HomeAdsBanner(
+                          imageAds: accessories,
+                        ),
+
+                        HomeProducts(title: 'Accessories'), //PopularProducts(),
+                        HomeAdsBanner(
+                          imageAds: computer,
+                        ),
+
+                        ComputerCollections(),
+                        HomeAdsBanner(
+                          imageAds: mobile,
+                        ),
+                        MobileCollections(),
+                        HomeAdsBanner(
+                          imageAds: tab,
+                        ),
+                        HomeProducts(title: 'Tablets Collections'),
+                        HomeAdsBanner(
+                          imageAds: homeAppliance,
+                        ),
+                        HomeProducts(
+                            title: 'Home Appliances'), //FeaturedProduct(),
+                        HomeAdsBanner(
+                          imageAds: watch,
+                        ),
+                        HomeProducts(title: 'Watches \& Perfumes'),
+                        HomeAdsBanner(
+                          imageAds: bag,
+                        ),
+                        HomeProducts(title: 'Travel Bags'),
+                        HomeAdsBanner(
+                          imageAds: personalCare,
+                        ),
+                        HomeProducts(title: 'Personal Care Collections'),
+                        HomeAdsBanner(
+                          imageAds: camera,
+                        ),
+                        HomeProducts(title: 'Cameras \& Drones'),
+                        HomeAdsBanner(
+                          imageAds: gaming,
+                        ),
+                        HomeProducts(title: 'Gaming Collections'),
+                      ],
+                    ),
                   ),
-                  DailyDeals(),
-                  // new HomeAdsBanner(
-                  //   index: 1,
-                  //   imageAds: homeAdImages,
-                  // ),
-                  homeAdImages!.length >= 3
-                      ? HomeAdsBanner(
-                          index: 2,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(),
-                  HomeProducts(title: 'Accessories'), //PopularProducts(),
-                  homeAdImages!.length >= 4
-                      ? HomeAdsBanner(
-                          index: 3,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                  ComputerCollections(),
-                  homeAdImages!.length >= 5
-                      ? HomeAdsBanner(
-                          index: 4,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                  MobileCollections(),
-                  homeAdImages!.length >= 6
-                      ? HomeAdsBanner(
-                          index: 5,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                  HomeProducts(title: 'Tablets Collections'),
-                  homeAdImages!.length >= 7
-                      ? HomeAdsBanner(
-                          index: 6,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                  HomeProducts(title: 'Home Appliances'), //FeaturedProduct(),
-                  homeAdImages!.length >= 8
-                      ? HomeAdsBanner(
-                          index: 7,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                  HomeProducts(title: 'Watches \& Perfumes'),
-                  homeAdImages!.length >= 9
-                      ? HomeAdsBanner(
-                          index: 8,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-               HomeProducts(title: 'Travel Bags'),
-                  homeAdImages!.length >= 10
-                      ? HomeAdsBanner(
-                          index: 9,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                 HomeProducts(title: 'Personal Care Collections'),
-                  homeAdImages!.length >= 11
-                      ? HomeAdsBanner(
-                          index: 10,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                 HomeProducts(title: 'Cameras \& Drones'),
-                  homeAdImages!.length >= 12
-                      ? HomeAdsBanner(
-                          index: 11,
-                          imageAds: homeAdImages,
-                        )
-                      : Container(
-                          height: 10,
-                        ),
-                  HomeProducts(title: 'Gaming Collections'),
-                ]),
-              ),
-            );
-          }),
-        ),
-      );
-    });
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
