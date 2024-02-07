@@ -23,17 +23,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<DealOfTheDay> camera = [];
   List<DealOfTheDay> gaming = [];
 
+  HomeAds homeadsAccessory = HomeAds();
+  HomeAds homeadsComputer = HomeAds();
+  HomeAds homeadsMobile = HomeAds();
+  HomeAds homeadsTab = HomeAds();
+  HomeAds homeadsHomeappliance = HomeAds();
+  HomeAds homeadsWatch = HomeAds();
+  HomeAds homeadsBag = HomeAds();
+  HomeAds homeadsPersonalCare = HomeAds();
+  HomeAds homeadsCamera = HomeAds();
+  HomeAds homeadsGaming = HomeAds();
+
+
+
   HomeBloc(this.homeApi) : super(HomeInitial()) {
     // on<FetchHomeImages>(
     //     (event, emit) => _mapFetchHomeImagesToState(event, emit));
-    on<FetchBrandDetails>(
-        (event, emit) => _mapFetchBrandDetailsToState(event, emit));
-    on<FetchTodaysDealsByDate>((event, emit) =>
-        _mapFetchTodaysDealsByDatetoState(event, emit, event.currency!));
     // on<FetchPopularProduct>((event, emit) =>
     //     _mapFetchPopularProductToState(event, emit, event.currencyp));
     // on<FetchFeaturedProduct>((event, emit) =>
     //     _mapFetchFeaturedProductToState(event, emit, event.currencyf));
+    on<FetchBrandDetails>(
+        (event, emit) => _mapFetchBrandDetailsToState(event, emit));
+    on<FetchTodaysDealsByDate>((event, emit) =>
+        _mapFetchTodaysDealsByDatetoState(event, emit, event.currency!));
     on<FetchMobileCollections>((event, emit) =>
         _mapFetchMobileCollections(event, emit, event.currencym));
     on<FetchComputerCollections>((event, emit) =>
@@ -45,10 +58,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         (event, emit) => _mapFetchTabletDeals(event, emit, event.currency!));
     on<HomeApplianceDeals>((event, emit) =>
         _mapFetchHomeApplianDeals(event, emit, event.currency!));
-
     on<WatchDeals>(
         (event, emit) => _mapFetchWatchDeals(event, emit, event.currency!));
-
     on<BagDeals>(
         (event, emit) => _mapFetchBagDeals(event, emit, event.currency!));
     on<PersonalCareDeals>((event, emit) =>
@@ -57,8 +68,26 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         (event, emit) => _mapFetchCameraDeals(event, emit, event.currency!));
     on<GamingDeals>(
         (event, emit) => _mapFetchGamingDeals(event, emit, event.currency!));
-
-    //
+    on<FetchHomeAdsAccessory>(
+        (event, emit) => _mapFetchHomeAdsAccessoriesToState(event, emit));
+    on<FetchHomeAdsComputer>(
+        (event, emit) => _mapFetchHomeAdsComputerToState(event, emit));
+    on<FetchHomeAdsMobile>(
+        (event, emit) => _mapFetchHomeAdsMobileToState(event, emit));
+    on<FetchHomeAdsTab>(
+        (event, emit) => _mapFetchHomeAdsTabToState(event, emit));
+    on<FetchHomeAdsHomeAppliance>(
+        (event, emit) => _mapFetchHomeAdsHomeApplianceToState(event, emit));
+    on<FetchHomeAdsWatch>(
+        (event, emit) => _mapFetchHomeAdsWatchToState(event, emit));
+    on<FetchHomeAdsBag>(
+        (event, emit) => _mapFetchHomeAdsBagToState(event, emit));
+    on<FetchHomeAdsPersonalCare>(
+        (event, emit) => _mapFetchHomeAdsPersonalCareToState(event, emit));
+    on<FetchHomeAdsCamera>(
+        (event, emit) => _mapFetchHomeAdsCameraToState(event, emit));
+    on<FetchHomeAdsGaming>(
+        (event, emit) => _mapFetchHomeAdsGamingToState(event, emit));
   }
 
   // void _mapFetchHomeImagesToState(
@@ -82,6 +111,138 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeAdsLoadedState());
     } catch (e) {
       emit(HomeAdsErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsAccessoriesToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsAccessoriesLoadingState());
+    try {
+      final HomeAds homeads = await homeApi.fetchHomeAdsCategory(0);
+      this.homeadsAccessory = homeads;
+
+      emit(HomeAdsAccessoriesLoadedState());
+    } catch (e) {
+      emit(HomeAdsAccessoriesErrorState());
+    }
+  }
+
+
+
+  void _mapFetchHomeAdsComputerToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsComputerLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(1);
+      this.homeadsComputer = homeadslist;
+
+      emit(HomeAdsComputerLoadedState());
+    } catch (e) {
+      emit(HomeAdsComputerErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsMobileToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsMobileLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(2);
+      this.homeadsMobile = homeadslist;
+
+      emit(HomeAdsMobileLoadedState());
+    } catch (e) {
+      emit(HomeAdsMobileErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsTabToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsTabLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(3);
+      this.homeadsTab = homeadslist;
+
+      emit(HomeAdsTabLoadedState());
+    } catch (e) {
+      emit(HomeAdsTabErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsHomeApplianceToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsHomeApplianceLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(4);
+      this.homeadsHomeappliance = homeadslist;
+
+      emit(HomeAdsHomeApplianceLoadedState());
+    } catch (e) {
+      emit(HomeAdsHomeApplianceErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsWatchToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsWatchLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(5);
+      this.homeadsWatch = homeadslist;
+
+      emit(HomeAdsWatchLoadedState());
+    } catch (e) {
+      emit(HomeAdsWatchErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsBagToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsBagLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(6);
+      this.homeadsBag = homeadslist;
+
+      emit(HomeAdsBagLoadedState());
+    } catch (e) {
+      emit(HomeAdsBagErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsPersonalCareToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsPersonalCareLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(7);
+      this.homeadsPersonalCare = homeadslist;
+
+      emit(HomeAdsPersonalCareLoadedState());
+    } catch (e) {
+      emit(HomeAdsPersonalCareErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsCameraToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsCameraLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(8);
+      this.homeadsCamera = homeadslist;
+
+      emit(HomeAdsCameraLoadedState());
+    } catch (e) {
+      emit(HomeAdsCameraErrorState());
+    }
+  }
+
+  void _mapFetchHomeAdsGamingToState(
+      HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomeAdsGamingLoadingState());
+    try {
+      final HomeAds homeadslist = await homeApi.fetchHomeAdsCategory(9);
+      this.homeadsGaming = homeadslist;
+
+      emit(HomeAdsGamingLoadedState());
+    } catch (e) {
+      emit(HomeAdsGamingErrorState());
     }
   }
 
@@ -231,7 +392,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   //   } catch (e) {
   //     emit(FeaturedProductErrorState());
   //   }
- // }
+  // }
 
   void _mapFetchMobileCollections(
       HomeEvent event, Emitter<HomeState> emit, String? currency) async {

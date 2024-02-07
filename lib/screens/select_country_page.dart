@@ -370,7 +370,7 @@ class _SelectCountryPageState extends State<SelectCountryPage> {
                                   image: new DecorationImage(
                                       fit: BoxFit.fill,
                                       image: new AssetImage(
-                                          'assets/images/country/saudiArabia.png')))),
+                                          'assets/images/country/india.webp')))),
                         ],
                       ),
                     ),

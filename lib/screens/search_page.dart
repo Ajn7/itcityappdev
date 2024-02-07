@@ -377,7 +377,7 @@ class _SearchPageState extends State<SearchPage> {
                     MaterialPageRoute(builder: (context) => SearchPage()));
               },
               child: TextField(
-                autofocus: true,
+                //autofocus: true,
                 controller: controller,
                 onChanged: (value){
                   BlocProvider.of<SearchBloc>(context)

@@ -5,9 +5,8 @@ import 'package:itcity_online_store/blocs/blocs.dart';
 import 'package:itcity_online_store/constants.dart';
 
 class HomeAdsBanner extends StatefulWidget {
-  int? index;
-  List<HomeAds>? imageAds = [];
-  HomeAdsBanner({Key? key, this.index, this.imageAds}) : super(key: key);
+  final HomeAds imageAds;
+  HomeAdsBanner({Key? key, required this.imageAds}) : super(key: key);
 
   @override
   _HomeAdsBannerState createState() => _HomeAdsBannerState();
@@ -28,9 +27,10 @@ class _HomeAdsBannerState extends State<HomeAdsBanner> {
           return Container(
             height: MediaQuery.of(context).size.width * .40,
             width: MediaQuery.of(context).size.width,
-
-            child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.fill,),
-
+            child: Image.asset(
+              'assets/images/homebanner.jpeg',
+              fit: BoxFit.fill,
+            ),
           );
         } else if (state is HomeAdsErrorState) {
           return InkWell(
@@ -41,22 +41,31 @@ class _HomeAdsBannerState extends State<HomeAdsBanner> {
                 alignment: Alignment.center, child: Icon(Icons.refresh)),
           );
         }
-        return widget.imageAds!.isNotEmpty ? Container(
-
+        return Container(
           height: MediaQuery.of(context).size.width * .40,
           width: MediaQuery.of(context).size.width,
-
-          child: Image.network(widget.imageAds![widget.index!]==null ? " " : homeAds + widget.imageAds![widget.index!].image!,fit: BoxFit.fill,),
-
-        ): Container(
-
-          height: MediaQuery.of(context).size.width * .40,
-          width: MediaQuery.of(context).size.width,
-
-          child: Image.asset('assets/images/homebanner.jpeg',fit: BoxFit.fill,),
-
+          child: widget.imageAds.image == null
+              ? Image.asset(
+                  'assets/images/homebanner.jpeg',
+                  fit: BoxFit.fill,
+                )
+              : _buildImage(image: homeAds + widget.imageAds.image!)
         );
       },
     );
+  }
+
+  Widget _buildImage({required String image}) {
+    try {
+      return Image.network(
+        image,
+        fit: BoxFit.fill,
+      );
+    } catch (e) {
+      return Image.asset(
+        'assets/images/homebanner.jpeg',
+        fit: BoxFit.fill,
+      );
+    }
   }
 }
