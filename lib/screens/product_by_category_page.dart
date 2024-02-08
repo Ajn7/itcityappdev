@@ -27,6 +27,7 @@ class ProductByCategoryPage extends StatefulWidget {
 class _ProductByCategoryPageState extends State<ProductByCategoryPage> {
   TextEditingController tcontroller = TextEditingController();
   int? cartcount = 0;
+
   checkCartCount() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('cartcount')) {
@@ -168,21 +169,41 @@ class ProductListByCategory extends StatefulWidget {
 class _ProductListByCategoryState extends State<ProductListByCategory> {
   String? country;
   String? currency;
+  int? pageNo;
+  ScrollController _scrollController = ScrollController();
   getCountry() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       this.currency = prefs.getString('currency');
       this.country = prefs.getString('country');
+      this.pageNo = 1;
     });
-    BlocProvider.of<ProductBloc>(context)
-        .add(FetchProductByCategoryId(widget.categoryId, this.currency));
+    BlocProvider.of<ProductBloc>(context).add(FetchProductByCategoryId(
+        widget.categoryId, this.currency, this.pageNo));
   }
 
   List<Product> products = [];
+  int i = 1;
 
   @override
   void initState() {
     getCountry();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == 0) {
+        if (i > 1) {
+          i--;
+          BlocProvider.of<ProductBloc>(context).add(
+            FetchProductByCategoryId(widget.categoryId, this.currency, i),
+          );
+        }
+      } else if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        i++;
+        BlocProvider.of<ProductBloc>(context).add(
+          FetchProductByCategoryId(widget.categoryId, this.currency, i),
+        );
+      }
+    });
     super.initState();
   }
 
@@ -427,8 +448,10 @@ class _ProductListByCategoryState extends State<ProductListByCategory> {
             child: Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: GridView.builder(
+                  controller: _scrollController,
                   shrinkWrap: true,
                   itemCount: products.length,
+                  physics: PageScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: .60,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:itcity_online_store/api/models/HomeAds.dart';
+import 'package:itcity_online_store/api/models/category.dart';
 import 'package:itcity_online_store/api/models/customer_wishlist.dart';
 import 'package:itcity_online_store/api/models/product.dart';
 import 'package:itcity_online_store/blocs/blocs.dart';
@@ -45,6 +46,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   HomeAds personalCare = HomeAds();
   HomeAds camera = HomeAds();
   HomeAds gaming = HomeAds();
+   List<Category>? categoryList =[];
 
   bool isCommon = false;
   void initPref() async {
@@ -79,7 +81,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
         featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
         popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
         wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
-
+        categoryList = BlocProvider.of<CategoryBloc>(context).categoryList;
         accessories = BlocProvider.of<HomeBloc>(context).homeadsAccessory;
         computer = BlocProvider.of<HomeBloc>(context).homeadsComputer;
         mobile = BlocProvider.of<HomeBloc>(context).homeadsMobile;
@@ -290,46 +292,46 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                           imageAds: accessories,
                         ),
 
-                        HomeProducts(title: 'Accessories'), //PopularProducts(),
+                        HomeProducts(title: 'Accessories',categoryId: categoryList![0].categoryId), //PopularProducts(),
                         HomeAdsBanner(
                           imageAds: computer,
                         ),
-                        HomeProducts(title: 'Computer Collections'),
+                        HomeProducts(title: 'Computer Collections',categoryId: categoryList![1].categoryId),
                         //ComputerCollections(),
                         HomeAdsBanner(
                           imageAds: mobile,
                         ),
                         //MobileCollections(),
-                        HomeProducts(title: 'Mobile Collections'),
+                        HomeProducts(title: 'Mobile Collections',categoryId: categoryList![2].categoryId),
                         HomeAdsBanner(
                           imageAds: tab,
                         ),
-                        HomeProducts(title: 'Tablets Collections'),
+                        HomeProducts(title: 'Tablets Collections',categoryId: categoryList![3].categoryId),
                         HomeAdsBanner(
                           imageAds: homeAppliance,
                         ),
                         HomeProducts(
-                            title: 'Home Appliances'), //FeaturedProduct(),
+                            title: 'Home Appliances',categoryId: categoryList![4].categoryId), //FeaturedProduct(),
                         HomeAdsBanner(
                           imageAds: watch,
                         ),
-                        HomeProducts(title: 'Watches \& Perfumes'),
+                        HomeProducts(title: 'Watches \& Perfumes',categoryId: categoryList![5].categoryId),
                         HomeAdsBanner(
                           imageAds: bag,
                         ),
-                        HomeProducts(title: 'Travel Bags'),
+                        HomeProducts(title: 'Travel Bags',categoryId: categoryList![6].categoryId),
                         HomeAdsBanner(
                           imageAds: personalCare,
                         ),
-                        HomeProducts(title: 'Personal Care Collections'),
+                        HomeProducts(title: 'Personal Care Collections',categoryId: categoryList![7].categoryId),
                         HomeAdsBanner(
                           imageAds: camera,
                         ),
-                        HomeProducts(title: 'Cameras \& Drones'),
+                        HomeProducts(title: 'Cameras \& Drones',categoryId: categoryList![8].categoryId),
                         HomeAdsBanner(
                           imageAds: gaming,
                         ),
-                        HomeProducts(title: 'Gaming Collections'),
+                        HomeProducts(title: 'Gaming Collections',categoryId: categoryList![9].categoryId),
                       ],
                     ),
                   ),

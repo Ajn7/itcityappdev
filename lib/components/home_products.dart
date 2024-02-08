@@ -12,14 +12,18 @@ import 'package:itcity_online_store/resources/values.dart';
 import 'package:itcity_online_store/screens/deals_full_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../screens/product_by_category_page.dart';
+
 class HomeProducts extends StatefulWidget {
   // Values to be passed to the state class
   final String title;
+  final int? categoryId;
 
   // Constructor to receive values
   const HomeProducts({
     Key? key,
     required this.title,
+    required this.categoryId
   }) : super(key: key);
 
   @override
@@ -140,9 +144,15 @@ class _HomeProductsState extends State<HomeProducts> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DealsFullPage(
-                                        currency: prefs.getString('currency'),
-                                      )));
+                                  builder: (context) => ProductByCategoryPage(
+                                    categoryId: widget.categoryId,
+                                    categoryName: widget.title,
+                                  )
+                                  // DealsFullPage(
+                                  //       currency: prefs.getString('currency'),
+                                  //     )
+                                      
+                                      ));
                         },
                         child: Text(
                           'View All',

@@ -49,16 +49,16 @@ class ProductApi {
     return Category.listFromJson(jsonDecode(response.body)['data']);
   }
 
-  Future<List<Product>> getProductByCategory(int? id, String? currency) async {
+  Future<List<Product>> getProductByCategory(int? id, String? currency,int? pageNo) async {
     Response response = await _newApiClient.invokeAPI(
-        '$_productByCategoryPath?category_id=$id&cur=$currency', 'GET', null);
+        '$_productByCategoryPath?category_id=$id&cur=$currency&page=$pageNo', 'GET', null);
     print('data from api: ${response.body}');
     
     return Product.listFromJson(jsonDecode(response.body)['data']['data']);
   }
 
   Future<List<DealOfTheDay>> getDealsFull(String? currency) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_dealsFullPath?cur=$currency', 'GET', null);
     return DealOfTheDay.listFromJson(jsonDecode(response.body)['data']);
   }
