@@ -42,7 +42,7 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   fetchDatas() async {
-    // BlocProvider.of<HomeBloc>(context).add(FetchHomeImages());
+    BlocProvider.of<HomeBloc>(context).add(FetchHomeImages());
     BlocProvider.of<CategoryBloc>(context).add(FetchCategory());
     BlocProvider.of<HomeBloc>(context).add(FetchHomeAds());
     BlocProvider.of<HomeBloc>(context).add(FetchHomeAdsAccessory());

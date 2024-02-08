@@ -47,7 +47,7 @@ class _HomeProductsState extends State<HomeProducts> {
     } else if (widget.title.contains('Bag')) {
       BlocProvider.of<HomeBloc>(context)
           .add(BagDeals(prefs.getString('currency')));
-    }else if (widget.title.contains('Personal')) {
+    } else if (widget.title.contains('Personal')) {
       BlocProvider.of<HomeBloc>(context)
           .add(PersonalCareDeals(prefs.getString('currency')));
     } else if (widget.title.contains('Camera')) {
@@ -56,6 +56,12 @@ class _HomeProductsState extends State<HomeProducts> {
     } else if (widget.title.contains('Gaming')) {
       BlocProvider.of<HomeBloc>(context)
           .add(GamingDeals(prefs.getString('currency')));
+    } else if (widget.title.contains('Computer')) {
+      BlocProvider.of<HomeBloc>(context)
+          .add(FetchComputerCollections(prefs.getString('currency')));
+    } else if (widget.title.contains('Mobile')) {
+      BlocProvider.of<HomeBloc>(context)
+          .add(FetchMobileCollections(prefs.getString('currency')));
     }
   }
 
@@ -94,6 +100,10 @@ class _HomeProductsState extends State<HomeProducts> {
         deals = BlocProvider.of<HomeBloc>(context).camera;
       } else if (widget.title.contains('Gaming')) {
         deals = BlocProvider.of<HomeBloc>(context).gaming;
+      } else if (widget.title.contains('Computer')) {
+        deals = BlocProvider.of<HomeBloc>(context).computerCollections;
+      }else if(widget.title.contains('Mobile')){
+        deals= BlocProvider.of<HomeBloc>(context).mobileColletions;
       }
 
       if (state is TodaysDealsLoadingState) {

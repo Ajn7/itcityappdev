@@ -79,7 +79,6 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
         featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
         popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
         wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
-        mobileCollections = BlocProvider.of<HomeBloc>(context).mobileColletions;
 
         accessories = BlocProvider.of<HomeBloc>(context).homeadsAccessory;
         computer = BlocProvider.of<HomeBloc>(context).homeadsComputer;
@@ -277,7 +276,9 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                         BannerList(),
                         CategoryCard(),
                         new HomeAdsBanner(
-                          imageAds: homeAdImages![0],
+                          imageAds: (homeAdImages == null)
+                              ? accessories
+                              : homeAdImages![0],
                         ),
                         DailyDeals(),
                         // new HomeAdsBanner(
@@ -293,12 +294,13 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                         HomeAdsBanner(
                           imageAds: computer,
                         ),
-
-                        ComputerCollections(),
+                        HomeProducts(title: 'Computer Collections'),
+                        //ComputerCollections(),
                         HomeAdsBanner(
                           imageAds: mobile,
                         ),
-                        MobileCollections(),
+                        //MobileCollections(),
+                        HomeProducts(title: 'Mobile Collections'),
                         HomeAdsBanner(
                           imageAds: tab,
                         ),

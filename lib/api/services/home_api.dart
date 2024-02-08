@@ -7,7 +7,7 @@ class HomeApi {
   ApiClient _apiclient = ApiClient();
   NewApiClient _newApiClient = NewApiClient();
 
-  String _homeImagesPath = '/findHomeImages';
+  String _homeImagesPath = '/findHomeImagesByEnglish';//findHomeImages
   String _brandDetailsPath = '/findAllBrandDetails';
   String _todaysDealsPath = '/getTodaysDealByDate';
   String _popularProductPath = '/popularproduct';
@@ -34,11 +34,11 @@ class HomeApi {
     '/homeadsgame'
   ];
 
-  // Future<List<HomeImages>> fetchHomeimages() async {
-  //   Response response =
-  //       await _newApiClient.invokeAPI(_homeImagesPath, 'GET', null);
-  //   return HomeImages.listFromJson(jsonDecode(response.body)['data']);
-  // }
+  Future<List<HomeImages>> fetchHomeimages() async {
+    Response response =
+        await _newApiClient.invokeAPI(_homeImagesPath, 'GET', null);
+    return HomeImages.listFromJson(jsonDecode(response.body)['data']);
+  }
 
   // Future<List<HomeAds>> fetchHomeAds() async {
   //   Response response = await _newApiClient.invokeAPI(_homeAdsPath, 'GET', null);
@@ -126,16 +126,16 @@ class HomeApi {
   //   return Product.listFromJson(jsonDecode(response.body)['data']);
   // }
 
-  Future<List<Product>> fetchMobileCollections(String? currency) async {
+  Future<List<DealOfTheDay>> fetchMobileCollections(String? currency) async {
     String url = '$_mobileCollectionsPath&cur=$currency';
     Response response = await _newApiClient.invokeAPI(url, 'GET', null);
-    return Product.listFromJson(jsonDecode(response.body)['data']);
+    return DealOfTheDay.listFromJson(jsonDecode(response.body)['data']);
   }
 
-  Future<List<Product>> fetchComputerCollections(String? currency) async {
+  Future<List<DealOfTheDay>> fetchComputerCollections(String? currency) async {
     String url = '$_computerCollectionsPath&cur=$currency';
     Response response = await _newApiClient.invokeAPI(url, 'GET', null);
-    return Product.listFromJson(jsonDecode(response.body)['data']);
+    return DealOfTheDay.listFromJson(jsonDecode(response.body)['data']);
   }
 
   // Future<List<Product>> fetchFeaturedProduct(String? currency) async {
