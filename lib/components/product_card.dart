@@ -52,8 +52,8 @@ class _ProductCardState extends State<ProductCard> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width * .49,
-            constraints: BoxConstraints(
-                minHeight: 230),
+            // constraints: BoxConstraints(
+            //     minHeight: 230),
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.GREY,width: 1.0),
             ),
@@ -63,8 +63,8 @@ class _ProductCardState extends State<ProductCard> {
 
                 Container(
 
-            height: MediaQuery.of(context).size.height*.25,
-        width: MediaQuery.of(context).size.width * .48,
+            height: MediaQuery.of(context).size.height*.26,
+             width: MediaQuery.of(context).size.width * .48,
                   //margin: EdgeInsets.all(20),
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
