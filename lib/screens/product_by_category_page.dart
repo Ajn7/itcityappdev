@@ -431,7 +431,7 @@ class _ProductListByCategoryState extends State<ProductListByCategory> {
                   itemCount: products.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: .65,
+                    childAspectRatio: .60,
                     mainAxisSpacing: 5,
                     crossAxisSpacing: 0,
                   ),

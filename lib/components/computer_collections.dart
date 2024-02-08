@@ -104,15 +104,15 @@ class _ComputerCollectionsState extends State<ComputerCollections> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height *.20,
-                  width: MediaQuery.of(context).size.width,
+              // Padding(
+              //   padding: const EdgeInsets.all(0.0),
+              //   child: Container(
+              //     height: MediaQuery.of(context).size.height *.20,
+              //     width: MediaQuery.of(context).size.width,
 
-                  child: Image.asset('assets/images/computerCollectionsbanner.png',fit: BoxFit.fill,),
-                ),
-              ),
+              //     child: Image.asset('assets/images/computerCollectionsbanner.png',fit: BoxFit.fill,),
+              //   ),
+              // ),
               Container(
                 padding: EdgeInsets.only(left: 12,right: 5),
                 height: MediaQuery.of(context).size.height * .50,

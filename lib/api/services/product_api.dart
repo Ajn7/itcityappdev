@@ -82,7 +82,7 @@ class ProductApi {
   }
 
   Future<List<Product>> getfeaturedProductFull(String? currency) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_featuredProductFullPath?cur=$currency', 'GET', null);
     return Product.listFromJson(jsonDecode(response.body)['data']);
   }
