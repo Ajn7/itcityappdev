@@ -12,15 +12,16 @@ import 'package:itcity_online_store/resources/values.dart';
 import 'package:itcity_online_store/screens/deals_full_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../screens/product_by_category_page.dart';
+
 class HomeProducts extends StatefulWidget {
   // Values to be passed to the state class
   final String title;
+  final int? categoryId;
 
   // Constructor to receive values
-  const HomeProducts({
-    Key? key,
-    required this.title,
-  }) : super(key: key);
+  const HomeProducts({Key? key, required this.title, required this.categoryId})
+      : super(key: key);
 
   @override
   _HomeProductsState createState() => _HomeProductsState();
@@ -47,7 +48,7 @@ class _HomeProductsState extends State<HomeProducts> {
     } else if (widget.title.contains('Bag')) {
       BlocProvider.of<HomeBloc>(context)
           .add(BagDeals(prefs.getString('currency')));
-    }else if (widget.title.contains('Personal')) {
+    } else if (widget.title.contains('Personal')) {
       BlocProvider.of<HomeBloc>(context)
           .add(PersonalCareDeals(prefs.getString('currency')));
     } else if (widget.title.contains('Camera')) {
@@ -56,6 +57,12 @@ class _HomeProductsState extends State<HomeProducts> {
     } else if (widget.title.contains('Gaming')) {
       BlocProvider.of<HomeBloc>(context)
           .add(GamingDeals(prefs.getString('currency')));
+    } else if (widget.title.contains('Computer')) {
+      BlocProvider.of<HomeBloc>(context)
+          .add(FetchComputerCollections(prefs.getString('currency')));
+    } else if (widget.title.contains('Mobile')) {
+      BlocProvider.of<HomeBloc>(context)
+          .add(FetchMobileCollections(prefs.getString('currency')));
     }
   }
 
@@ -94,6 +101,10 @@ class _HomeProductsState extends State<HomeProducts> {
         deals = BlocProvider.of<HomeBloc>(context).camera;
       } else if (widget.title.contains('Gaming')) {
         deals = BlocProvider.of<HomeBloc>(context).gaming;
+      } else if (widget.title.contains('Computer')) {
+        deals = BlocProvider.of<HomeBloc>(context).computerCollections;
+      } else if (widget.title.contains('Mobile')) {
+        deals = BlocProvider.of<HomeBloc>(context).mobileColletions;
       }
 
       if (state is TodaysDealsLoadingState) {
@@ -130,9 +141,15 @@ class _HomeProductsState extends State<HomeProducts> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DealsFullPage(
-                                        currency: prefs.getString('currency'),
-                                      )));
+                                  builder: (context) => ProductByCategoryPage(
+                                        categoryId: widget.categoryId,
+                                        categoryName: widget.title,
+                                      )
+                                  // DealsFullPage(
+                                  //       currency: prefs.getString('currency'),
+                                  //     )
+
+                                  ));
                         },
                         child: Text(
                           'View All',

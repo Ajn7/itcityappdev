@@ -10,8 +10,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   List<DealOfTheDay> dealslist = [];
   List<Product> popularProduct = [];
   List<Product> featuredProduct = [];
-  List<Product> mobileColletions = [];
-  List<Product> computerCollections = [];
+  List<DealOfTheDay> mobileColletions = [];
+  List<DealOfTheDay> computerCollections = [];
   List<HomeAds> homeadslist = [];
   List<HomeAds> homeads = [];
   List<DealOfTheDay> accessories = [];
@@ -37,8 +37,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
 
   HomeBloc(this.homeApi) : super(HomeInitial()) {
-    // on<FetchHomeImages>(
-    //     (event, emit) => _mapFetchHomeImagesToState(event, emit));
+    on<FetchHomeImages>(
+        (event, emit) => _mapFetchHomeImagesToState(event, emit));
     // on<FetchPopularProduct>((event, emit) =>
     //     _mapFetchPopularProductToState(event, emit, event.currencyp));
     // on<FetchFeaturedProduct>((event, emit) =>
@@ -96,11 +96,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   //   try {
   //     image = await homeApi.fetchHomeimages();
   //     emit(HomeImagesLoadedState());
-  //     print('emit should work');
+  //     print('emit should work $image');
   //   } catch (e) {
   //     emit(HomeImagesErrorState());
   //   }
   // }
+
+  void _mapFetchHomeImagesToState(
+  HomeEvent event, Emitter<HomeState> emit) async {
+  emit(HomeImagesLoadingState());
+  try {
+    List<HomeImages> images = await homeApi.fetchHomeimages();
+    emit(HomeImagesLoadedState());
+    print('emit should work $images');
+  } catch (e) {
+    emit(HomeImagesErrorState());
+  }
+}
+
 
   void _mapFetchHomeAdsToState(HomeEvent event, Emitter<HomeState> emit) async {
     emit(HomeAdsLoadingState());
@@ -398,7 +411,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeEvent event, Emitter<HomeState> emit, String? currency) async {
     emit(MobileCollectionLoadingState());
     try {
-      final List<Product> product =
+      final List<DealOfTheDay> product =
           await homeApi.fetchMobileCollections(currency);
       mobileColletions = product;
       emit(MobileCollectionLoadedState(mobileCollections: mobileColletions));
@@ -411,7 +424,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       HomeEvent event, Emitter<HomeState> emit, String? currency) async {
     emit(ComputerCollectionLoadingState());
     try {
-      final List<Product> product =
+      final List<DealOfTheDay> product =
           await homeApi.fetchComputerCollections(currency);
       computerCollections = product;
 

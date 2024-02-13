@@ -52,7 +52,7 @@ class _BottomNavigationProductNewState
                           color: AppColors.LOGO_ORANGE,
                           textColor: Colors.white,
                           height: 40,
-                          minWidth: MediaQuery.of(context).size.width *.80,
+                          minWidth: MediaQuery.of(context).size.width *.79,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0),
                           ),
@@ -83,7 +83,7 @@ class _BottomNavigationProductNewState
                           color: Colors.black,
                           textColor: Colors.white,
                           height: 45,
-                          minWidth:MediaQuery.of(context).size.width *.10,
+                          minWidth:MediaQuery.of(context).size.width *.21,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0),
                           ),

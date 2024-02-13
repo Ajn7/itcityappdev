@@ -377,7 +377,7 @@ class _SearchPageState extends State<SearchPage> {
                     MaterialPageRoute(builder: (context) => SearchPage()));
               },
               child: TextField(
-                //autofocus: true,
+                autofocus: true,
                 controller: controller,
                 onChanged: (value){
                   BlocProvider.of<SearchBloc>(context)
@@ -391,6 +391,7 @@ class _SearchPageState extends State<SearchPage> {
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     filled: true,
+                    
                     hoverColor: Colors.grey,
                     border: OutlineInputBorder(
                         borderRadius: const BorderRadius.all(

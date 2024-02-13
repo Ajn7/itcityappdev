@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:itcity_online_store/blocs/blocs.dart';
 
@@ -67,6 +68,7 @@ class _HomePageNewState extends State<HomePageNew> {
       } else {
 
         showDialog<void>(
+           barrierDismissible: false,
           context: context,
           builder: (BuildContext context) => NoInternetDialog(),
         );
@@ -308,6 +310,7 @@ class NoInternetDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         elevation: 0.0,
@@ -359,8 +362,42 @@ class NoInternetDialog extends StatelessWidget {
               Positioned(
                 right: 0.0,
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
+                  onTap: () async{
+                    await showDialog<bool>(
+              context: context,
+              builder: (context) {
+                TextEditingController walletcontroller =
+                TextEditingController();
+                return AlertDialog(
+                    title: Text('Exit'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Are You Sure You want to Exit'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        onPressed: () async {
+                          SystemNavigator.pop();
+                        },
+                        child: Text('Yes'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context,false);
+                        },
+                        child: Text('No'),
+                      )
+                    ]);
+              });
+                    //Navigator.of(context).pop();
                   },
                   child: Align(
                     alignment: Alignment.topRight,
