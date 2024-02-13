@@ -183,22 +183,16 @@ class _ProductListByCategoryState extends State<ProductListByCategory> {
   }
 
   List<Product> products = [];
+  List<Product> allProducts = [];
   int i = 1;
 
   @override
   void initState() {
     getCountry();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == 0) {
-        if (i > 1) {
-          i--;
-          BlocProvider.of<ProductBloc>(context).add(
-            FetchProductByCategoryId(widget.categoryId, this.currency, i),
-          );
-        }
-      } else if (_scrollController.position.pixels ==
+      if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        i++;
+        i = i + 1;
         BlocProvider.of<ProductBloc>(context).add(
           FetchProductByCategoryId(widget.categoryId, this.currency, i),
         );
@@ -379,14 +373,25 @@ class _ProductListByCategoryState extends State<ProductListByCategory> {
       child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, productstate) {
         return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-          print(
-              'State of product list by category =>' + productstate.toString());
+          print('State of product list by category =>' +
+              'page $i' +
+              productstate.toString());
 
-          products =
-              BlocProvider.of<ProductBloc>(context).productListByCategory;
+          if (i == 1) {
+            products =
+                BlocProvider.of<ProductBloc>(context).productListByCategory;
+          } else {
+            List<Product> newProducts =
+                BlocProvider.of<ProductBloc>(context).productListByCategory;
+            for (var product in newProducts) {
+              if (!products.contains(product)) {
+                products.add(product);
+              }
+            }
+          }
 
-          // List<Brands> brand = BlocProvider.of<HomeBloc>(context).brands;
-          if (productstate is ProductByCategoryIdLoadingState) {
+          //List<Brands> brand = BlocProvider.of<HomeBloc>(context).brands;
+          if (i == 1 && productstate is ProductByCategoryIdLoadingState) {
             return Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -398,18 +403,18 @@ class _ProductListByCategoryState extends State<ProductListByCategory> {
               )),
             );
           }
-          if (state is BrandDetailsLoadingState) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: AppColors.WHITE,
-              child: Center(
-                  child: SpinKitRipple(
-                color: Theme.of(context).primaryColor,
-                size: 50,
-              )),
-            );
-          }
+          // if (state is BrandDetailsLoadingState) {
+          //   return Container(
+          //     width: MediaQuery.of(context).size.width,
+          //     height: MediaQuery.of(context).size.height,
+          //     color: AppColors.WHITE,
+          //     child: Center(
+          //         child: SpinKitRipple(
+          //       color: Theme.of(context).primaryColor,
+          //       size: 50,
+          //     )),
+          //   );
+          // }
 
           if (products.length == 0) {
             print('no products found!');
@@ -417,53 +422,60 @@ class _ProductListByCategoryState extends State<ProductListByCategory> {
             //   child: CircularProgressIndicator(),
             // );
             return Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.signal_cellular_connected_no_internet_4_bar,
-                      size: 150,
-                      color: AppColors.GREY,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "SORRY!",
-                      style:
-                          TextStyle(color: AppColors.GREY_TEXT, fontSize: 50),
-                    ),
-                    Text(
-                      "We could not find any products . Please try again later",
-                      style:
-                          TextStyle(color: AppColors.GREY_TEXT, fontSize: 20),
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                ));
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.signal_cellular_connected_no_internet_4_bar,
+                    size: 150,
+                    color: AppColors.GREY,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "SORRY!",
+                    style: TextStyle(color: AppColors.GREY_TEXT, fontSize: 50),
+                  ),
+                  Text(
+                    "We could not find any products . Please try again later",
+                    style: TextStyle(color: AppColors.GREY_TEXT, fontSize: 20),
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            );
           }
           return Container(
             color: AppColors.WHITE,
             child: Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: GridView.builder(
-                  controller: _scrollController,
-                  shrinkWrap: true,
-                  itemCount: products.length,
-                  physics: PageScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: .60,
-                    mainAxisSpacing: 5,
-                    crossAxisSpacing: 0,
-                  ),
-                  itemBuilder: (context, index) {
+                controller: _scrollController,
+                shrinkWrap: true,
+                itemCount: products.length + 1,
+                physics: PageScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: .60,
+                  mainAxisSpacing: 5,
+                  crossAxisSpacing: 0,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < products.length) {
                     return ProductCard(
                       currency: this.currency,
                       product: products[index],
                     );
-                  }),
+                  } else {
+                    return SpinKitRipple(
+                      color: Theme.of(context).primaryColor,
+                      size: 50,
+                    );
+                  }
+                },
+              ),
             ),
           );
         });

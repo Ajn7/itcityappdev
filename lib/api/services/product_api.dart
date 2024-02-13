@@ -95,7 +95,7 @@ class ProductApi {
 
   Future<MultipleImageModel> getmultiImagesByProductId(String? id) async {
     Response response =
-        await _apiClient.invokeAPI('$_fetchMultiImagesPath$id', 'GET', null);
+        await _newApiClient.invokeAPI('$_fetchMultiImagesPath$id', 'GET', null);
     return MultipleImageModel.fromJson(jsonDecode(response.body));
   }
 
@@ -114,7 +114,7 @@ class ProductApi {
   }
 
   Future<List<ProductImages>> getProductImagesByProductId(String id) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_productImagesByProductIdPath?product_id=$id', 'GET', null);
     return ProductImages.listFromJson(jsonDecode(response.body)['data']);
   }
@@ -127,7 +127,7 @@ class ProductApi {
   }
 
   Future<List<Review>> getProductReviewByProductId(String? id) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_productReviewByProductIdPath?product_id=$id', 'GET', null);
     return Review.listFromJson(jsonDecode(response.body)['data']);
   }
@@ -174,13 +174,13 @@ class ProductApi {
   Future<List<Product>> search(String term, String? currency) async {
     var url = "/searchProductOrBrandOrCategory?value=$term&cur=$currency";
     print(url);
-    Response response = await _apiClient.invokeAPI(url, 'GET', null);
+    Response response = await _newApiClient.invokeAPI(url, 'GET', null);
     return Product.listFromJson(jsonDecode(response.body)['data']['data']);
   }
 
   Future<List<Product>> getRelatedProductByProductBrand(
       var brand, String? currency) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_relatedProductByProductBrandPath?product_brand=$brand&cur=$currency',
         'GET',
         null);
@@ -209,7 +209,7 @@ class ProductApi {
   }
 
   Future<GetReviewModel> GetReview(String? productId) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_fetchReviewPath?product_id=$productId', 'GET', null);
     print(response);
     return GetReviewModel.fromJson(jsonDecode(response.body));

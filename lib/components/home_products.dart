@@ -20,11 +20,8 @@ class HomeProducts extends StatefulWidget {
   final int? categoryId;
 
   // Constructor to receive values
-  const HomeProducts({
-    Key? key,
-    required this.title,
-    required this.categoryId
-  }) : super(key: key);
+  const HomeProducts({Key? key, required this.title, required this.categoryId})
+      : super(key: key);
 
   @override
   _HomeProductsState createState() => _HomeProductsState();
@@ -106,8 +103,8 @@ class _HomeProductsState extends State<HomeProducts> {
         deals = BlocProvider.of<HomeBloc>(context).gaming;
       } else if (widget.title.contains('Computer')) {
         deals = BlocProvider.of<HomeBloc>(context).computerCollections;
-      }else if(widget.title.contains('Mobile')){
-        deals= BlocProvider.of<HomeBloc>(context).mobileColletions;
+      } else if (widget.title.contains('Mobile')) {
+        deals = BlocProvider.of<HomeBloc>(context).mobileColletions;
       }
 
       if (state is TodaysDealsLoadingState) {
@@ -145,14 +142,14 @@ class _HomeProductsState extends State<HomeProducts> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ProductByCategoryPage(
-                                    categoryId: widget.categoryId,
-                                    categoryName: widget.title,
-                                  )
+                                        categoryId: widget.categoryId,
+                                        categoryName: widget.title,
+                                      )
                                   // DealsFullPage(
                                   //       currency: prefs.getString('currency'),
                                   //     )
-                                      
-                                      ));
+
+                                  ));
                         },
                         child: Text(
                           'View All',

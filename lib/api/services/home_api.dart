@@ -37,6 +37,7 @@ class HomeApi {
   Future<List<HomeImages>> fetchHomeimages() async {
     Response response =
         await _newApiClient.invokeAPI(_homeImagesPath, 'GET', null);
+        print('Output data ${response.body}');
     return HomeImages.listFromJson(jsonDecode(response.body)['data']);
   }
 
