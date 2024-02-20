@@ -3,12 +3,12 @@ import 'package:itcity_online_store/api/api_client.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
-
 class UserApi {
- // FlutterSecureStorage _flutterSecureStorage = FlutterSecureStorage();
+  // FlutterSecureStorage _flutterSecureStorage = FlutterSecureStorage();
   ApiClient _apiclient = ApiClient();
+  NewApiClient _newApiClient = NewApiClient();
 
-  String _userRegistrationPath = '/createCustomer';
+  String _userRegistrationPath = 'register';//'/createCustomer';
   String _updateCustomerDetailsPath = '/updateCustomerDetails';
   String _sellAccountCreationPath = '';
   String _removeUserAccountPath = '';
@@ -25,7 +25,7 @@ class UserApi {
     String customerJson =
         '{"customer_mobile": "${user.customerMobile}","password":"${user.password}","customer_email":"${user.customerEmail}"}';
     Response response =
-        await _apiclient.invokeAPI(_userRegistrationPath, 'POST', customerJson);
+        await _newApiClient.invokeAPI(_userRegistrationPath, 'POST', customerJson);
 
     return CustomerRegistration.fromJson(jsonDecode(response.body)['data']);
   }
@@ -33,10 +33,10 @@ class UserApi {
   Future updateUser(CustomerRegistration user) async {
     String customerJson =
         '{"customer_name":"${user.customerName}","customer_mobile": "${user.customerMobile}","customer_address":"${user.customerAddress}","customer_state":"${user.customerState}","customer_dist":"${user.customerDistrict}","customer_pincode":"${user.customerPincode}","customer_id":${user.customerId}}';
-        print(customerJson);
-    Response response =
-        await _apiclient.invokeAPI(_updateCustomerDetailsPath, 'POST', customerJson);
-        print("User Updated >>>>>>>>>>>>>" + response.body);
+    print(customerJson);
+    Response response = await _apiclient.invokeAPI(
+        _updateCustomerDetailsPath, 'POST', customerJson);
+    print("User Updated >>>>>>>>>>>>>" + response.body);
     return (jsonDecode(response.body)['success']);
   }
 
@@ -75,8 +75,7 @@ class UserApi {
     String customer =
         '{"customer_email": "${register.customerEmail}","password": "${register.password}"}';
     Response response =
-        await _apiclient.invokeAPI(_customerLoginPath, 'POST', customer);
-
+        await _newApiClient.invokeAPI(_customerLoginPath, 'POST', customer);
 
     String? token = (jsonDecode(response.body)['token']);
 
@@ -87,7 +86,7 @@ class UserApi {
     print(mobile);
     Response response = await _apiclient.invokeAPI(
         '$_checkMobileNumberStatusPath?customer_mobile=$mobile', 'GET', null);
-           print("NumberStatus Response" + response.body.toString());
+    print("NumberStatus Response" + response.body.toString());
     return (jsonDecode(response.body)['data']).cast<String>();
   }
 
@@ -98,15 +97,15 @@ class UserApi {
   }
 
   Future<bool> checkEmailStatus(String mail) async {
-    Response response = await _apiclient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_checkEmailStatusPath?customer_email=$mail', 'GET', null);
-        print("EmailStatus Response" + response.body.toString());
-      var status = jsonDecode(response.body)['data'];
-      if(status is bool) {
-        return false;
-      } else {
-        return true;
-      }
+    print("EmailStatus Response" + response.body.toString());
+    var status = jsonDecode(response.body)['data'];
+    if (status is bool) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   Future<CustomerRegistration> fetchCustomerInformation(String? mail) async {

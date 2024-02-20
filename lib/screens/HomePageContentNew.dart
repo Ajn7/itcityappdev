@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:itcity_online_store/api/models/HomeAds.dart';
 import 'package:itcity_online_store/api/models/category.dart';
 import 'package:itcity_online_store/api/models/customer_wishlist.dart';
+import 'package:itcity_online_store/api/models/home_images.dart';
 import 'package:itcity_online_store/api/models/product.dart';
 import 'package:itcity_online_store/blocs/blocs.dart';
 import 'package:itcity_online_store/components/FeaturedProduct.dart';
@@ -34,6 +35,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   List<CustomerWishlist> wishlist = [];
   List<Product> mobileCollections = [];
   List<HomeAds>? homeAdImages;
+  List<HomeImages>? homeImages;
   late SharedPreferences prefs;
 
   //HomeAds
@@ -78,9 +80,10 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
     if (BlocProvider.of<HomeBloc>(context).state is HomeInitial) {}
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, homeState) {
-       // homeAdImages = BlocProvider.of<HomeBloc>(context).homeadslist;
-        featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
-        popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
+        //fetchHomeimages
+        //homeImages = BlocProvider.of<HomeBloc>(context).image;
+        //featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
+        //popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
         wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
         categoryList = BlocProvider.of<CategoryBloc>(context).categoryList;
         accessories = BlocProvider.of<HomeBloc>(context).homeadsAccessory;
@@ -93,6 +96,8 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
         personalCare = BlocProvider.of<HomeBloc>(context).homeadsPersonalCare;
         camera = BlocProvider.of<HomeBloc>(context).homeadsCamera;
         gaming = BlocProvider.of<HomeBloc>(context).homeadsGaming;
+
+     
 
         return BlocListener<CartBloc, CartState>(
           listener: (context, state) {
@@ -276,7 +281,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                         BoxConstraints(minHeight: constraints.maxHeight),
                     child: Column(
                             children: [
-                              BannerList(),
+                              //BannerList(),
                               CategoryCard(),
                               // new HomeAdsBanner(
                               //   imageAds: (homeAdImages == n you sure ll)
@@ -353,7 +358,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                               ),
                               HomeProducts(
                                   title: 'Gaming Collections',
-                                  categoryId: categoryList![9].categoryId),
+                                  categoryId: categoryList![10].categoryId),
                             ],
                           ),
                   ),
