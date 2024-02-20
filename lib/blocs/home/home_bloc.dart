@@ -34,8 +34,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeAds homeadsCamera = HomeAds();
   HomeAds homeadsGaming = HomeAds();
 
-
-
   HomeBloc(this.homeApi) : super(HomeInitial()) {
     on<FetchHomeImages>(
         (event, emit) => _mapFetchHomeImagesToState(event, emit));
@@ -103,21 +101,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   // }
 
   void _mapFetchHomeImagesToState(
-  HomeEvent event, Emitter<HomeState> emit) async {
-  emit(HomeImagesLoadingState());
-  try {
-    List<HomeImages> images = await homeApi.fetchHomeimages();
-    emit(HomeImagesLoadedState());
-    print('emit should work $images');
-  } catch (e) {
-    emit(HomeImagesErrorState());
+      HomeEvent event, Emitter<HomeState> emit) async {
+    print('inside home ads block state 10');
+    emit(HomeImagesLoadingState());
+    try {
+      List<HomeImages> images = await homeApi.fetchHomeimages();
+      emit(HomeImagesLoadedState());
+      print('emit should work $images');
+    } catch (e) {
+      emit(HomeImagesErrorState());
+    }
   }
-}
-
 
   void _mapFetchHomeAdsToState(HomeEvent event, Emitter<HomeState> emit) async {
+    print('inside home ads block state 0');
     emit(HomeAdsLoadingState());
     try {
+      print('inside home ads block state');
       final List<HomeAds> homeadslist = await homeApi.fetchHomeAds();
       this.homeadslist = homeadslist;
 
@@ -139,8 +139,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeAdsAccessoriesErrorState());
     }
   }
-
-
 
   void _mapFetchHomeAdsComputerToState(
       HomeEvent event, Emitter<HomeState> emit) async {

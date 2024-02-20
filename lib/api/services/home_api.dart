@@ -7,7 +7,7 @@ class HomeApi {
   ApiClient _apiclient = ApiClient();
   NewApiClient _newApiClient = NewApiClient();
 
-  String _homeImagesPath = '/findHomeImagesByEnglish';//findHomeImages
+  String _homeImagesPath = '/findHomeImagesByEnglish'; //findHomeImages
   String _brandDetailsPath = '/findAllBrandDetails';
   String _todaysDealsPath = '/getTodaysDealByDate';
   String _popularProductPath = '/popularproduct';
@@ -37,20 +37,22 @@ class HomeApi {
   Future<List<HomeImages>> fetchHomeimages() async {
     Response response =
         await _newApiClient.invokeAPI(_homeImagesPath, 'GET', null);
-        print('Output data ${response.body}');
+    print('Output data ${response.body}');
     return HomeImages.listFromJson(jsonDecode(response.body)['data']);
   }
 
-  // Future<List<HomeAds>> fetchHomeAds() async {
-  //   Response response = await _newApiClient.invokeAPI(_homeAdsPath, 'GET', null);
-  //   return HomeAds.listFromJson(jsonDecode(response.body)['data']);
-  // }
-
   Future<List<HomeAds>> fetchHomeAds() async {
+    Response response = await _newApiClient.invokeAPI(_homeAdsPath, 'GET', null);
+    return HomeAds.listFromJson(jsonDecode(response.body)['data']);
+  }
+
+  Future<List<HomeAds>> fetchHomeAds1() async {
+    print('inside home ads api');
     //List<HomeAds> combinedList = [];
 
     Response homeAdsResponse =
         await _newApiClient.invokeAPI(_homeAdsPath, 'GET', null);
+    print('home ads list from api $homeAdsResponse');
     List<HomeAds> homeAdsList =
         HomeAds.listFromJson(jsonDecode(homeAdsResponse.body)['data']);
     // combinedList.addAll(homeAdsList);
@@ -82,6 +84,7 @@ class HomeApi {
   }
 
   Future<HomeAds> fetchHomeAdsCategory(int id) async {
+    print('inside home ads main');
     Response additionalDataResponse =
         await _newApiClient.invokeAPI(_homeAdsPathList[id], 'GET', null);
     Map<String, dynamic> additionalData =

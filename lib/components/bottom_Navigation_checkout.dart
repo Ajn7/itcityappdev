@@ -54,7 +54,7 @@ class BottomNavigation extends StatelessWidget {
               BlocBuilder<UserBloc, UserState>(
                 builder: (context, userState) {
                   if (userState is CustomerInformationLoadedState) {
-                    bool Address = userState.customerlist.customerAddress != null;
+                    bool Address = userState.customerlist.user!.name != null;
 
                     return Container(
                       decoration: kAppBarContainerDecoration,
@@ -67,7 +67,7 @@ class BottomNavigation extends StatelessWidget {
                         onPressed: Address ? () {
                           Order order = Order();
                           order.purchaseId = orderState.purchase.purchaseId;
-                          order.customerId = userState.customerlist.customerId;
+                          order.customerId = userState.customerlist.user!.id;
                           order.totalAmount = total.toString();
                           BlocProvider.of<OrderBloc>(context)
                               .add(CreateOrderEvent(order));
