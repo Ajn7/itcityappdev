@@ -78,7 +78,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
     if (BlocProvider.of<HomeBloc>(context).state is HomeInitial) {}
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, homeState) {
-       // homeAdImages = BlocProvider.of<HomeBloc>(context).homeadslist;
+        homeAdImages = BlocProvider.of<HomeBloc>(context).homeadslist;
         featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
         popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
         wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
@@ -276,6 +276,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                         BoxConstraints(minHeight: constraints.maxHeight),
                     child: Column(
                             children: [
+                              
                               BannerList(),
                               CategoryCard(),
                               // new HomeAdsBanner(
@@ -283,10 +284,10 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
                               //       ? accessories
                               //       : homeAdImages![0],
                               // ),
-                              // DailyDeals(),
-                              // new HomeAdsBanner(
-                              //   index: 1,
-                              //   imageAds: homeAdImages,
+                              //DailyDeals(),
+                              //  HomeAdsBanner(
+                              //   //index: 1,
+                              //   imageAds: homeAdImages![0],
                               // ),
 
                               HomeAdsBanner(

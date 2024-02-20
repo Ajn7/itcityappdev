@@ -7,7 +7,6 @@ import 'package:itcity_online_store/api/services/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-
   UserApi userApi;
   bool? userStatus;
   SellOnItcity? accountToSale;
@@ -17,15 +16,23 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   String? token;
   CustomerRegistration? customer;
   ApiResponse? response;
-  UserBloc(this.userApi) : super(UserInitial()){
+  UserBloc(this.userApi) : super(UserInitial()) {
     on<UserLogoutEvent>((event, emit) => _logoutEventtoState(event, emit));
-    on<UserRegistrationEvent>((event, emit) => _mapUserRegistrationToState(event,emit,event.user));
-    on<RemoveUserAccountEvent>((event, emit) => _mapRemoveUserAccountToState(event,emit,event.customerId));
-    on<ForgotPasswordEvent>((event, emit) => _mapForgotPasswordToState(event,emit,event.email));
-    on<FetchCustomerInformationEvent>((event, emit) => _mapFetchCustomerInformationToState(event,emit,event.customerEmail));
-    on<UpdateCustomerEvent>((event, emit) => _mapFetchCustomerInformationUpdatedToState(event,emit,event.customerRegistration.customerEmail));
-    on<CustomerLoginEvent>((event, emit) => _mapCustomerLoginToState(event, emit, event.customer));
-    on<CheckEmailStatusEvent>((event, emit) => _mapCheckEmailStatusToState(event, emit, event.mail));
+    on<UserRegistrationEvent>(
+        (event, emit) => _mapUserRegistrationToState(event, emit, event.user));
+    on<RemoveUserAccountEvent>((event, emit) =>
+        _mapRemoveUserAccountToState(event, emit, event.customerId));
+    on<ForgotPasswordEvent>(
+        (event, emit) => _mapForgotPasswordToState(event, emit, event.email));
+    on<FetchCustomerInformationEvent>((event, emit) =>
+        _mapFetchCustomerInformationToState(event, emit, event.customerEmail));
+    on<UpdateCustomerEvent>((event, emit) =>
+        _mapFetchCustomerInformationUpdatedToState(
+            event, emit, event.customerRegistration.user!.email));
+    on<CustomerLoginEvent>(
+        (event, emit) => _mapCustomerLoginToState(event, emit, event.customer));
+    on<CheckEmailStatusEvent>(
+        (event, emit) => _mapCheckEmailStatusToState(event, emit, event.mail));
   }
   // @override
   // Stream<UserState> mapEventToState(
@@ -75,17 +82,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   //     //     event, state, event.customerRegistration.customerEmail);
   //   }
   // }
-void _logoutEventtoState(UserEvent event,Emitter<UserState> emit){
+  void _logoutEventtoState(UserEvent event, Emitter<UserState> emit) {
     emit(UserInitial());
-}
+  }
 
-void _mapUserRegistrationToState(
-      UserEvent event, Emitter<UserState> emit, CustomerRegistration user) async {
-    emit( UserRegistrationLoadingState());
+  void _mapUserRegistrationToState(UserEvent event, Emitter<UserState> emit,
+      CustomerRegistration user) async {
+    emit(UserRegistrationLoadingState());
     try {
-      final CustomerRegistration customerRegistration = await userApi.registerUser(user);
+      final CustomerRegistration customerRegistration =
+          await userApi.registerUser(user);
       print("yielded userregistration");
-      emit(UserRegistrationSuccessState(customerRegistration: customerRegistration));
+      emit(UserRegistrationSuccessState(
+          customerRegistration: customerRegistration));
 
       //Emit a event to check email
     } catch (e) {}
@@ -122,30 +131,28 @@ void _mapUserRegistrationToState(
     } catch (e) {}
   }
 
-void _mapForgotPasswordToState(
-      UserEvent event,  Emitter<UserState> emit, var email) async {
+  void _mapForgotPasswordToState(
+      UserEvent event, Emitter<UserState> emit, var email) async {
     try {
       final String? otp = await userApi.forgotPassword(email);
       otpValue = otp;
     } catch (e) {}
   }
 
-void _mapCustomerLoginToState(
-      UserEvent event,  Emitter<UserState> emit, CustomerRegistration customer) async {
-    emit( CustomerLoginLoadingState());
+  void _mapCustomerLoginToState(UserEvent event, Emitter<UserState> emit,
+      CustomerRegistration customer) async {
+    emit(CustomerLoginLoadingState());
     try {
       String? tokenValue = await userApi.customerLogin(customer);
-      print(tokenValue);
+      print('token :$tokenValue');
       this.token = tokenValue;
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('email', customer.customerEmail!);
+      await prefs.setString('email', customer.user!.email!);
       await prefs.setString('token', this.token!);
 
-
-
-        emit(CustomerLoginSuccessState());
+      emit(CustomerLoginSuccessState());
     } catch (e) {
-      print('userbloc'+e.toString());
+      print('userbloc' + e.toString());
       emit(CustomerLoginErrorState());
     }
   }
@@ -171,8 +178,7 @@ void _mapCustomerLoginToState(
   }
 
   void _mapCheckEmailStatusToState(
-      UserEvent event,Emitter<UserState> emit, String mail) async {
-       
+      UserEvent event, Emitter<UserState> emit, String mail) async {
     emit(CheckEmailStatusLoadingState());
     try {
       final bool status = await userApi.checkEmailStatus(mail);
@@ -184,9 +190,9 @@ void _mapCustomerLoginToState(
     }
   }
 
- void _mapFetchCustomerInformationToState(
+  void _mapFetchCustomerInformationToState(
       UserEvent event, Emitter<UserState> emit, String? mail) async {
-    emit( CustomerInformationLoadingState());
+    emit(CustomerInformationLoadingState());
     try {
       final CustomerRegistration info =
           await userApi.fetchCustomerInformation(mail);
@@ -194,26 +200,26 @@ void _mapCustomerLoginToState(
       //final storage = new FlutterSecureStorage();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.setString('customerId', customer!.customerId.toString());
+      await prefs.setString('customerId', customer!.user!.id.toString());
 
-      emit( CustomerInformationLoadedState(customerlist: info));
+      emit(CustomerInformationLoadedState(customerlist: info));
     } catch (e) {
       print('error in fetching user information>>>>>> ' + e.toString());
     }
   }
 
- void _mapFetchCustomerInformationUpdatedToState(
-      UpdateCustomerEvent event,Emitter<UserState> emit, String? mail) async {
+  void _mapFetchCustomerInformationUpdatedToState(
+      UpdateCustomerEvent event, Emitter<UserState> emit, String? mail) async {
     emit(CustomerInformationLoadingState());
     try {
       await userApi.updateUser(event.customerRegistration);
       final CustomerRegistration info = await userApi
-          .fetchCustomerInformation(event.customerRegistration.customerEmail);
+          .fetchCustomerInformation(event.customerRegistration.user!.email);
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.setString('customerId', customer!.customerId.toString());
+      await prefs.setString('customerId', customer!.user!.id.toString());
 
-      emit( CustomerInformationUpdatedState(customerlist: info));
+      emit(CustomerInformationUpdatedState(customerlist: info));
     } catch (e) {
       print('error in fetching user information>>>>>> ' + e.toString());
     }

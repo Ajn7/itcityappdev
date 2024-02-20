@@ -91,31 +91,31 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(state is CustomerInformationLoadedState
-                                  ? state.customerlist.customerName != null
-                                  ? state.customerlist.customerName!
-                                  : 'Customer'
-                                  : 'Customer',style: TextStyle(
-                                fontSize: 35,
-                                color: AppColors.WHITE
-                              ),),
-                              state is CustomerInformationLoadedState
-                              ?Text(customerInfo!.customerEmail == null
-                                  ? email!
-                                  : customerInfo!.customerEmail!,style: TextStyle(
-                                  fontSize: 20,
-                                  color: AppColors.WHITE
-                              )):TextButton(
-                                onPressed: (){
-                                  Navigator.pushNamed(context, '/login');
-                                },
-                                child: Row(
-                                children: [
-                                  Icon(Icons.login,color: Colors.white,size: 25,),
-                                  SizedBox(width: 3,),
-                                  Text("Login",style: TextStyle(color: Colors.white,fontSize: 20),)
-                                ],
-                              ),)
+                              // Text(state is CustomerInformationLoadedState
+                              //     ? state.customerlist.customerName != null
+                              //     ? state.customerlist.customerName!
+                              //     : 'Customer'
+                              //     : 'Customer',style: TextStyle(
+                              //   fontSize: 35,
+                              //   color: AppColors.WHITE
+                              // ),),
+                              // state is CustomerInformationLoadedState
+                              // ?Text(customerInfo!.customerEmail == null
+                              //     ? email!
+                              //     : customerInfo!.customerEmail!,style: TextStyle(
+                              //     fontSize: 20,
+                              //     color: AppColors.WHITE
+                              // )):TextButton(
+                              //   onPressed: (){
+                              //     Navigator.pushNamed(context, '/login');
+                              //   },
+                              //   child: Row(
+                              //   children: [
+                              //     Icon(Icons.login,color: Colors.white,size: 25,),
+                              //     SizedBox(width: 3,),
+                              //     Text("Login",style: TextStyle(color: Colors.white,fontSize: 20),)
+                              //   ],
+                              // ),)
                             ],
                           ),
                         ),
@@ -170,27 +170,27 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: (){
-                            if(customerInfo!.customerId != null ){
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                    return OrderHistoryPage(custId: customerInfo!.customerId.toString(),);
-                                  }));
-                            }
+                        // GestureDetector(
+                        //   onTap: (){
+                        //     if(customerInfo!.customerId != null ){
+                        //       Navigator.push(context,
+                        //           MaterialPageRoute(builder: (context) {
+                        //             return OrderHistoryPage(custId: customerInfo!.customerId.toString(),);
+                        //           }));
+                        //     }
 
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
-                            child: Row(
-                              children: [
-                                Image.asset('assets/images/icons/order.png',width: 25,height: 25,),
-                                SizedBox(width: 15,),
-                                Text('Orders',style: TextStyle(fontSize: 16),),
-                              ],
-                            ),
-                          ),
-                        ),
+                        //   },
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                        //     child: Row(
+                        //       children: [
+                        //         Image.asset('assets/images/icons/order.png',width: 25,height: 25,),
+                        //         SizedBox(width: 15,),
+                        //         Text('Orders',style: TextStyle(fontSize: 16),),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         GestureDetector(
                           onTap: (){
                             Navigator.push(context,

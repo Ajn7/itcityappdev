@@ -37,7 +37,7 @@ class _AddressCheckoutState extends State<AddressCheckout> {
 
     if(state is CustomerInformationLoadedState){
       CustomerRegistration customer = BlocProvider.of<UserBloc>(context).customer!;
-     return customer.customerAddress == null?  Container(
+     return customer.user!.name == null?  Container(
         color: AppColors.WHITE,
         height: MediaQuery.of(context).size.height * .25,
         child: Padding(
@@ -114,11 +114,11 @@ class _AddressCheckoutState extends State<AddressCheckout> {
                ],
              ),
              SizedBox(height: 5,),
-             Text(customer.customerAddress!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20),),
-             Text(customer.customerDistrict!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
-             Text(customer.customerState!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
-             Text(customer.customerPincode!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
-             Text("mob: "+customer.customerMobile!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
+            //  Text(customer.customerAddress!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20),),
+            //  Text(customer.customerDistrict!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
+            //  Text(customer.customerState!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
+            //  Text(customer.customerPincode!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
+            //  Text("mob: "+customer.customerMobile!,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
 
 
            ],

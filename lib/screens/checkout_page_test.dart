@@ -269,7 +269,7 @@ class _CheckOutNewState extends State<CheckOutNew> {
                           builder: (context, userState) {
                             if (userState is CustomerInformationLoadedState) {
                               bool Address = userState.customerlist
-                                  .customerAddress != null;
+                                  .user!.name != null;
                               print("Addressbool" + Address.toString());
 
                               return Padding(
@@ -298,7 +298,7 @@ class _CheckOutNewState extends State<CheckOutNew> {
                                         order.purchaseId =
                                             state.purchase.purchaseId;
                                         order.customerId =
-                                            userState.customerlist.customerId;
+                                            userState.customerlist.user!.id;
                                         order.currency = currency;
                                         order.remarks = this._textEditingController.value.text;
                                         order.totalAmount = state.purchase.productSubTotal!.toStringAsFixed(2);
@@ -421,53 +421,53 @@ class CheckoutPageTest extends StatelessWidget {
                                             color: Colors.black,
                                             fontSize: 30.0),
                                         children: [
-                                          TextSpan(
-                                            text: state
-                                                    is CustomerInformationLoadedState
-                                                ? state.customerlist
-                                                            .customerAddress !=
-                                                        null
-                                                    ? state.customerlist
-                                                            .customerAddress! +
-                                                        ","
-                                                    : "No Address Available"
-                                                : '',
-                                          ),
-                                          TextSpan(
-                                            text: state
-                                                    is CustomerInformationLoadedState
-                                                ? state.customerlist
-                                                            .customerDistrict !=
-                                                        null
-                                                    ? state.customerlist
-                                                            .customerDistrict! +
-                                                        ","
-                                                    : ""
-                                                : '',
-                                          ),
-                                          TextSpan(
-                                            text: state
-                                                    is CustomerInformationLoadedState
-                                                ? state.customerlist
-                                                            .customerState !=
-                                                        null
-                                                    ? state.customerlist
-                                                            .customerState! +
-                                                        ","
-                                                    : ""
-                                                : '',
-                                          ),
-                                          TextSpan(
-                                            text: state
-                                                    is CustomerInformationLoadedState
-                                                ? state.customerlist
-                                                            .customerPincode !=
-                                                        null
-                                                    ? state.customerlist
-                                                        .customerPincode
-                                                    : ""
-                                                : '',
-                                          )
+                                          // TextSpan(
+                                          //   text: state
+                                          //           is CustomerInformationLoadedState
+                                          //       ? state.customerlist
+                                          //                   .customerAddress !=
+                                          //               null
+                                          //           ? state.customerlist
+                                          //                   .customerAddress! +
+                                          //               ","
+                                          //           : "No Address Available"
+                                          //       : '',
+                                          // ),
+                                          // TextSpan(
+                                          //   text: state
+                                          //           is CustomerInformationLoadedState
+                                          //       ? state.customerlist
+                                          //                   .customerDistrict !=
+                                          //               null
+                                          //           ? state.customerlist
+                                          //                   .customerDistrict! +
+                                          //               ","
+                                          //           : ""
+                                          //       : '',
+                                          // ),
+                                          // TextSpan(
+                                          //   text: state
+                                          //           is CustomerInformationLoadedState
+                                          //       ? state.customerlist
+                                          //                   .customerState !=
+                                          //               null
+                                          //           ? state.customerlist
+                                          //                   .customerState! +
+                                          //               ","
+                                          //           : ""
+                                          //       : '',
+                                          // ),
+                                          // TextSpan(
+                                          //   text: state
+                                          //           is CustomerInformationLoadedState
+                                          //       ? state.customerlist
+                                          //                   .customerPincode !=
+                                          //               null
+                                          //           ? state.customerlist
+                                          //               .customerPincode
+                                          //           : ""
+                                          //       : '',
+                                          // )
                                         ])));
                           },
                         ),

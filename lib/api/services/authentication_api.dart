@@ -8,7 +8,7 @@ static final String basePath = 'https://api-test.itcityonlinestore.com/api/';
 Future<ApiResponse> authenticateUser(CustomerRegistration register) async {
   ApiResponse _apiResponse = new ApiResponse();
   String customer =
-        '{"customer_email": "${register.customerEmail}","password": "${register.password}"}';
+        '{"customer_email": "${register.user!.email}","password": "${register.user!.password}"}';
   try {
     final response = await http.post(Uri.parse('https://api-test.itcityonlinestore.com/api/login'), body: customer);
 

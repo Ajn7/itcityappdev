@@ -228,17 +228,17 @@ class _RegisterButtonState extends State<RegisterButton> {
         }
         if (state is UserRegistrationSuccessState) {
           CustomerRegistration customerRegistration = CustomerRegistration();
-          customerRegistration.customerEmail = widget._email.text;
-          customerRegistration.password = widget._confirmPass.text;
+          customerRegistration.user!.email = widget._email.text;
+          customerRegistration.user!.password = widget._confirmPass.text;
          // customerRegistration.password = widget._confirmPass.text;
           BlocProvider.of<UserBloc>(context)
               .add(CustomerLoginEvent(customerRegistration));
         } else if (state is CheckEmailStatusLoadedState) {
           if (!state.emailUsed!) {
             CustomerRegistration customer = CustomerRegistration();
-            customer.customerEmail = widget._email.text;
-            customer.password = widget._confirmPass.text;
-            customer.customerMobile = widget._mobile.text;
+            customer.user!.email = widget._email.text;
+            customer.user!.password = widget._confirmPass.text;
+            customer.user!.name = widget._mobile.text;
             BlocProvider.of<UserBloc>(context)
                 .add(UserRegistrationEvent(customer));
           } else {
