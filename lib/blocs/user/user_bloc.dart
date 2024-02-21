@@ -144,13 +144,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(CustomerLoginLoadingState());
     try {
       String? tokenValue = await userApi.customerLogin(customer);
-      print('token :$tokenValue');
+     
       this.token = tokenValue;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('email', customer.user!.email!);
       await prefs.setString('token', this.token!);
-
       emit(CustomerLoginSuccessState());
+       print('login token :$tokenValue ');
+       
     } catch (e) {
       print('userbloc' + e.toString());
       emit(CustomerLoginErrorState());

@@ -256,12 +256,13 @@ class _LoginPageNewState extends State<LoginPageNew> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  'assets/images/logo_home.png',
-                                  width: 250,
-                                  height: 100,
-                                )),
+                              alignment: Alignment.center,
+                              child: Image.asset(
+                                'assets/images/logo_home.png',
+                                width: 250,
+                                height: 100,
+                              ),
+                            ),
                             SizedBox(
                               height: 25,
                             ),

@@ -9,6 +9,7 @@ import 'package:itcity_online_store/api/models/product_order_details.dart';
 
 class OrderApi {
   ApiClient _apiclient = ApiClient();
+   NewApiClient _newApiClient = NewApiClient();
 
   String _createOrderPath = '/createOrder';
   String _createPurchasePath = '/createPurchase';

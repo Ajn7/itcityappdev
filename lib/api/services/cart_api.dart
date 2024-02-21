@@ -5,12 +5,13 @@ import 'package:http/http.dart';
 
 class CartApi {
   ApiClient _apiclient = ApiClient();
+    NewApiClient _newApiClient = NewApiClient();
 
   String _taxDetailsPath = '/getTaxDetailsbyTaxPercentage';
   String _addProductToCartPath = '/addToCart';
   String _removeAllProductFromCartPath = '/removeAllFromCart';
   String _removeProductFromCartPath = '/removeProductFromCartByProductId';
-  String _getCartDetailsPath = '/getCartDetailsByUsername';
+  String _getCartDetailsPath = '/getcart_detail';//'/getCartDetailsByUsername';
 
   Future<List<Tax>> getTaxDetails(String taxPercentage) async {
     Response response = await _apiclient.invokeAPI(
@@ -22,10 +23,10 @@ class CartApi {
     int uid = int.parse(cart.userId!);
     print(cart.userId);
     String cartJson =
-        '{"user_id" : $uid,"cur" : "${cart.currency}" ,"cart_data" : "${cart.cartData}","prod_count" : ${cart.productCount},"prod_price" : "${cart.productPrice.toString()}"}';
-    print(cartJson);
+        '{"user_id" : $uid,"cur" : "${cart.currency}" ,"product_id" : "${cart.cartData}","prod_count" : ${cart.productCount},"prod_price" : "${cart.productPrice.toString()}"}';
+    print('Cart post data ${cart.cartData}');
     Response response =
-        await _apiclient.invokeAPI(_addProductToCartPath, 'POST', cartJson);
+        await _newApiClient.invokeAPI(_addProductToCartPath, 'POST', cartJson);
     print("Adding Item to Cart" + response.body);
     return (jsonDecode(response.body)['success']);
   }
@@ -52,7 +53,7 @@ class CartApi {
   Future<List<Cart>> getCartDetails(var userId) async {
     List<Cart> cartItems = [];
     int uid = int.parse(userId);
-    Response response = await _apiclient
+    Response response = await _newApiClient
         .invokeAPI('$_getCartDetailsPath?user_id=$uid', 'GET', {});
     print("ResponseBody" + response.body);
     jsonDecode(response.body)['data'].forEach((element) {
