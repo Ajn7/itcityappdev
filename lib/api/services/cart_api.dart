@@ -44,7 +44,7 @@ class CartApi {
       String? userId, String? cartData,String productCount) async {
     String cartJson = '{"user_id" : $userId, "cart_data": $cartData,"prod_count":$productCount }';
     print(cartJson + "CartJson");
-    Response response = await _apiclient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         _removeProductFromCartPath+ "?user_id=$userId&cart_data=$cartData&prod_count=$productCount", 'POST_', {} );
     print(response);
     return Cart.listFromJson(jsonDecode(response.body)['data']);

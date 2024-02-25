@@ -147,7 +147,7 @@ class Authorisation {
 }
 
 class CustomerRegistration {
-  String? status;
+  dynamic? status;
   String? message;
   User? user;
   Authorisation? authorisation;
@@ -192,7 +192,7 @@ class CustomerRegistration {
   });
 
   CustomerRegistration.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
+    status =(json['status'] != null )? json['status']:null;
     message = json['message'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     authorisation = json['authorisation'] != null
@@ -245,3 +245,4 @@ class CustomerRegistration {
     return data;
   }
 }
+

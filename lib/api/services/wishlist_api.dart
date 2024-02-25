@@ -5,15 +5,19 @@ import 'package:http/http.dart';
 
 class WishlistApi {
   ApiClient _apiclient = ApiClient();
+  NewApiClient _newApiClient = NewApiClient();
   String _wishlistPath = '/getWishlistByUsername';
   String _moveProductFromWishlistToCartPath = '';
   String _moveAllProductFromWishlistToCartPath = '';
   String _removeAllProductFromWishlistPath = '';
-  String _removeProductFromWishlistPath = '/removeProductFromWishlistByProductId';
+  String _removeProductFromWishlistPath =
+      '/removeProductFromWishlistByProductId';
   String _addProductToWishlistPath = '/createWishlist';
 
-  Future<List<CustomerWishlist>> fetchWishlist(String? username,String? currency) async {
-    Response response = await _apiclient.invokeAPI('$_wishlistPath?username=$username&cur=$currency', 'GET', null);
+  Future<List<CustomerWishlist>> fetchWishlist(
+      String? username, String? currency) async {
+    Response response = await _newApiClient.invokeAPI(
+        '$_wishlistPath?username=$username&cur=$currency', 'GET', null);
     return CustomerWishlist.listFromJson(jsonDecode(response.body)['data']);
   }
 
@@ -42,17 +46,19 @@ class WishlistApi {
   }
 
   Future<String> removeProductFromWishlist(Wishlist wishlists) async {
-    String jsonString ='{"username": "${wishlists.username}","wishlist": "${wishlists.wishlist}"}';
+    String jsonString =
+        '{"username": "${wishlists.username}","wishlist": "${wishlists.wishlist}"}';
     Response response = await _apiclient.invokeAPI(
         _removeProductFromWishlistPath, 'POST', jsonString);
-    
+
     return "removed";
   }
 
   Future<String> addProductToWishlist(Wishlist wish) async {
-    String jsonString ='{"username": "${wish.username}","wishlist": "${wish.wishlist}"}';
-    Response response = await _apiclient.invokeAPI(
-        _addProductToWishlistPath, 'POST',jsonString);
+    String jsonString =
+        '{"username": "${wish.username}","wishlist": "${wish.wishlist}"}';
+    Response response = await _newApiClient.invokeAPI(
+        _addProductToWishlistPath, 'POST', jsonString);
     return "added";
   }
 }

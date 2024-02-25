@@ -114,7 +114,6 @@ class UserApi {
   }
 
   Future<CustomerRegistration> fetchCustomerInformation(String? mail) async {
-    
     Response response = await _newApiClient.invokeAPI(
         '$_customerInfoPath?email=$mail', 'GET', null);
     print('customer information ${response.body} ');

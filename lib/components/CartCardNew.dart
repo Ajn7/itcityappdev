@@ -139,6 +139,7 @@ class _CartCardNewState extends State<CartCardNew> {
                             ],
                           ));
                     }
+                    print('Cart items ${cartItems}');
                     return ListView.builder(
                         itemCount: cartItems.length,
                         itemBuilder: (context, index) {
@@ -161,107 +162,108 @@ class _CartCardNewState extends State<CartCardNew> {
                               children: <Widget>[
                                 SizedBox(height: 8),
                                 Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8),
-                                    child: Container(
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 1,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                                                //   return ProductDetailsNew(
-                                                //     productId: state.cartItems[index].productId,
-                                                //   );
-                                                // }),ModalRoute.withName('/home'));
-                                              },
-                                              child: Container(
-                                                height: 140,
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        color:
-                                                            AppColors.GREY_TEXT,
-                                                        width: 1.5),
-                                                    boxShadow: []),
-                                                child: Image.network(
-                                                  image +
-                                                      cartItems[index]
-                                                          .productImage!,
-                                                  fit: BoxFit.fitWidth,
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8),
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+                                              //   return ProductDetailsNew(
+                                              //     productId: state.cartItems[index].productId,
+                                              //   );
+                                              // }),ModalRoute.withName('/home'));
+                                            },
+                                            child: Container(
+                                              height: 140,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color:
+                                                          AppColors.GREY_TEXT,
+                                                      width: 1.5),
+                                                  boxShadow: []),
+                                              child: Image.network(
+                                                image +
+                                                    cartItems[index]
+                                                        .cartData!,
+                                                fit: BoxFit.fitWidth,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.all(8.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width:
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .width,
+                                                  child: Text(
+                                                    cartItems[index]
+                                                        .productName!,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                    style: (TextStyle(
+                                                      // fontFamily: 'YanoneKaffeesatz',
+                                                      color: Colors.black,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    )),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: Text(
-                                                      cartItems[index]
-                                                          .productName!,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                      style: (TextStyle(
-                                                        // fontFamily: 'YanoneKaffeesatz',
-                                                        color: Colors.black,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      )),
+                                                SizedBox(height: 5),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      alignment: Alignment
+                                                          .bottomLeft,
+                                                      child: Text(
+                                                        currency != null
+                                                            ? currency! +
+                                                                " " +
+                                                                cartItems[
+                                                                        index]
+                                                                    .productPrice
+                                                                    .toString()
+                                                            : cartItems[index]
+                                                                .productPrice
+                                                                .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        alignment: Alignment
-                                                            .bottomLeft,
-                                                        child: Text(
-                                                          currency != null
-                                                              ? currency! +
-                                                                  " " +
-                                                                  cartItems[
-                                                                          index]
-                                                                      .productPrice
-                                                                      .toString()
-                                                              : cartItems[index]
-                                                                  .productPrice
-                                                                  .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 16,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(left: 5, right: 15),
@@ -341,7 +343,8 @@ class _CartCardNewState extends State<CartCardNew> {
                         });
                   }
                 } else {
-                  print('Why this showing this ${ustate is CustomerLoginSuccessState} ${ustate.runtimeType}');
+                  print(
+                      'Why this showing this ${ustate is CustomerLoginSuccessState} ${ustate is CustomerInformationLoadedState} ${ustate.runtimeType}');
                   return Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
