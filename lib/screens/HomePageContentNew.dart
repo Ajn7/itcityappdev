@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:itcity_online_store/api/models/HomeAds.dart';
 import 'package:itcity_online_store/api/models/category.dart';
 import 'package:itcity_online_store/api/models/customer_wishlist.dart';
+import 'package:itcity_online_store/api/models/home_images.dart';
 import 'package:itcity_online_store/api/models/product.dart';
 import 'package:itcity_online_store/blocs/blocs.dart';
 import 'package:itcity_online_store/components/FeaturedProduct.dart';
@@ -34,6 +35,7 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   List<CustomerWishlist> wishlist = [];
   List<Product> mobileCollections = [];
   List<HomeAds>? homeAdImages;
+  List<HomeImages>? homeImages;
   late SharedPreferences prefs;
 
   //HomeAds
@@ -48,6 +50,9 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
   HomeAds camera = HomeAds();
   HomeAds gaming = HomeAds();
   List<Category>? categoryList = [];
+
+  ScrollController _scrollDirection = ScrollController();
+  bool _notDone = false;
 
   bool isCommon = false;
   void initPref() async {
@@ -78,21 +83,25 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
     if (BlocProvider.of<HomeBloc>(context).state is HomeInitial) {}
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, homeState) {
-        homeAdImages = BlocProvider.of<HomeBloc>(context).homeadslist;
-        featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
-        popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
+        //fetchHomeimages
+        //homeImages = BlocProvider.of<HomeBloc>(context).image;
+        //featuredproducts = BlocProvider.of<HomeBloc>(context).featuredProduct;
+        //popularproducts = BlocProvider.of<HomeBloc>(context).popularProduct;
+
         wishlist = BlocProvider.of<WishlistBloc>(context).customerWishlist;
         categoryList = BlocProvider.of<CategoryBloc>(context).categoryList;
         accessories = BlocProvider.of<HomeBloc>(context).homeadsAccessory;
         computer = BlocProvider.of<HomeBloc>(context).homeadsComputer;
         mobile = BlocProvider.of<HomeBloc>(context).homeadsMobile;
-        tab = BlocProvider.of<HomeBloc>(context).homeadsTab;
-        homeAppliance = BlocProvider.of<HomeBloc>(context).homeadsHomeappliance;
-        watch = BlocProvider.of<HomeBloc>(context).homeadsWatch;
-        bag = BlocProvider.of<HomeBloc>(context).homeadsBag;
-        personalCare = BlocProvider.of<HomeBloc>(context).homeadsPersonalCare;
-        camera = BlocProvider.of<HomeBloc>(context).homeadsCamera;
-        gaming = BlocProvider.of<HomeBloc>(context).homeadsGaming;
+
+        // //second half
+        // tab = BlocProvider.of<HomeBloc>(context).homeadsTab;
+        // homeAppliance = BlocProvider.of<HomeBloc>(context).homeadsHomeappliance;
+        // watch = BlocProvider.of<HomeBloc>(context).homeadsWatch;
+        // bag = BlocProvider.of<HomeBloc>(context).homeadsBag;
+        // personalCare = BlocProvider.of<HomeBloc>(context).homeadsPersonalCare;
+        // camera = BlocProvider.of<HomeBloc>(context).homeadsCamera;
+        // gaming = BlocProvider.of<HomeBloc>(context).homeadsGaming;
 
         return BlocListener<CartBloc, CartState>(
           listener: (context, state) {
@@ -269,94 +278,121 @@ class _HomePageContentNewState extends State<HomePageContentNew> {
             //decoration: kContainerDecoration,
             child: LayoutBuilder(
               builder: (context, constraints) {
-                return SingleChildScrollView(
-                  physics: ScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints:
-                        BoxConstraints(minHeight: constraints.maxHeight),
-                    child: Column(
-                            children: [
-                              
-                              BannerList(),
-                              CategoryCard(),
-                              // new HomeAdsBanner(
-                              //   imageAds: (homeAdImages == n you sure ll)
-                              //       ? accessories
-                              //       : homeAdImages![0],
-                              // ),
-                              //DailyDeals(),
-                              //  HomeAdsBanner(
-                              //   //index: 1,
-                              //   imageAds: homeAdImages![0],
-                              // ),
+                return NotificationListener(
+                  onNotification: (ScrollNotification scrollNotification) {
+                    if (scrollNotification is ScrollUpdateNotification) {
+                      if (scrollNotification.scrollDelta! > 0) {
+                        if (!_notDone) {
+                          //second half
+                          tab = BlocProvider.of<HomeBloc>(context).homeadsTab;
+                          homeAppliance = BlocProvider.of<HomeBloc>(context)
+                              .homeadsHomeappliance;
+                          watch =
+                              BlocProvider.of<HomeBloc>(context).homeadsWatch;
+                          bag = BlocProvider.of<HomeBloc>(context).homeadsBag;
+                          personalCare = BlocProvider.of<HomeBloc>(context)
+                              .homeadsPersonalCare;
+                          camera =
+                              BlocProvider.of<HomeBloc>(context).homeadsCamera;
+                          gaming =
+                              BlocProvider.of<HomeBloc>(context).homeadsGaming;
+                          setState(() {
+                            _notDone = true;
+                          });
+                        }
+                      }
+                    }
+                    return false;
+                  },
+                  child: SingleChildScrollView(
+                    controller: _scrollDirection,
+                    physics: ScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(minHeight: constraints.maxHeight),
+                      child: Column(
+                        children: [
+                          //BannerList(),
+                          CategoryCard(),
+                          // new HomeAdsBanner(
+                          //   imageAds: (homeAdImages == n you sure ll)
+                          //       ? accessories
+                          //       : homeAdImages![0],
+                          // ),
+                          //DailyDeals(),
+                          //  HomeAdsBanner(
+                          //   //index: 1,
+                          //   imageAds: homeAdImages![0],
+                          // ),
 
-                              HomeAdsBanner(
-                                imageAds: accessories,
-                              ),
-
-                              HomeProducts(
-                                  title: 'Accessories',
-                                  categoryId: categoryList![0]
-                                      .categoryId), //PopularProducts(),
-                              HomeAdsBanner(
-                                imageAds: computer,
-                              ),
-                              HomeProducts(
-                                  title: 'Computer Collections',
-                                  categoryId: categoryList![1].categoryId),
-                              //ComputerCollections(),
-                              HomeAdsBanner(
-                                imageAds: mobile,
-                              ),
-                              //MobileCollections(),
-                              HomeProducts(
-                                  title: 'Mobile Collections',
-                                  categoryId: categoryList![2].categoryId),
-                              HomeAdsBanner(
-                                imageAds: tab,
-                              ),
-                              HomeProducts(
-                                  title: 'Tablets Collections',
-                                  categoryId: categoryList![3].categoryId),
-                              HomeAdsBanner(
-                                imageAds: homeAppliance,
-                              ),
-                              HomeProducts(
-                                  title: 'Home Appliances',
-                                  categoryId: categoryList![4]
-                                      .categoryId), //FeaturedProduct(),
-                              HomeAdsBanner(
-                                imageAds: watch,
-                              ),
-                              HomeProducts(
-                                  title: 'Watches \& Perfumes',
-                                  categoryId: categoryList![5].categoryId),
-                              HomeAdsBanner(
-                                imageAds: bag,
-                              ),
-                              HomeProducts(
-                                  title: 'Travel Bags',
-                                  categoryId: categoryList![6].categoryId),
-                              HomeAdsBanner(
-                                imageAds: personalCare,
-                              ),
-                              HomeProducts(
-                                  title: 'Personal Care Collections',
-                                  categoryId: categoryList![7].categoryId),
-                              HomeAdsBanner(
-                                imageAds: camera,
-                              ),
-                              HomeProducts(
-                                  title: 'Cameras \& Drones',
-                                  categoryId: categoryList![8].categoryId),
-                              HomeAdsBanner(
-                                imageAds: gaming,
-                              ),
-                              HomeProducts(
-                                  title: 'Gaming Collections',
-                                  categoryId: categoryList![9].categoryId),
-                            ],
+                          HomeAdsBanner(
+                            imageAds: accessories,
                           ),
+
+                          HomeProducts(
+                              title: 'Accessories',
+                              categoryId: categoryList![0]
+                                  .categoryId), //PopularProducts(),
+                          HomeAdsBanner(
+                            imageAds: computer,
+                          ),
+                          HomeProducts(
+                              title: 'Computer Collections',
+                              categoryId: categoryList![1].categoryId),
+                          //ComputerCollections(),
+                          HomeAdsBanner(
+                            imageAds: mobile,
+                          ),
+                          //MobileCollections(),
+                          HomeProducts(
+                              title: 'Mobile Collections',
+                              categoryId: categoryList![2].categoryId),
+                          HomeAdsBanner(
+                            imageAds: tab,
+                          ),
+                          HomeProducts(
+                              title: 'Tablets Collections',
+                              categoryId: categoryList![3].categoryId),
+                          HomeAdsBanner(
+                            imageAds: homeAppliance,
+                          ),
+                          HomeProducts(
+                              title: 'Home Appliances',
+                              categoryId: categoryList![4]
+                                  .categoryId), //FeaturedProduct(),
+                          HomeAdsBanner(
+                            imageAds: watch,
+                          ),
+                          HomeProducts(
+                              title: 'Watches \& Perfumes',
+                              categoryId: categoryList![5].categoryId),
+                          HomeAdsBanner(
+                            imageAds: bag,
+                          ),
+                          HomeProducts(
+                              title: 'Travel Bags',
+                              categoryId: categoryList![6].categoryId),
+                          HomeAdsBanner(
+                            imageAds: personalCare,
+                          ),
+                          HomeProducts(
+                              title: 'Personal Care Collections',
+                              categoryId: categoryList![7].categoryId),
+                          HomeAdsBanner(
+                            imageAds: camera,
+                          ),
+                          HomeProducts(
+                              title: 'Cameras \& Drones',
+                              categoryId: categoryList![8].categoryId),
+                          HomeAdsBanner(
+                            imageAds: gaming,
+                          ),
+                          HomeProducts(
+                              title: 'Gaming Collections',
+                              categoryId: categoryList![10].categoryId),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },

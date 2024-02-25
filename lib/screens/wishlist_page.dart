@@ -71,11 +71,11 @@ class _WishlistSectionState extends State<WishlistSection> {
     super.initState();
     getEmail().then((value) {
       if(value!=null){
-        print("Current User Email" + email!);
+        print("Current User Email" + email!+'$wishlist');
 
 
         BlocProvider.of<WishlistBloc>(context).add(FetchWishlistEvent(value,this.currency),);
-        print("email in wishlist page" +value);
+        print("email in wishlist page " +value);
       }else{
 showDialogCart(context);
       }
