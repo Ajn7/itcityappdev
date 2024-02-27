@@ -42,7 +42,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     customerIdtest = prefs.getString('customerId');
 
     this.email = email;
-    emailController.text = this.email!;
+    emailController.text =(this.email ==null)?'': this.email!;
     userBloc = BlocProvider.of<UserBloc>(context);
     return email;
   }
@@ -92,27 +92,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     minWidth: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                     onPressed: () {
-                      if (this._formKey.currentState!.validate()) {
-                        // Delete this after the information has been saved
-                        CustomerRegistration customerRegistration =
-                            CustomerRegistration();
-                        customerRegistration.customerMobile =
-                            this.mobileNumberController.text;
-                        customerRegistration.customerEmail =
-                            this.emailController.text;
-                        customerRegistration.customerName =
-                            this.nameController.text;
-                        customerRegistration.customerDistrict =
-                            this.distController.text;
-                        customerRegistration.customerAddress =
-                            this.addressController.text;
-                        customerRegistration.customerState =
-                            this.stateController.text;
-                        customerRegistration.customerPincode =
-                            this.pincodeController.text;
-                        customerRegistration.customerId = this.customerId;
-                        userBloc.add(UpdateCustomerEvent(customerRegistration));
-                      }
+                      // if (this._formKey.currentState!.validate()) {
+                      //   // Delete this after the information has been saved
+                      //   CustomerRegistration customerRegistration =
+                      //       CustomerRegistration();
+                      //   customerRegistration.customerMobile =
+                      //       this.mobileNumberController.text;
+                      //   customerRegistration.customerEmail =
+                      //       this.emailController.text;
+                      //   customerRegistration.customerName =
+                      //       this.nameController.text;
+                      //   customerRegistration.customerDistrict =
+                      //       this.distController.text;
+                      //   customerRegistration.customerAddress =
+                      //       this.addressController.text;
+                      //   customerRegistration.customerState =
+                      //       this.stateController.text;
+                      //   customerRegistration.customerPincode =
+                      //       this.pincodeController.text;
+                      //   customerRegistration.customerId = this.customerId;
+                      //   userBloc.add(UpdateCustomerEvent(customerRegistration));
+                      // }
                     },
                     child: Text("Save".toUpperCase(),
                         textAlign: TextAlign.center,
@@ -130,19 +130,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if (state is CustomerInformationLoadedState) {
-                if (this.customerId == null) {
-                  customerId = state.customerlist.customerId;
-                  mobileNumberController.text =
-                      state.customerlist.customerMobile!;
-                  nameController.text = state.customerlist.customerName!;
-                  distController.text =
-                      state.customerlist.customerDistrict ?? "";
-                  stateController.text = state.customerlist.customerState ?? "";
-                  addressController.text =
-                      state.customerlist.customerAddress ?? "";
-                  pincodeController.text =
-                      state.customerlist.customerPincode ?? "";
-                }
+                // if (this.customerId == null) {
+                //   customerId = state.customerlist.customerId;
+                //   mobileNumberController.text =
+                //       state.customerlist.customerMobile!;
+                //   nameController.text = state.customerlist.customerName!;
+                //   distController.text =
+                //       state.customerlist.customerDistrict ?? "";
+                //   stateController.text = state.customerlist.customerState ?? "";
+                //   addressController.text =
+                //       state.customerlist.customerAddress ?? "";
+                //   pincodeController.text =
+                //       state.customerlist.customerPincode ?? "";
+                // }
 
 
                 return Container(

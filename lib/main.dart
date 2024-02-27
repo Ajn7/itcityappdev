@@ -14,7 +14,6 @@ import 'package:itcity_online_store/blocs/blocs.dart';
 import 'package:itcity_online_store/api/services/services.dart';
 import 'package:flutter/services.dart';
 
-
 import 'blocs/bloc/search_bloc.dart';
 import 'blocs/review/get_review_bloc.dart';
 
@@ -27,28 +26,22 @@ final UserApi userApi = UserApi();
 final CurrencyApi currencyApi = CurrencyApi();
 final OrderHistoryPage orderHistoryPage = OrderHistoryPage();
 
-
-
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(
-     MyApp()  );
+  runApp(MyApp());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Color(0x00000000),
   ));
 }
 
-
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return MultiBlocProvider(
         providers: [
           BlocProvider<ProductBloc>(
@@ -72,37 +65,39 @@ class MyApp extends StatelessWidget {
           BlocProvider<OrderBloc>(
             create: (context) => OrderBloc(orderApi),
           ),
-           BlocProvider<SearchBloc>(
+          BlocProvider<SearchBloc>(
             create: (context) => SearchBloc(productApi),
           ),
-          BlocProvider<CurrencyBloc>(create: (context) => CurrencyBloc(currencyApi: currencyApi),
+          BlocProvider<CurrencyBloc>(
+            create: (context) => CurrencyBloc(currencyApi: currencyApi),
           ),
-          BlocProvider<RandomReviewBloc>(create: (context) => RandomReviewBloc(productApi: productApi),
+          BlocProvider<RandomReviewBloc>(
+            create: (context) => RandomReviewBloc(productApi: productApi),
           ),
-          BlocProvider<GetReviewBloc>(create: (context) => GetReviewBloc( productApi),
+          BlocProvider<GetReviewBloc>(
+            create: (context) => GetReviewBloc(productApi),
           ),
-          BlocProvider<OrderHistoryBloc>(create: (context) => OrderHistoryBloc(orderApi),
+          BlocProvider<OrderHistoryBloc>(
+            create: (context) => OrderHistoryBloc(orderApi),
           ),
         ],
         child: MaterialApp(
-
           // home: IntroPage(),
           initialRoute: '/',
           routes: {
             '/': (context) => IntroPage(),
-          
             '/login': (context) => LoginPageNew(),
             '/home': (context) => MainPage(0),
-        '/profile' :(context) => MainPage(4),
-        '/cart' :(context) => MainPage(3),
-          '/selectCountry': (context) => SelectCountryPage(),
-        '/wishlist' :(context) => WishlistPage(),
+            '/profile': (context) => MainPage(4),
+            '/cart': (context) => MainPage(3),
+            '/selectCountry': (context) => SelectCountryPage(),
+            '/wishlist': (context) => WishlistPage(),
           },
           title: 'itcity',
           theme: ThemeData(
             fontFamily: 'Myriad',
             primarySwatch: Colors.deepOrange,
-            primaryColor:AppColors.LOGO_ORANGE,
+            primaryColor: AppColors.LOGO_ORANGE,
           ),
           debugShowCheckedModeBanner: false,
         ));

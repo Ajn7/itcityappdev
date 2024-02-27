@@ -32,7 +32,8 @@ class FetchFeaturedProductFull extends ProductEvent{
 class FetchProductByCategoryId extends ProductEvent {
   final int? id;
   final String? currency;
-  FetchProductByCategoryId(this.id,this.currency);
+  final int? pageNo;
+  FetchProductByCategoryId(this.id,this.currency,this.pageNo);
 }
 
 class FetchProductByProductId extends ProductEvent {

@@ -12,7 +12,6 @@ class UserLogoutEvent extends UserEvent {
 class UserRegistrationEvent extends UserEvent {
   final CustomerRegistration user;
   UserRegistrationEvent(this.user);
-
   @override
   // TODO: implement props
   List<Object> get props => throw UnimplementedError();

@@ -391,6 +391,7 @@ class _SearchPageState extends State<SearchPage> {
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                     filled: true,
+                    
                     hoverColor: Colors.grey,
                     border: OutlineInputBorder(
                         borderRadius: const BorderRadius.all(

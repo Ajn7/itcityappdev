@@ -31,6 +31,7 @@ class WishlistCardState extends State<WishlistCard> {
       _isFavorited = !_isFavorited;
     });
   }
+
   String? country;
   String? currency;
   getCountry() async {
@@ -40,6 +41,7 @@ class WishlistCardState extends State<WishlistCard> {
       this.country = prefs.getString('country');
     });
   }
+
   @override
   void initState() {
     getCountry();
@@ -52,21 +54,18 @@ class WishlistCardState extends State<WishlistCard> {
     return BlocBuilder<WishlistBloc, WishlistState>(builder: (context, state) {
       return GestureDetector(
         onTap: navigateDetailsPage,
-
         child: Stack(
           alignment: Alignment.topRight,
           children: [
             Container(
               width: MediaQuery.of(context).size.width * .49,
-              constraints: BoxConstraints(
-                  minHeight: 230),
+              constraints: BoxConstraints(minHeight: 230),
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.GREY,width: 1.0),
+                border: Border.all(color: AppColors.GREY, width: 1.0),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-
                   Container(
 
                     height: 190.0,
@@ -85,36 +84,36 @@ class WishlistCardState extends State<WishlistCard> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5,top:10),
+                      padding: EdgeInsets.only(left: 5, right: 5, top: 10),
                       child: Column(
                         // mainAxisAlignment: MainAxisAlignment.start,
                         //crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
-                              constraints: BoxConstraints(
-                                minHeight: 37,
-                              ),
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                  widget.wishlist == null
-                                      ? ''
-                                      : widget.wishlist.productName!,
+                            constraints: BoxConstraints(
+                              minHeight: 37,
+                            ),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              widget.wishlist == null
+                                  ? ''
+                                  : widget.wishlist.productName!,
 
-                                  maxLines: 2,
-                                  // softWrap: false,
-                                  // overflow: TextOverflow.fade,
+                              maxLines: 2,
+                              // softWrap: false,
+                              // overflow: TextOverflow.fade,
 
-                                  style: (TextStyle(
-                                    fontFamily: 'Myriad-semi',
-                                    // fontFamily: 'YanoneKaffeesatz',
+                              style: (TextStyle(
+                                fontFamily: 'Myriad-semi',
+                                // fontFamily: 'YanoneKaffeesatz',
 
-                                    fontSize: 15,
-
-                                  )))),
+                                fontSize: 15,
+                              )),
+                            ),
+                          ),
                           Divider(
                             thickness: 2.0,
                             color: AppColors.GREY,
-
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,48 +122,53 @@ class WishlistCardState extends State<WishlistCard> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  currency != null ? Container(
-
-                                      child:Text(
-                                          currency! +
-                                              ' ' +
-                                              widget.wishlist.productPrice.toStringAsFixed(2),
-                                          style: (TextStyle(
-                                            fontFamily: 'Arial',
-                                            // fontFamily: 'RobotoSlab',
-                                            fontSize: 12,
-                                            decoration:
-                                            TextDecoration.lineThrough,
-                                            color: Colors.deepOrangeAccent,
-                                            // fontWeight: FontWeight.w800,
-                                          )))): SpinKitCircle(
-                                    size: 10,color: AppColors.LOGO_ORANGE,
-                                  ),
+                                  currency != null
+                                      ? Container(
+                                          child: Text(
+                                              currency! +
+                                                  ' ' +
+                                                  widget.wishlist.productPrice
+                                                      .toStringAsFixed(2),
+                                              style: (TextStyle(
+                                                fontFamily: 'Arial',
+                                                // fontFamily: 'RobotoSlab',
+                                                fontSize: 12,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                color: Colors.deepOrangeAccent,
+                                                // fontWeight: FontWeight.w800,
+                                              ))))
+                                      : SpinKitCircle(
+                                          size: 10,
+                                          color: AppColors.LOGO_ORANGE,
+                                        ),
                                   SizedBox(
                                     height: 2,
                                     width: 2,
                                   ),
-                                  currency != null ?Container(
-
-                                      child:Text(
-                                          currency! +
-                                              ' ' +
-                                              widget.wishlist.productPriceOffer.toStringAsFixed(2),
-                                          style: (TextStyle(
-                                            fontFamily: 'Arial',
-                                            // fontFamily: 'RobotoSlab',
-                                            fontSize: 14,
-                                            //decoration:
-                                            //TextDecoration.lineThrough,
-                                            color: AppColors.LOGO_BLACK,
-                                            fontWeight: FontWeight.bold,
-                                          )))):SpinKitCircle(
-                                    size: 10,color: AppColors.LOGO_ORANGE,
-                                  ),
+                                  currency != null
+                                      ? Container(
+                                          child: Text(
+                                              currency! +
+                                                  ' ' +
+                                                  widget.wishlist
+                                                      .productPriceOffer
+                                                      .toStringAsFixed(2),
+                                              style: (TextStyle(
+                                                fontFamily: 'Arial',
+                                                // fontFamily: 'RobotoSlab',
+                                                fontSize: 14,
+                                                //decoration:
+                                                //TextDecoration.lineThrough,
+                                                color: AppColors.LOGO_BLACK,
+                                                fontWeight: FontWeight.bold,
+                                              ))))
+                                      : SpinKitCircle(
+                                          size: 10,
+                                          color: AppColors.LOGO_ORANGE,
+                                        ),
                                 ],
                               ),
-
-
                               Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Container(
@@ -176,74 +180,92 @@ class WishlistCardState extends State<WishlistCard> {
                                   ),
                                   child: Center(
                                     child: IconButton(
-
                                         icon: Icon(
                                           Icons.shopping_cart_outlined,
                                           color: AppColors.WHITE,
                                         ),
                                         onPressed: () async {
                                           SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
+                                              await SharedPreferences
+                                                  .getInstance();
                                           if (prefs.containsKey("customerId")) {
                                             Cart cart = Cart();
-                                            cart.cartData = widget.wishlist == null
-                                                ? ''
-                                                :  widget.wishlist.productId.toString();
-                                            cart.userId = prefs.getString('customerId');
+                                            cart.cartData =
+                                                widget.wishlist == null
+                                                    ? ''
+                                                    : widget.wishlist.productId
+                                                        .toString();
+                                            cart.userId =
+                                                prefs.getString('customerId');
                                             cart.productCount = 1;
-                                            cart.productPrice =
-                                            widget.wishlist.productPrice != null
-                                                ?  widget.wishlist.productPrice
+                                            cart.productPrice = widget.wishlist
+                                                        .productPrice !=
+                                                    null
+                                                ? widget.wishlist.productPrice
                                                 : 0.0;
                                             BlocProvider.of<CartBloc>(context)
-                                                .add(AddProductToCart(cart,"wishlist card"));
-
+                                                .add(AddProductToCart(
+                                                    cart, "wishlist card"));
                                           } else {
-
                                             showModalBottomSheet(
                                                 context: context,
                                                 builder: (context) {
                                                   return Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                    mainAxisSize: MainAxisSize.min,
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
                                                     children: <Widget>[
                                                       SizedBox(
                                                         height: 35,
                                                       ),
                                                       Text(
                                                         "Please Login to add products to the Cart",
-                                                        style: TextStyle(fontSize: 18),
-                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            fontSize: 18),
+                                                        textAlign:
+                                                            TextAlign.center,
                                                       ),
                                                       SizedBox(
                                                         height: 15,
                                                       ),
                                                       Container(
-                                                        width : MediaQuery.of(context).size.width * .75,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            .75,
                                                         child: TextButton(
-
                                                             style: ButtonStyle(
-                                                              backgroundColor: MaterialStateProperty
-                                                                  .all<Color>(
-                                                                  AppColors.LOGO_ORANGE),
+                                                              backgroundColor:
+                                                                  MaterialStateProperty.all<
+                                                                          Color>(
+                                                                      AppColors
+                                                                          .LOGO_ORANGE),
                                                               shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                                                  borderRadius:BorderRadius.circular(10.0),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10.0),
                                                                   side: BorderSide(
                                                                       color: Colors
                                                                           .red))),
                                                               foregroundColor:
-                                                              MaterialStateProperty
-                                                                  .all<Color>(
-                                                                  AppColors
-                                                                      .WHITE),
+                                                                  MaterialStateProperty.all<
+                                                                          Color>(
+                                                                      AppColors
+                                                                          .WHITE),
                                                             ),
-                                                            onPressed: navigateLoginPage,
+                                                            onPressed:
+                                                                navigateLoginPage,
                                                             child: Text(
                                                               "SIGN IN",
-                                                              style:
-                                                              TextStyle(fontSize: 18),
-                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(
+                                                                  fontSize: 18),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
                                                             )),
                                                       ),
                                                       SizedBox(
@@ -270,24 +292,28 @@ class WishlistCardState extends State<WishlistCard> {
                 padding: const EdgeInsets.all(3.0),
                 child: IconButton(
                   onPressed: () async {
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
                     if (_isFavorited == true) {
                       Wishlist wish = Wishlist();
                       wish.wishlist = widget.wishlist.productId;
-                      if(prefs.containsKey('email')) {
+                      if (prefs.containsKey('email')) {
                         wish.username = prefs.getString('email');
-                        BlocProvider.of<WishlistBloc>(context)
-                            .add(RemoveProductFromWishlistEvent(wish,this.currency));
+                        BlocProvider.of<WishlistBloc>(context).add(
+                            RemoveProductFromWishlistEvent(
+                                wish, this.currency));
 
                         _toggleFavorite();
                         if (state is RemoveProductFromWishlistLoadingState)
-                       Center(child: CircularProgressIndicator(),);
+                          Center(
+                            child: CircularProgressIndicator(),
+                          );
                       }
                     } else if (_isFavorited == false) {
-
                       //  final storage = new FlutterSecureStorage();
-                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                      if(prefs.containsKey('email')){
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      if (prefs.containsKey('email')) {
                         setState(() {
                           Wishlist wish = Wishlist();
                           wish.wishlist = widget.wishlist.productId;
@@ -298,27 +324,29 @@ class WishlistCardState extends State<WishlistCard> {
                               .add(AddProductToWishlist(wish));
                           _toggleFavorite();
 
-                          if (state
-                          is AddProductToWishlistLoadingState) {
-                           Center(
+                          if (state is AddProductToWishlistLoadingState) {
+                            Center(
                               child: CircularProgressIndicator(),
                             );
                           }
                         });
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  "Please Login to add products to Favourites"),
-                            ));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "Please Login to add products to Favourites"),
+                        ));
                       }
-
                     }
                   },
-
                   icon: (_isFavorited
-                      ? Icon(Icons.favorite,color: AppColors.LOGO_ORANGE,)
-                      : Icon(Icons.favorite_border,color: AppColors.GREY,)),
+                      ? Icon(
+                          Icons.favorite,
+                          color: AppColors.LOGO_ORANGE,
+                        )
+                      : Icon(
+                          Icons.favorite_border,
+                          color: AppColors.GREY,
+                        )),
                 ),
               ),
             )
@@ -327,26 +355,26 @@ class WishlistCardState extends State<WishlistCard> {
       );
     });
   }
+
   void navigateLoginPage() {
     Route route = MaterialPageRoute(builder: (context) => LoginPageNew());
     Navigator.push(context, route).then(onGoBack);
-
-
   }
+
   FutureOr onGoBack(dynamic value) {
     Navigator.pop(context);
   }
+
   void navigateDetailsPage() {
-    Route route = MaterialPageRoute(builder: (context) => ProductDetailsNew(
-      productId: widget.wishlist.productId,
-    ));
+    Route route = MaterialPageRoute(
+        builder: (context) => ProductDetailsNew(
+              productId: widget.wishlist.productId,
+            ));
     Navigator.push(context, route).then(onGoBacktwo);
-
-
   }
+
   FutureOr onGoBacktwo(dynamic value) {
-    BlocProvider.of<ProductBloc>(context).add(FetchFeaturedProductFull(currency));
-
-
+    BlocProvider.of<ProductBloc>(context)
+        .add(FetchFeaturedProductFull(currency));
   }
 }

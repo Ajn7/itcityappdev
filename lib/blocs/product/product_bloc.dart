@@ -34,7 +34,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc({required this.productApi})
       :         super(ProductInitialState()){
     on<FetchProduct>((event, emit) => _mapFetchProductToState(emit, event));
-    on<FetchProductByCategoryId>((event, emit) => _mapFetchProductByCategoryIdToState(emit, event, event.id,event.currency));
+    on<FetchProductByCategoryId>((event, emit) => _mapFetchProductByCategoryIdToState(emit, event, event.id,event.currency,event.pageNo));
     on<FetchProductByProductId>((event, emit) => _mapFetchProductByProductIdToState(emit, event, event.id,event.currency));
     on<FetchMultiImageByProductId>((event, emit) => _mapFetchMultiImageByProductIdToState(emit, event, event.id));
     on<FetchProductStockListByProductId>((event, emit) => _mapFetchProductStockListByProductIdToState(emit, event, event.id));
@@ -143,15 +143,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   void _mapFetchProductByCategoryIdToState(
-      Emitter<ProductState> emit, ProductEvent event, int? id,String? currency) async {
+      Emitter<ProductState> emit, ProductEvent event, int? id,String? currency,int? pageNo) async {
    emit( ProductByCategoryIdLoadingState());
     try {
       final List<Product> productlist =
-          await productApi.getProductByCategory(id,currency);
+          await productApi.getProductByCategory(id,currency,pageNo);
       productListByCategory = productlist;
       emit(ProductByCategoryIdLoadedState());
     } catch (e) {
-      print("error");
+      print("error while fetching!!");
       print(e);
     }
   }

@@ -9,6 +9,7 @@ import 'package:itcity_online_store/api/models/product_order_details.dart';
 
 class OrderApi {
   ApiClient _apiclient = ApiClient();
+   NewApiClient _newApiClient = NewApiClient();
 
   String _createOrderPath = '/createOrder';
   String _createPurchasePath = '/createPurchase';
@@ -21,14 +22,14 @@ class OrderApi {
     String url = _createOrderPath + "?customer_id=${order.customerId}&purchase_id=${order.purchaseId}&total_amnt=${order.totalAmount}&cur=${order.currency}&remarks=${order.remarks??" "} ";
     print(url);
     Response response =
-        await _apiclient.invokeAPI(url, 'POST_', {});
+        await _newApiClient.invokeAPI(url, 'POST_', {});
     print(response.body.toString());
     return OrderStatusNew.fromJson(jsonDecode(response.body)['data']);
   }
 
   Future createPurchase(String? userId,double subtotal,String? currency) async  {
       Response response =
-        await _apiclient.invokeAPI(_createPurchasePath+"?user_id=$userId&product_sub_total=$subtotal&cur=$currency", 'POST_', {});
+        await _newApiClient.invokeAPI(_createPurchasePath+"?user_id=$userId&product_sub_total=$subtotal&cur=$currency", 'POST_', {});
 
     return jsonDecode(response.body)['data'];
     
@@ -42,7 +43,7 @@ class OrderApi {
     String url = _getPurchaseDetails+"?order_id=$orderId";
     print('orderid in orderapi'+orderId.toString()+" "+url);
     Response response =
-        await _apiclient.invokeAPI(url, 'GET', {});
+        await _newApiClient.invokeAPI(url, 'GET', {});
 
     return OrderDetails.fromJson(jsonDecode(response.body));
   }
@@ -50,7 +51,7 @@ class OrderApi {
     String url = _getProductPurchase+"?order_id=$orderId";
     print('orderid in orderapi'+orderId.toString()+" "+url);
     Response response =
-    await _apiclient.invokeAPI(url, 'GET', {});
+    await _newApiClient.invokeAPI(url, 'GET', {});
     print(response.toString());
 
     return ProductOrderDetails.fromJson(jsonDecode(response.body));
@@ -58,7 +59,7 @@ class OrderApi {
 
   Future<OrderHistoryModel> getOrderHistory(String? CustId) async {
     String url = _getOrderHistoryPath+"?customer_id=$CustId";
-    Response response = await _apiclient.invokeAPI(url, 'GET', {});
+    Response response = await _newApiClient.invokeAPI(url, 'GET', {});
 
     return OrderHistoryModel.fromJson(jsonDecode(response.body));
 

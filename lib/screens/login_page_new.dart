@@ -14,8 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 //FlutterSecureStorage _flutterSecureStorage = FlutterSecureStorage();
 
 class LoginPageNew extends StatefulWidget {
-
-
   @override
   _LoginPageNewState createState() => _LoginPageNewState();
 }
@@ -34,23 +32,21 @@ class _LoginPageNewState extends State<LoginPageNew> {
       _obscureText = !_obscureText;
     });
   }
+
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     final emailField = TextFormField(
       controller: _email,
       keyboardType: TextInputType.emailAddress,
       obscureText: false,
-     cursorColor: Colors.white,
-     style: TextStyle(color: Colors.white),
+      cursorColor: Colors.white,
+      style: TextStyle(color: Colors.white),
       onSaved: (String? value) {
         _emailValue = value;
       },
@@ -58,20 +54,21 @@ class _LoginPageNewState extends State<LoginPageNew> {
         // focusColor: AppColors.WHITE,
         //   fillColor: Colors.white,
         labelStyle: TextStyle(color: AppColors.WHITE),
-          //filled: true,
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          labelText: "Email",
-         prefixIcon: Icon(Icons.person, color: Colors.white),
+        //filled: true,
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        labelText: "Email",
+        prefixIcon: Icon(Icons.person, color: Colors.white),
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white,
+            borderSide: BorderSide(
+          color: Colors.white,
         )),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
         ),
 
         // border:
-          // OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
-        ),
+        // OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
+      ),
       validator: (value) {
         if (value!.isEmpty) {
           return 'Please enter your email';
@@ -90,29 +87,29 @@ class _LoginPageNewState extends State<LoginPageNew> {
       keyboardType: TextInputType.visiblePassword,
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.white,
-            )),
+            borderSide: BorderSide(
+          color: Colors.white,
+        )),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
         ),
-          // fillColor: Colors.white,
-          // filled: true,
+        // fillColor: Colors.white,
+        // filled: true,
         labelStyle: TextStyle(color: AppColors.WHITE),
-          suffixIcon: TextButton(
-              onPressed: _toggle,
-              child: new Text(
-                _obscureText ? "Show" : "Hide",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-
-              )),
-          prefixIcon: Icon(Icons.lock, color: Colors.white),
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          labelText: "Password",
-          // border:
-          // OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
-          ),
+        suffixIcon: TextButton(
+            onPressed: _toggle,
+            child: new Text(
+              _obscureText ? "Show" : "Hide",
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            )),
+        prefixIcon: Icon(Icons.lock, color: Colors.white),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        labelText: "Password",
+        // border:
+        // OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))
+      ),
       validator: (value) {
         if (value!.isEmpty) {
           return 'Please enter your password';
@@ -152,7 +149,8 @@ class _LoginPageNewState extends State<LoginPageNew> {
               context,
               MaterialPageRoute(
                 builder: (context) => RegisterPage(),
-              ),(Route<dynamic> route) => false);
+              ),
+              (Route<dynamic> route) => false);
         },
         child: Text("Create an Account".toUpperCase(),
             textAlign: TextAlign.center,
@@ -163,218 +161,212 @@ class _LoginPageNewState extends State<LoginPageNew> {
     return Scaffold(
         backgroundColor: AppColors.LOGO_ORANGE,
         appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios_rounded,
-                size: 18,
-              ),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              },
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_rounded,
+              size: 18,
             ),
-            elevation: 0.0,
-            // flexibleSpace: Container(
-            //   decoration: kAppBarContainerDecoration,
-            // )
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
+          ),
+          elevation: 0.0,
+          // flexibleSpace: Container(
+          //   decoration: kAppBarContainerDecoration,
+          // )
         ),
         body: BlocListener<UserBloc, UserState>(
-  listener: (context, state) {
-    if(state is CustomerLoginLoadingState){
-      Loader.show(context,
-          isAppbarOverlay: true,
-          isBottomBarOverlay: false,
-          progressIndicator: CircularProgressIndicator(),
-          themeData:
-          Theme.of(context).copyWith(colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.black38)),
-          overlayColor: Colors.black26);
-    }else if(state is CustomerLoginErrorState){
-      Loader.hide();
-      showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 35,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.clear_outlined,
-                    color: AppColors.WHITE,
-                    size: 75,
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  "Something Went Wrong",
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Please Try Again Later",
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 35,
-                ),
-              ],
-            );
-          });
-
-    }
-    else {
-      Loader.hide();
-    }
-    // TODO: implement listener
-  },
-  child: Container(
-          color: AppColors.LOGO_ORANGE,
-         // decoration: kContainerDecoration,
-          child: new LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints viewportConstrains) {
-            return SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints:
-                BoxConstraints(minHeight: viewportConstrains.maxHeight),
-                child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, right: 20, top: 10, bottom: 10),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
+          listener: (context, state) {
+            if (state is CustomerLoginLoadingState) {
+              Loader.show(context,
+                  isAppbarOverlay: true,
+                  isBottomBarOverlay: false,
+                  progressIndicator: CircularProgressIndicator(),
+                  themeData: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.fromSwatch()
+                          .copyWith(secondary: Colors.black38)),
+                  overlayColor: Colors.black26);
+            } else if (state is CustomerLoginErrorState) {
+              Loader.hide();
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        SizedBox(
+                          height: 35,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.clear_outlined,
+                            color: AppColors.WHITE,
+                            size: 75,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Text(
+                          "Something Went Wrong",
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Please Try Again Later",
+                          style: TextStyle(fontSize: 18),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 35,
+                        ),
+                      ],
+                    );
+                  });
+            } else {
+              Loader.hide();
+            }
+            // TODO: implement listener
+          },
+          child: Container(
+            color: AppColors.LOGO_ORANGE,
+            // decoration: kContainerDecoration,
+            child: new LayoutBuilder(builder:
+                (BuildContext context, BoxConstraints viewportConstrains) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints:
+                      BoxConstraints(minHeight: viewportConstrains.maxHeight),
+                  child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, right: 20, top: 10, bottom: 10),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
                               alignment: Alignment.center,
-                              child:Image.asset(
+                              child: Image.asset(
                                 'assets/images/logo_home.png',
                                 width: 250,
                                 height: 100,
-                              )),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          emailField,
-                          SizedBox(height: 10.0),
-                          passwordField,
-                          SizedBox(
-                            height: 20.0,
-                          ),
-
-                          LoginButton(
-                            formKey: _formKey,
-                            email: _email,
-                            password: _password,
-                            mail: _emailValue,
-                            pass: _passValue,
-                          ),
-                          Container(
-                            alignment: Alignment(1.0, 0),
-                            padding: EdgeInsets.only(top: 15.0, left: 20.0),
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ForgetPasswordPage(),
-                                      ));
-                                },
-                                child: Text(
-                                  'Forgot Password ?',
-                                  style: TextStyle(
-
-                                     color: Colors.white
-                                  ),
-                                )),
-                          ),
-
-                          // SizedBox(
-                          //   height: 15.0,
-                          // ),
-                         // // sellButon,
-                         //  SizedBox(
-                         //    height: 25.0,
-                         //  ),
-
-                          SizedBox(
-                            height: 25.0,
-                          ),
-                          Row(children: <Widget>[
-                            Expanded(
-                              child: new Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 10.0, right: 20.0),
-                                  child: Divider(
-                                    height: 20,
-                                    thickness: 1.5,
-                                     color: Colors.white,
-                                  )),
-                            ),
-                            Text(
-                              "OR",
-                              style: TextStyle(
-                                fontSize: 20,
-                                 color: Colors.white
                               ),
                             ),
-                            Expanded(
-                              child: new Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 20.0, right: 10.0),
-                                  child: Divider(
-                                    color: Colors.white,
-                                    height: 20,
-                                    thickness: 1.5,
+                            SizedBox(
+                              height: 25,
+                            ),
+                            emailField,
+                            SizedBox(height: 10.0),
+                            passwordField,
+                            SizedBox(
+                              height: 20.0,
+                            ),
+
+                            LoginButton(
+                              formKey: _formKey,
+                              email: _email,
+                              password: _password,
+                              mail: _emailValue,
+                              pass: _passValue,
+                            ),
+                            Container(
+                              alignment: Alignment(1.0, 0),
+                              padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                              child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ForgetPasswordPage(),
+                                        ));
+                                  },
+                                  child: Text(
+                                    'Forgot Password ?',
+                                    style: TextStyle(color: Colors.white),
                                   )),
                             ),
-                          ]),
-                          SizedBox(
-                            height: 35.0,
-                          ),
 
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegisterPage(),
-                                  ),(Route<dynamic> route) => false);
-                            },
-                            child: Text(
-                              "Don't have account? Sign Up",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.white
+                            // SizedBox(
+                            //   height: 15.0,
+                            // ),
+                            // // sellButon,
+                            //  SizedBox(
+                            //    height: 25.0,
+                            //  ),
+
+                            SizedBox(
+                              height: 25.0,
+                            ),
+                            Row(children: <Widget>[
+                              Expanded(
+                                child: new Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 10.0, right: 20.0),
+                                    child: Divider(
+                                      height: 20,
+                                      thickness: 1.5,
+                                      color: Colors.white,
+                                    )),
+                              ),
+                              Text(
+                                "OR",
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                              Expanded(
+                                child: new Container(
+                                    margin: const EdgeInsets.only(
+                                        left: 20.0, right: 10.0),
+                                    child: Divider(
+                                      color: Colors.white,
+                                      height: 20,
+                                      thickness: 1.5,
+                                    )),
+                              ),
+                            ]),
+                            SizedBox(
+                              height: 35.0,
+                            ),
+
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RegisterPage(),
+                                    ),
+                                    (Route<dynamic> route) => false);
+                              },
+                              child: Text(
+                                "Don't have account? Sign Up",
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.white),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                         // signUpButon
-                        ],
-                      ),
-                    )),
-              ),
-            );
-          }),
-        ),
-));
+                            SizedBox(
+                              height: 5.0,
+                            ),
+                            // signUpButon
+                          ],
+                        ),
+                      )),
+                ),
+              );
+            }),
+          ),
+        ));
   }
 
   _launchSocial(String url, String fallbackUrl) async {
@@ -422,8 +414,6 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
-
-
   void _saveAndRedirectToHome(String token) async {
     print("Saving token and redirecting" + token);
     String email = widget._email.text;
@@ -482,7 +472,6 @@ class _LoginButtonState extends State<LoginButton> {
               );
             },
           );
-
         }
       } else if (state is CustomerLoginFailedState) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -516,24 +505,24 @@ class _LoginButtonState extends State<LoginButton> {
           minWidth: MediaQuery.of(context).size.width,
           //padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
           onPressed: () {
+            setState(() {
+              //print('user state>>>>>>>>>>>' + state.toString());
+              if (widget._formKey.currentState!.validate()) {
+                CustomerRegistration customer = CustomerRegistration();
 
-            //  setState(() {
-            //print('user state>>>>>>>>>>>' + state.toString());
-            if (widget._formKey.currentState!.validate()) {
-              CustomerRegistration customer = CustomerRegistration();
-              customer.customerEmail = widget._email.text;
-              customer.password = widget._password.text;
+                customer.user = User(
+                    email: widget._email.text, password: widget._password.text);
+                print('selected infor ${widget._email.text}');
 
                 BlocProvider.of<UserBloc>(context)
                     .add(CustomerLoginEvent(customer));
                 print("login clicked");
-
-            }
+              }
+            });
           },
           child: Text("SIGN IN".toUpperCase(),
               textAlign: TextAlign.center,
-              style:
-              TextStyle(color: AppColors.LOGO_ORANGE, fontSize: 20)),
+              style: TextStyle(color: AppColors.LOGO_ORANGE, fontSize: 20)),
         ),
       );
     }));
