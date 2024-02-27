@@ -98,7 +98,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       //Emit a event to check email
     } catch (e,stackTrace){
-      print('REgistartion error $e  ');
+      print('REgistartion error $e  $stackTrace');
     }
   }
 

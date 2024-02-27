@@ -232,12 +232,12 @@ class _RegisterButtonState extends State<RegisterButton> {
           Navigator.pushNamed(context, '/home');
         } else if (state is UserRegistrationSuccessState) {
           print('is this working 3');
-          CustomerRegistration customerRegistration = CustomerRegistration();
-          customerRegistration.user!.email = widget._email.text;
-          customerRegistration.user!.password = widget._confirmPass.text;
+          CustomerRegistration customerRegistration = CustomerRegistration(
+              email: widget._email.text, password: widget._confirmPass.text);
           // customerRegistration.password = widget._confirmPass.text;
           BlocProvider.of<UserBloc>(context)
               .add(CustomerLoginEvent(customerRegistration));
+          Navigator.of(context).pushReplacementNamed('/');
         } else if (state is CheckEmailStatusLoadedState) {
           print('is this working 4');
           if (!state.emailUsed!) {
