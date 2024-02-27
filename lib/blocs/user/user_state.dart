@@ -189,6 +189,13 @@ class CustomerLoginFailedState extends UserState {
 }
 
 
+class CheckEmailStatusSuccessState extends UserState {
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
+}
+
+
 class CheckEmailStatusLoadedState extends UserState {
   bool? emailUsed;
   CheckEmailStatusLoadedState(this.emailUsed);

@@ -88,16 +88,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   void _mapUserRegistrationToState(UserEvent event, Emitter<UserState> emit,
       CustomerRegistration user) async {
+       // print('REgistration error data ${user.email} ${user.name} ${user.password} ');
     emit(UserRegistrationLoadingState());
     try {
       final CustomerRegistration customerRegistration =
           await userApi.registerUser(user);
-      print("yielded userregistration");
       emit(UserRegistrationSuccessState(
           customerRegistration: customerRegistration));
 
       //Emit a event to check email
-    } catch (e) {}
+    } catch (e,stackTrace){
+      print('REgistartion error $e  ');
+    }
   }
 
   Stream<UserState> _mapCreateAccountToSellOnItCityToState(
@@ -177,14 +179,45 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } catch (e) {}
   }
 
+  // void _mapCheckEmailStatusToState(
+  //     UserEvent event, Emitter<UserState> emit, String mail) async {
+  //   emit(CheckEmailStatusLoadingState());
+  //   try {
+  //     final bool status = await userApi.checkEmailStatus(mail);
+  //     emailStatus = status;
+  //     print("Email Status is" + emailStatus.toString());
+  //     emit(CheckEmailStatusLoadedState(emailStatus));
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
   void _mapCheckEmailStatusToState(
-      UserEvent event, Emitter<UserState> emit, String mail) async {
+    UserEvent event,
+    Emitter<UserState> emit,
+    String mail,
+  ) async {
     emit(CheckEmailStatusLoadingState());
     try {
       final bool status = await userApi.checkEmailStatus(mail);
       emailStatus = status;
-      print("Email Status is" + emailStatus.toString());
+      print("Email Status is here" + emailStatus.toString());
       emit(CheckEmailStatusLoadedState(emailStatus));
+
+      if (emailStatus == false) {
+        emit(CheckEmailStatusSuccessState());
+
+        // emit(CreateAccountLoadingState());
+
+        // // Replace 'yourCreateAccountApiCall' with your actual API call
+        // final bool createAccountStatus = await userApi.yourCreateAccountApiCall();
+
+        // if (createAccountStatus) {
+        //   emit(CreateAccountSuccessState());
+        // } else {
+        //   emit(CreateAccountFailureState());
+        // }
+      }
     } catch (e) {
       print(e);
     }

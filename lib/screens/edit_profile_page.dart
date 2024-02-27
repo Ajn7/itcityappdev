@@ -42,7 +42,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     customerIdtest = prefs.getString('customerId');
 
     this.email = email;
-    emailController.text = this.email!;
+    emailController.text =(this.email ==null)?'': this.email!;
     userBloc = BlocProvider.of<UserBloc>(context);
     return email;
   }

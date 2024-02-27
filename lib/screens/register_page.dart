@@ -80,6 +80,8 @@ class _RegisterPageState extends State<RegisterPage> {
       validator: (value) {
         if (value!.isEmpty) {
           return 'Please enter your password';
+        } else if (value.length < 6) {
+          return 'Please enter a valid password';
         }
         return null;
       },
@@ -108,83 +110,84 @@ class _RegisterPageState extends State<RegisterPage> {
     );
 
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         Navigator.pushNamed(context, '/home');
         return true;
-
-      } ,
+      },
       child: Scaffold(
-          bottomNavigationBar: RegisterButton(
-              formKey: _formKey,
-              email: _email,
-              mobile: _mobile,
-              confirmPass: _confirmPass),
-          backgroundColor: Colors.deepOrangeAccent,
-          appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_rounded,
-                  size: 18,
-                ),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                },
+        bottomNavigationBar: RegisterButton(
+            formKey: _formKey,
+            email: _email,
+            mobile: _mobile,
+            confirmPass: _confirmPass),
+        backgroundColor: Colors.deepOrangeAccent,
+        appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios_rounded,
+                size: 18,
               ),
-              elevation: 0.0,
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.orange, Colors.deepOrangeAccent])),
-              )),
-          body: Container(
-            decoration: kContainerDecoration,
-            child: new LayoutBuilder(builder:
-                (BuildContext context, BoxConstraints viewportConstrains) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints:
-                      BoxConstraints(minHeight: viewportConstrains.maxHeight),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 36.0, right: 36, top: 10, bottom: 10),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  // color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'RobotoSlab',
-                                  fontSize: 33,
-                                ),
-                              )),
-                          SizedBox(
-                            height: 50,
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+            ),
+            elevation: 0.0,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.orange, Colors.deepOrangeAccent])),
+            )),
+        body: Container(
+          decoration: kContainerDecoration,
+          child: new LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints viewportConstrains) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints:
+                    BoxConstraints(minHeight: viewportConstrains.maxHeight),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 36.0, right: 36, top: 10, bottom: 10),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              // color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'RobotoSlab',
+                              fontSize: 33,
+                            ),
                           ),
-                          emailField,
-                          SizedBox(height: 25.0),
-                          mobileField,
-                          SizedBox(height: 25.0),
-                          passwordField,
-                          SizedBox(height: 25.0),
-                          confirmPasswordField,
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        emailField,
+                        SizedBox(height: 25.0),
+                        mobileField,
+                        SizedBox(height: 25.0),
+                        passwordField,
+                        SizedBox(height: 25.0),
+                        confirmPasswordField,
+                      ],
                     ),
                   ),
                 ),
-              );
-            }),
-          )),
+              ),
+            );
+          }),
+        ),
+      ),
     );
   }
 }
@@ -220,25 +223,31 @@ class _RegisterButtonState extends State<RegisterButton> {
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) async {
+        print('is this working 1');
         // TODO: implement listener
-        if (state is CustomerLoginSuccessState ) {
-
-         BlocProvider.of<UserBloc>(context).add(FetchCustomerInformationEvent(widget._email.text));
-         Navigator.pushNamed(context, '/home');
-        }
-        if (state is UserRegistrationSuccessState) {
+        if (state is CustomerLoginSuccessState) {
+          print('is this working 2');
+          BlocProvider.of<UserBloc>(context)
+              .add(FetchCustomerInformationEvent(widget._email.text));
+          Navigator.pushNamed(context, '/home');
+        } else if (state is UserRegistrationSuccessState) {
+          print('is this working 3');
           CustomerRegistration customerRegistration = CustomerRegistration();
           customerRegistration.user!.email = widget._email.text;
           customerRegistration.user!.password = widget._confirmPass.text;
-         // customerRegistration.password = widget._confirmPass.text;
+          // customerRegistration.password = widget._confirmPass.text;
           BlocProvider.of<UserBloc>(context)
               .add(CustomerLoginEvent(customerRegistration));
         } else if (state is CheckEmailStatusLoadedState) {
+          print('is this working 4');
           if (!state.emailUsed!) {
-            CustomerRegistration customer = CustomerRegistration();
-            customer.user!.email = widget._email.text;
-            customer.user!.password = widget._confirmPass.text;
-            customer.user!.name = widget._mobile.text;
+            print('is this working 5 ${widget._email.text}');
+            CustomerRegistration customer = CustomerRegistration(
+              email: widget._email.text,
+              password: widget._confirmPass.text,
+              name: widget._mobile.text,
+            );
+
             BlocProvider.of<UserBloc>(context)
                 .add(UserRegistrationEvent(customer));
           } else {
@@ -248,16 +257,17 @@ class _RegisterButtonState extends State<RegisterButton> {
           }
           //  BlocProvider.of<UserBloc>(context)
           //             .add(CheckMobileNumberStatusEvent(widget._mobile.value.text));
-        } else if (state is CheckMobileNumberStatusLoadedState) {
-          // print("Regsitering Customer"+state.toString());
-          //  CustomerRegistration customer = CustomerRegistration();
-          //         customer.customerEmail = widget._email.text;
-          //         customer.password = widget._confirmPass.text;
-          //         customer.customerMobile = widget._mobile.text;
-          //         BlocProvider.of<UserBloc>(context)
-          //             .add(UserRegistrationEvent(customer));
-          // check mobile number status not working
         }
+        // else if (state is CheckMobileNumberStatusLoadedState) {
+        //   // print("Regsitering Customer"+state.toString());
+        //   //  CustomerRegistration customer = CustomerRegistration();
+        //   //         customer.customerEmail = widget._email.text;
+        //   //         customer.password = widget._confirmPass.text;
+        //   //         customer.customerMobile = widget._mobile.text;
+        //   //         BlocProvider.of<UserBloc>(context)
+        //   //             .add(UserRegistrationEvent(customer));
+        //   // check mobile number status not working
+        // }
       },
       child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
         if (state is CustomerLoginLoadingState ||
@@ -281,9 +291,18 @@ class _RegisterButtonState extends State<RegisterButton> {
             onPressed: () {
               setState(() {
                 if (widget._formKey.currentState!.validate()) {
-                  print("Checking Email Status");
                   BlocProvider.of<UserBloc>(context)
                       .add(CheckEmailStatusEvent(widget._email.value.text));
+
+                  CustomerRegistration customer = CustomerRegistration();
+                  customer = CustomerRegistration(
+                      email: widget._email.text,
+                      password: widget._confirmPass.text,
+                      name: widget._mobile.text);
+
+                  BlocProvider.of<UserBloc>(context)
+                      .add(UserRegistrationEvent(customer));
+
                   //CheckIfEmailExists / Check if mobile number exits
                   // if both are false createCustomer then if success
                   // root to edit customer info page
@@ -292,11 +311,13 @@ class _RegisterButtonState extends State<RegisterButton> {
                   // BlocProvider.of<UserBloc>(context)
                   //     .add(CheckEmailStatusEvent(widget._email.text));
                   // if (state is CheckEmailStatusLoadingState) {
-                  //   return Center(
-                  //       child: SpinKitCircle(
-                  //     color: Theme.of(context).primaryColor,
-                  //     size: 50,
-                  //   ));
+                  //   return print('Checking Email Status Loading......');
+                  //   //  Center(
+                  //   //       child: SpinKitCircle(
+                  //   //     color: Theme.of(context).primaryColor,
+                  //   //     size: 50,
+                  //   //   ));
+
                   // }
 
                   //   status = BlocProvider.of<UserBloc>(context).emailStatus;
@@ -327,7 +348,6 @@ class _RegisterButtonState extends State<RegisterButton> {
                   //           '<<<<<<<<<<<<<<<<<<<<<<exist>>>>>>>>>>>>>>>>>>>>>>>>');
                   //     }
                   //   }
-
                 }
               });
             },
@@ -341,12 +361,13 @@ class _RegisterButtonState extends State<RegisterButton> {
     );
   }
 }
+
 class CustomerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
         shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         child: Container(
@@ -383,13 +404,13 @@ class CustomerDialog extends StatelessWidget {
                     ),
                     Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: new Text(
-                              "Order placed Successfull,\n Thank you for your order \n We will contact you soon'",
-                              style:
+                      padding: const EdgeInsets.all(10.0),
+                      child: new Text(
+                          "Order placed Successfull,\n Thank you for your order \n We will contact you soon'",
+                          style:
                               TextStyle(fontSize: 20.0, color: Colors.black)),
-                        ) //
-                    ),
+                    ) //
+                        ),
                     SizedBox(height: 24.0),
                     InkWell(
                       child: Container(
@@ -406,9 +427,7 @@ class CustomerDialog extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                     )
                   ],
                 ),

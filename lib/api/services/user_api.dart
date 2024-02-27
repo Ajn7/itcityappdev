@@ -25,11 +25,11 @@ class UserApi {
 
   Future<CustomerRegistration> registerUser(CustomerRegistration user) async {
     String customerJson =
-        '{"name": "${user.user!.name}","email":"${user.user!.email}","password":"${user.user!.password}"}';
+        '{"name": "${user.name}","email":"${user.email}","password":"${user.password}"}';
     Response response = await _newApiClient.invokeAPI(
         _userRegistrationPath, 'POST', customerJson);
     print('cutomer info $customerJson and res = ${response.body}');
-    return CustomerRegistration.fromJson(jsonDecode(response.body)['data']);
+    return CustomerRegistration.fromJson(jsonDecode(response.body)['user']);
   }
 
   Future updateUser(CustomerRegistration user) async {

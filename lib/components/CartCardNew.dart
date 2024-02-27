@@ -188,7 +188,7 @@ class _CartCardNewState extends State<CartCardNew> {
                                               child: Image.network(
                                                 image +
                                                     cartItems[index]
-                                                        .cartData!,
+                                                        .productImage!,
                                                 fit: BoxFit.fitWidth,
                                               ),
                                             ),
@@ -197,8 +197,7 @@ class _CartCardNewState extends State<CartCardNew> {
                                         Expanded(
                                           flex: 2,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.all(8.0),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -206,10 +205,9 @@ class _CartCardNewState extends State<CartCardNew> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .width,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   child: Text(
                                                     cartItems[index]
                                                         .productName!,
@@ -229,14 +227,13 @@ class _CartCardNewState extends State<CartCardNew> {
                                                 Row(
                                                   children: [
                                                     Container(
-                                                      alignment: Alignment
-                                                          .bottomLeft,
+                                                      alignment:
+                                                          Alignment.bottomLeft,
                                                       child: Text(
                                                         currency != null
                                                             ? currency! +
                                                                 " " +
-                                                                cartItems[
-                                                                        index]
+                                                                cartItems[index]
                                                                     .productPrice
                                                                     .toString()
                                                             : cartItems[index]
@@ -244,8 +241,7 @@ class _CartCardNewState extends State<CartCardNew> {
                                                                 .toString(),
                                                         style: TextStyle(
                                                             fontSize: 16,
-                                                            color:
-                                                                Colors.black,
+                                                            color: Colors.black,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold),
@@ -273,7 +269,10 @@ class _CartCardNewState extends State<CartCardNew> {
                                     children: <Widget>[
                                       ElevatedButton(
                                         // height: 30,
-                                        // color: Colors.white,
+                                        style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Colors.white, // Background color
+                                        ),
                                         // padding: EdgeInsets.all(4.0),
                                         onPressed: () {
                                           // Remove From Cart
