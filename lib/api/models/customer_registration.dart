@@ -58,37 +58,37 @@
 //   }
 
 // }
-class CustomerRegistration {
-  String? status;
-  String? message;
-  User? user;
-  Authorisation? authorisation;
+// class CustomerRegistration {
+//   String? status;
+//   String? message;
+//   User? user;
+//   Authorisation? authorisation;
 
-  CustomerRegistration(
-      {this.status, this.message, this.user, this.authorisation});
+//   CustomerRegistration(
+//       {this.status, this.message, this.user, this.authorisation});
 
-  CustomerRegistration.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    message = json['message'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    authorisation = json['authorisation'] != null
-        ? new Authorisation.fromJson(json['authorisation'])
-        : null;
-  }
+//   CustomerRegistration.fromJson(Map<String, dynamic> json) {
+//     status = json['status'];
+//     message = json['message'];
+//     user = json['user'] != null ? new User.fromJson(json['user']) : null;
+//     authorisation = json['authorisation'] != null
+//         ? new Authorisation.fromJson(json['authorisation'])
+//         : null;
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    if (this.authorisation != null) {
-      data['authorisation'] = this.authorisation!.toJson();
-    }
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['status'] = this.status;
+//     data['message'] = this.message;
+//     if (this.user != null) {
+//       data['user'] = this.user!.toJson();
+//     }
+//     if (this.authorisation != null) {
+//       data['authorisation'] = this.authorisation!.toJson();
+//     }
+//     return data;
+//   }
+// }
 
 class User {
   String? name;
@@ -145,3 +145,104 @@ class Authorisation {
     return data;
   }
 }
+
+class CustomerRegistration {
+  dynamic? status;
+  String? message;
+  User? user;
+  Authorisation? authorisation;
+  int? id;
+  String? name;
+  String? customerType;
+  String? email;
+  dynamic customerMobile;
+  int? dataStatus;
+  String? password;
+  String? createdAt;
+  String? updatedAt;
+  dynamic customerPincode;
+  dynamic customerDist;
+  dynamic customerState;
+  dynamic customerAddress;
+  dynamic remarks;
+  String? token;
+  String? type;
+
+  CustomerRegistration({
+    this.status,
+    this.message,
+    this.user,
+    this.authorisation,
+    this.id,
+    this.name,
+    this.customerType,
+    this.email,
+    this.customerMobile,
+    this.dataStatus,
+    this.password,
+    this.createdAt,
+    this.updatedAt,
+    this.customerPincode,
+    this.customerDist,
+    this.customerState,
+    this.customerAddress,
+    this.remarks,
+    this.token,
+    this.type,
+  });
+
+  CustomerRegistration.fromJson(Map<String, dynamic> json) {
+    status =(json['status'] != null )? json['status']:null;
+    message = json['message'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    authorisation = json['authorisation'] != null
+        ? Authorisation.fromJson(json['authorisation'])
+        : null;
+    id = json['id'];
+    name = json['name'];
+    customerType = json['customer_type'];
+    email = json['email'];
+    customerMobile = json['customer_mobile'];
+    dataStatus = json['status']; // Assuming this is the correct field name
+    password = json['password'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    customerPincode = json['customer_pincode'];
+    customerDist = json['customer_dist'];
+    customerState = json['customer_state'];
+    customerAddress = json['customer_address'];
+    remarks = json['remarks'];
+    token = json['token'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['status'] = status;
+    data['message'] = message;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    if (authorisation != null) {
+      data['authorisation'] = authorisation!.toJson();
+    }
+    data['id'] = id;
+    data['name'] = name;
+    data['customer_type'] = customerType;
+    data['email'] = email;
+    data['customer_mobile'] = customerMobile;
+    data['status'] = dataStatus; // Assuming this is the correct field name
+    data['password'] = password;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['customer_pincode'] = customerPincode;
+    data['customer_dist'] = customerDist;
+    data['customer_state'] = customerState;
+    data['customer_address'] = customerAddress;
+    data['remarks'] = remarks;
+    data['token'] = token;
+    data['type'] = type;
+    return data;
+  }
+}
+

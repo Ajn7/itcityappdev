@@ -144,13 +144,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     emit(CustomerLoginLoadingState());
     try {
       String? tokenValue = await userApi.customerLogin(customer);
-      print('token :$tokenValue');
+
       this.token = tokenValue;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('email', customer.user!.email!);
       await prefs.setString('token', this.token!);
-
       emit(CustomerLoginSuccessState());
+      print('login token :$tokenValue ');
     } catch (e) {
       print('userbloc' + e.toString());
       emit(CustomerLoginErrorState());
@@ -194,17 +194,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       UserEvent event, Emitter<UserState> emit, String? mail) async {
     emit(CustomerInformationLoadingState());
     try {
+      print('Customer ID (before storing in SharedPreferences');
       final CustomerRegistration info =
           await userApi.fetchCustomerInformation(mail);
       customer = info;
-      //final storage = new FlutterSecureStorage();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.setString('customerId', customer!.user!.id.toString());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('customerId', customer!.id.toString());
 
       emit(CustomerInformationLoadedState(customerlist: info));
-    } catch (e) {
-      print('error in fetching user information>>>>>> ' + e.toString());
+    } catch (e, stackTrace) {
+      print('Error in fetching user information11: $e $stackTrace');
     }
   }
 
@@ -221,7 +221,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       emit(CustomerInformationUpdatedState(customerlist: info));
     } catch (e) {
-      print('error in fetching user information>>>>>> ' + e.toString());
+      print('error in fetching user information2>>>>>> ' + e.toString());
     }
   }
 }

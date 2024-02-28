@@ -21,7 +21,7 @@ class UserApi {
   String _checkMobileNumberStatusPath = '/checkMobileNumberStatus';
   String _checkEmailSubScriptionPath = '';
   String _checkEmailStatusPath = '/checkEmailStatus';
-  String _customerInfoPath = '/customerinformation';
+  String _customerInfoPath = '/customerinformationbyemail';
 
   Future<CustomerRegistration> registerUser(CustomerRegistration user) async {
     String customerJson =
@@ -78,9 +78,10 @@ class UserApi {
         '{"email": "${register.user!.email}","password": "${register.user!.password}"}';
     Response response =
         await _newApiClient.invokeAPI(_customerLoginPath, 'POST', customer);
-    //print('token value ${jsonDecode(response.body)['authorisation']['token']}');
+    //print('login response value ${register.user!.id!.toString()}');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', register.user!.email!);
+    await prefs.setString('customerId', jsonDecode(response.body)['user']['id'].toString());
     String? token = (jsonDecode(response.body)['authorisation']['token']);
 
     return token;
@@ -113,7 +114,6 @@ class UserApi {
   }
 
   Future<CustomerRegistration> fetchCustomerInformation(String? mail) async {
-    
     Response response = await _newApiClient.invokeAPI(
         '$_customerInfoPath?email=$mail', 'GET', null);
     print('customer information ${response.body} ');

@@ -49,11 +49,14 @@ class ProductApi {
     return Category.listFromJson(jsonDecode(response.body)['data']);
   }
 
-  Future<List<Product>> getProductByCategory(int? id, String? currency,int? pageNo) async {
+  Future<List<Product>> getProductByCategory(
+      int? id, String? currency, int? pageNo) async {
     Response response = await _newApiClient.invokeAPI(
-        '$_productByCategoryPath?category_id=$id&cur=$currency&page=$pageNo', 'GET', null);
+        '$_productByCategoryPath?category_id=$id&cur=$currency&page=$pageNo',
+        'GET',
+        null);
     print('data from api: ${response.body}');
-    
+
     return Product.listFromJson(jsonDecode(response.body)['data']['data']);
   }
 
@@ -90,6 +93,7 @@ class ProductApi {
   Future<Product> getProductByProductId(String? id, String? currency) async {
     Response response = await _newApiClient.invokeAPI(
         '$_productByProductIdPath?product_id=$id&cur=$currency', 'GET', null);
+    print('product datas by id ${response.body}');
     return Product.fromJson(jsonDecode(response.body)['data'][0]);
   }
 
@@ -180,12 +184,25 @@ class ProductApi {
 
   Future<List<Product>> getRelatedProductByProductBrand(
       var brand, String? currency) async {
-    Response response = await _newApiClient.invokeAPI(
-        '$_relatedProductByProductBrandPath?product_brand=$brand&cur=$currency',
-        'GET',
-        null);
-    print(response.body);
-    return Product.listFromJson(jsonDecode(response.body)['data']['data']);
+    try {
+      Response response = await _newApiClient.invokeAPI(
+          '$_relatedProductByProductBrandPath?product_brand=$brand&cur=$currency',
+          'GET',
+          null);
+
+      if (response.statusCode == 200) {
+        List<Product> productList =
+            Product.listFromJson(jsonDecode(response.body)['data']['data']);
+
+        return productList;
+      } else {
+        print('Error: ${response.statusCode}');
+        return [];
+      }
+    } catch (error) {
+      print('Error: $error');
+      return [];
+    }
   }
 
   Future<double> getRandomReview() async {

@@ -29,7 +29,6 @@ const String productImage =
     'https://www.itcityonlinestore.com/uploads/product/single-product/';
 const String categoryImage =
     'https://www.itcityonlinestore.com/uploads/category/app_image/';
-
 const String homeImage =
     'https://www.itcityonlinestore.com/uploads/home-slider/';
 const String homeAds =
