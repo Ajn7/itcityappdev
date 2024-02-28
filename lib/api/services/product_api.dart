@@ -93,6 +93,7 @@ class ProductApi {
   Future<Product> getProductByProductId(String? id, String? currency) async {
     Response response = await _newApiClient.invokeAPI(
         '$_productByProductIdPath?product_id=$id&cur=$currency', 'GET', null);
+    print('product datas by id ${response.body}');
     return Product.fromJson(jsonDecode(response.body)['data'][0]);
   }
 

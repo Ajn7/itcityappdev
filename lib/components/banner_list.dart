@@ -20,8 +20,10 @@ class _BannerListState extends State<BannerList> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    print('home banner images $image');
     return BlocListener<HomeBloc, HomeState>(
       listener: (context, state) {
         // TODO: implement listener
