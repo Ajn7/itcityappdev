@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import 'package:itcity_online_store/components/address_checkout.dart';
 import 'package:itcity_online_store/components/order_summary.dart';
 import 'package:itcity_online_store/resources/values.dart';
@@ -36,150 +35,128 @@ class _CheckOutNewState extends State<CheckOutNew> {
       this.country = prefs.getString('country');
     });
   }
+
   @override
   void initState() {
     getCountry();
     // TODO: implement initState
     super.initState();
   }
-  showLoaderDialog(BuildContext context){
-    AlertDialog alert=AlertDialog(
+
+  showLoaderDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
       content: new Row(
         children: [
           CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 7),child:Text("Placing your Order..." )),
-        ],),
+          Container(
+              margin: EdgeInsets.only(left: 7),
+              child: Text("Placing your Order...")),
+        ],
+      ),
     );
-    showDialog(barrierDismissible: false,
-      context:context,
-      builder:(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
         return alert;
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: BlocListener<OrderBloc, OrderState>(
-  listener: (context, state) {
-    print('ordr success state'+ state.toString());
-    if(state is CreateOrderLoadingState){
-      print('Loading state worked');
+      listener: (context, state) {
+        print('ordr success state' + state.toString());
+        if (state is CreateOrderLoadingState) {
+          print('Loading state worked');
 
-      showLoaderDialog(context);
-    }
-    if (state is CreateOrderSuccessState) {
-      Navigator.canPop(context);
+          showLoaderDialog(context);
+        }
+        if (state is CreateOrderSuccessState) {
+          Navigator.canPop(context);
 
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-        return OrderSucessNew(
-            orderStatusNew: BlocProvider.of<OrderBloc>(context).orderStatusNew,currency: this.currency,);
-      }), (Route<dynamic> route) => false);
-      // showDialog(
-      //     context: context,
-      //     builder: (BuildContext context) => CheckoutDialog());
-
-
-    }
-    else if (state is CreateOrderErrorState){
-      Navigator.canPop(context);
-      showModalBottomSheet(
-          context: context,
-          builder: (context) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 35,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.clear_outlined,
-                    color: AppColors.WHITE,
-                    size: 75,
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Text(
-                  "Something Went Wrong",
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Please Try Again Later",
-                  style: TextStyle(fontSize: 18),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 35,
-                ),
-              ],
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (context) {
+            return OrderSucessNew(
+              orderStatusNew:
+                  BlocProvider.of<OrderBloc>(context).orderStatusNew,
+              currency: this.currency,
             );
-          });
-    } else {
-
-    }
-    // TODO: implement listener}
-  },
-  child: Scaffold(
-      backgroundColor: AppColors.WHITE,
-      appBar: AppBar(
-        backgroundColor: AppColors.LOGO_ORANGE,
-        title: Text(
-          'Check Out',
-          style: TextStyle(color: AppColors.WHITE, fontSize: 25),
-        ),
-        elevation: 1.0,
-      ),
-      body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints viewportConstrains) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints:
-                BoxConstraints(minHeight: viewportConstrains.maxHeight),
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * .98,
-                    height: MediaQuery.of(context).size.height * .08,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: AppColors.GREY,
+          }), (Route<dynamic> route) => false);
+          // showDialog(
+          //     context: context,
+          //     builder: (BuildContext context) => CheckoutDialog());
+        } else if (state is CreateOrderErrorState) {
+          Navigator.canPop(context);
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 35,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                      child: Row(
-                        children: [
-                          Radio(
-                            value: PaymentMethod.ktet,
-                            groupValue: _paymentMethod,
-                            onChanged: (PaymentMethod? value) {},
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text("Knet",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: AppColors.GREY_TEXT))),
-                        ],
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.clear_outlined,
+                        color: AppColors.WHITE,
+                        size: 75,
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Container(
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Text(
+                      "Something Went Wrong",
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Please Try Again Later",
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: 35,
+                    ),
+                  ],
+                );
+              });
+        } else {}
+        // TODO: implement listener}
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.WHITE,
+        appBar: AppBar(
+          backgroundColor: AppColors.LOGO_ORANGE,
+          title: Text(
+            'Check Out',
+            style: TextStyle(color: AppColors.WHITE, fontSize: 25),
+          ),
+          elevation: 1.0,
+        ),
+        body: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints viewportConstrains) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints:
+                  BoxConstraints(minHeight: viewportConstrains.maxHeight),
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Container(
                       width: MediaQuery.of(context).size.width * .98,
                       height: MediaQuery.of(context).size.height * .08,
                       decoration: BoxDecoration(
@@ -191,13 +168,13 @@ class _CheckOutNewState extends State<CheckOutNew> {
                         child: Row(
                           children: [
                             Radio(
-                              value: PaymentMethod.card,
+                              value: PaymentMethod.ktet,
                               groupValue: _paymentMethod,
                               onChanged: (PaymentMethod? value) {},
                             ),
                             Padding(
                                 padding: EdgeInsets.only(left: 15),
-                                child: Text("Credit / Debit Card",
+                                child: Text("Knet",
                                     style: TextStyle(
                                         fontSize: 17,
                                         color: AppColors.GREY_TEXT))),
@@ -205,142 +182,173 @@ class _CheckOutNewState extends State<CheckOutNew> {
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * .98,
-                      height: MediaQuery.of(context).size.height * .08,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: AppColors.GREY,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: PaymentMethod.cod,
-                              groupValue: _paymentMethod,
-                              autofocus: true,
-                              activeColor: Colors.green,
-                              onChanged: (PaymentMethod? value) {},
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  "Cash on Delivery",
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: AppColors.LOGO_BLACK),
-                                )),
-                          ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .98,
+                        height: MediaQuery.of(context).size.height * .08,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: AppColors.GREY,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                          child: Row(
+                            children: [
+                              Radio(
+                                value: PaymentMethod.card,
+                                groupValue: _paymentMethod,
+                                onChanged: (PaymentMethod? value) {},
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text("Credit / Debit Card",
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: AppColors.GREY_TEXT))),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  AddressCheckout(),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  OrderSummary(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _textEditingController,
-                      decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding:
-                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          labelText: "Please write remarks if any",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5.0))),
-                      keyboardType: TextInputType.multiline,
-                      minLines: 4,
-                      maxLines: 7,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .98,
+                        height: MediaQuery.of(context).size.height * .08,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: AppColors.GREY,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                          child: Row(
+                            children: [
+                              Radio(
+                                value: PaymentMethod.cod,
+                                groupValue: _paymentMethod,
+                                autofocus: true,
+                                activeColor: Colors.green,
+                                onChanged: (PaymentMethod? value) {},
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    "Cash on Delivery",
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: AppColors.LOGO_BLACK),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  BlocBuilder<OrderBloc, OrderState>(
-                    builder: (context, state) {
-                      if (state is CreatePurchaseSuccessState) {
-                        return BlocBuilder<UserBloc, UserState>(
-                          builder: (context, userState) {
-                            if (userState is CustomerInformationLoadedState) {
-                              bool Address = userState.customerlist
-                                  .user!.name != null;
-                              print("Addressbool" + Address.toString());
+                    AddressCheckout(),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    OrderSummary(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _textEditingController,
+                        decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                            labelText: "Please write remarks if any",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0))),
+                        keyboardType: TextInputType.multiline,
+                        minLines: 4,
+                        maxLines: 7,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    BlocBuilder<OrderBloc, OrderState>(
+                      builder: (context, state) {
+                        if (state is CreatePurchaseSuccessState) {
+                          return BlocBuilder<UserBloc, UserState>(
+                            builder: (context, userState) {
+                              if (userState is CustomerInformationLoadedState) {
+                                bool Address =
+                                    userState.customerlist.name != null;
+                                print("Addressbool" + Address.toString());
 
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ConstrainedBox(
-                                  constraints: BoxConstraints.tightFor(
-                                      width:
-                                      MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width * .95,
-                                      height: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .height *
-                                          .07),
-                                  child: ElevatedButton(
-                                      style: ButtonStyle(
-                                        backgroundColor:
-                                        MaterialStateProperty.all(
-                                            AppColors.LOGO_ORANGE),
-                                      ),
-                                      onPressed: Address ? () {
-
-                                        Order order = Order();
-                                        order.purchaseId =
-                                            state.purchase.purchaseId;
-                                        order.customerId =
-                                            userState.customerlist.user!.id;
-                                        order.currency = currency;
-                                        order.remarks = this._textEditingController.value.text;
-                                        order.totalAmount = state.purchase.productSubTotal!.toStringAsFixed(2);
-                                        BlocProvider.of<OrderBloc>(context)
-                                            .add(CreateOrderEvent(order));
-                                      } : () {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                  "Please Update the address"),
-                                            ));
-                                      },
-                                      child: Text(
-                                        'CONFIRM ORDER',
-                                        style: TextStyle(fontSize: 25),
-                                      )),
-                                ),
-                              );
-                            }
-                            return Container();
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints.tightFor(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .95,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                .07),
+                                    child: ElevatedButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  AppColors.LOGO_ORANGE),
+                                        ),
+                                        onPressed: Address
+                                            ? () {
+                                                Order order = Order();
+                                                order.purchaseId =
+                                                    state.purchase.purchaseId;
+                                                order.customerId = userState
+                                                    .customerlist.id;
+                                                order.currency = currency;
+                                                order.remarks = this
+                                                    ._textEditingController
+                                                    .value
+                                                    .text;
+                                                order.totalAmount = state
+                                                    .purchase.productSubTotal!
+                                                    .toStringAsFixed(2);
+                                                BlocProvider.of<OrderBloc>(
+                                                        context)
+                                                    .add(CreateOrderEvent(
+                                                        order));
+                                              }
+                                            : () {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      "Please Update the address"),
+                                                ));
+                                              },
+                                        child: Text(
+                                          'CONFIRM ORDER',
+                                          style: TextStyle(fontSize: 25),
+                                        )),
+                                  ),
+                                );
+                              }
+                              return Container();
                             },
-                        );
-                      }
-                      return Container(
-
-                          color: AppColors.WHITE,
-                          child: Center(
-                              child: SpinKitRipple(
-                                color: Theme.of(context).primaryColor,
-                                size: 50,
-                              )));
-                    },
-                  ),
-                  SizedBox(height: 15),
-                ],
+                          );
+                        }
+                        return Container(
+                            color: AppColors.WHITE,
+                            child: Center(
+                                child: SpinKitRipple(
+                              color: Theme.of(context).primaryColor,
+                              size: 50,
+                            )));
+                      },
+                    ),
+                    SizedBox(height: 15),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }),
-    ),
-));
+          );
+        }),
+      ),
+    ));
   }
 }
 

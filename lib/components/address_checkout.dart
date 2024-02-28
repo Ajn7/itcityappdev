@@ -37,7 +37,7 @@ class _AddressCheckoutState extends State<AddressCheckout> {
 
     if(state is CustomerInformationLoadedState){
       CustomerRegistration customer = BlocProvider.of<UserBloc>(context).customer!;
-     return customer.user!.name == null?  Container(
+     return customer.name == null?  Container(
         color: AppColors.WHITE,
         height: MediaQuery.of(context).size.height * .25,
         child: Padding(
