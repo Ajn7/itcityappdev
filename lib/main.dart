@@ -95,6 +95,7 @@ class MyApp extends StatelessWidget {
           },
           title: 'itcity',
           theme: ThemeData(
+            useMaterial3: false,
             fontFamily: 'Myriad',
             primarySwatch: Colors.deepOrange,
             primaryColor: AppColors.LOGO_ORANGE,

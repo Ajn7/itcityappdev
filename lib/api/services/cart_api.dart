@@ -50,7 +50,7 @@ class CartApi {
     Response response = await _newApiClient.invokeAPI(
         _removeProductFromCartPath +
             "?user_id=$userId&cart_data=$cartData&prod_count=$productCount",
-        'POST_',
+        'GET',
         {});
     print(response);
     return Cart.listFromJson(jsonDecode(response.body)['data']);

@@ -44,11 +44,9 @@ void _mapCreateOrderDetailsToState(
     try {
       orderDetails = await orderApi.getPurchaseDetailsByOrderId(orderId);
       productOrderDetails = await orderApi.getPurchaseProductDetailsByOrderId(orderId);
-
-
-
       emit(GetOrderDetailsLoadedState(orderDetails));
-    } catch (e) {
+    } catch (e,stackTrace) {
+      print('Order Details $e $stackTrace');
 
       GetOrderDetailsErrorState();
     }

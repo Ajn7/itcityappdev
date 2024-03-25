@@ -28,7 +28,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         _mapFetchCustomerInformationToState(event, emit, event.customerEmail));
     on<UpdateCustomerEvent>((event, emit) =>
         _mapFetchCustomerInformationUpdatedToState(
-            event, emit, event.customerRegistration.user!.email));
+            event, emit, event.customerRegistration.email));
     on<CustomerLoginEvent>(
         (event, emit) => _mapCustomerLoginToState(event, emit, event.customer));
     on<CheckEmailStatusEvent>(
@@ -98,7 +98,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       //Emit a event to check email
     } catch (e,stackTrace){
-      print('REgistartion error $e  ');
+      print('REgistartion error $e  $stackTrace');
     }
   }
 
@@ -247,10 +247,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     try {
       await userApi.updateUser(event.customerRegistration);
       final CustomerRegistration info = await userApi
-          .fetchCustomerInformation(event.customerRegistration.user!.email);
+          .fetchCustomerInformation(event.customerRegistration.email);
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      await prefs.setString('customerId', customer!.user!.id.toString());
+      await prefs.setString('customerId', customer!.id.toString());
 
       emit(CustomerInformationUpdatedState(customerlist: info));
     } catch (e) {

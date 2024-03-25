@@ -270,7 +270,10 @@ class _CartCardNewState extends State<CartCardNew> {
                                       ElevatedButton(
                                         // height: 30,
                                         style: ElevatedButton.styleFrom(
-                                          primary:
+
+                                          backgroundColor:
+
+                                          //primary:
                                               Colors.white, // Background color
                                         ),
                                         // padding: EdgeInsets.all(4.0),
@@ -281,7 +284,7 @@ class _CartCardNewState extends State<CartCardNew> {
                                                   cartItems[index].cartData,
                                                   cartItems[index].userId,
                                                   cartItems[index].productId,
-                                                  0.toString()));
+                                                  1.toString()));
                                         },
                                         child: Row(
                                           children: [
@@ -474,7 +477,7 @@ class _CounterNewState extends State<CounterNew> {
                                 widget.cart.cartData,
                                 widget.cart.userId,
                                 widget.cart.productId,
-                                0.toString()));
+                                1.toString()));
                       } else {
                         widget.cart.productCount = 1;
                         BlocProvider.of<CartBloc>(context).add(
@@ -610,7 +613,7 @@ class _CounterTestState extends State<CounterTest> {
                                 widget.cart.cartData,
                                 widget.cart.userId,
                                 widget.cart.productId,
-                                0.toString()));
+                                1.toString()));
                       } else {
                         setState(() {
                           _itemCount--;

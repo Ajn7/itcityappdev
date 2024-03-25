@@ -93,6 +93,7 @@ class ProductApi {
   Future<Product> getProductByProductId(String? id, String? currency) async {
     Response response = await _newApiClient.invokeAPI(
         '$_productByProductIdPath?product_id=$id&cur=$currency', 'GET', null);
+    print('product datas by id ${response.body}');
     return Product.fromJson(jsonDecode(response.body)['data'][0]);
   }
 
@@ -144,7 +145,7 @@ class ProductApi {
   Future<String?> createUserReview(Review review) async {
     String jsonString =
         '{"author_name": "${review.authorName}","product_id":"${review.productId}","text":"${review.text}","rating":"${review.rating}","review_status":"1"}';
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_createUserReviewPath', 'POST', jsonString);
 
     return (jsonDecode(response.body)['data']).cast<String>();
@@ -216,7 +217,7 @@ class ProductApi {
 
   Future<PostReviewModel> PostRandomReview(
       String? author, String? productId, String? text, int? rating) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_postReviewPath?author_name=$author&product_id=$productId&text=$text&rating=$rating',
         'POST',
         null);

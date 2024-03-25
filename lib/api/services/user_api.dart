@@ -25,16 +25,31 @@ class UserApi {
 
   Future<CustomerRegistration> registerUser(CustomerRegistration user) async {
     String customerJson =
-        '{"name": "${user.name}","email":"${user.email}","password":"${user.password}"}';
+        '{"name": "${user.name.toString()}","email":"${user.email}","password":"${user.password}"}';
     Response response = await _newApiClient.invokeAPI(
         _userRegistrationPath, 'POST', customerJson);
     print('cutomer info $customerJson and res = ${response.body}');
+    dynamic responseData = jsonDecode(response.body);
+    String status = responseData['status'];
+
+    if (status == "success") {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+          'email', jsonDecode(response.body)['user']['email']);
+      await prefs.setString(
+          'customerId', jsonDecode(response.body)['user']['id'].toString());
+      await prefs.setString(
+          'token', jsonDecode(response.body)['authorisation']['token']);
+    }
+
     return CustomerRegistration.fromJson(jsonDecode(response.body)['user']);
   }
 
   Future updateUser(CustomerRegistration user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? id = prefs.getString('customerId');
     String customerJson =
-        '{"customer_name":"${user.user!.name}","customer_mobile": "${user.user!.name}","customer_address":"${user.user!.name}","customer_state":"${user.user!.name}","customer_dist":"${user.user!.name}","customer_pincode":"${user.user!.name}","customer_id":${user.user!.name}}';
+        '{"name":"${user.name}","mobile": "${user.customerMobile}","street_avenue":"${user.customerAddress}","customer_state":"${user.customerState}","customer_dist":"${user.customerDist}","customer_pincode":"${user.customerPincode}","id":$id}';
     print(customerJson);
     Response response = await _newApiClient.invokeAPI(
         _updateCustomerDetailsPath, 'POST', customerJson);
@@ -81,7 +96,8 @@ class UserApi {
     //print('login response value ${register.user!.id!.toString()}');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', register.user!.email!);
-    await prefs.setString('customerId', jsonDecode(response.body)['user']['id'].toString());
+    await prefs.setString(
+        'customerId', jsonDecode(response.body)['user']['id'].toString());
     String? token = (jsonDecode(response.body)['authorisation']['token']);
 
     return token;

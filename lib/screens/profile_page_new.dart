@@ -159,6 +159,93 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                                 color: AppColors.GREY_TEXT, fontSize: 25),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                          child: Row(
+                            children: [
+                              (userId == null)
+                                  ? Icon(
+                                      Icons.login,
+                                      color: AppColors.LIGHT_ORANGE,
+                                    )
+                                  : Icon(
+                                      Icons.logout,
+                                      color: AppColors.LIGHT_ORANGE,
+                                    ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              (userId == null)
+                                  ? InkWell(
+                                      onTap: () async {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return LoginPageNew();
+                                        }));
+                                      },
+                                      child: Text(
+                                        'Log In',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    )
+                                  : InkWell(
+                                      onTap: () async {
+                                        await showDialog<bool>(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                  title: Text('Exit'),
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 10),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                              'Are You Sure You want to Log Out'),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  actions: <Widget>[
+                                                    ElevatedButton(
+                                                      onPressed: () async {
+                                                        SharedPreferences
+                                                            prefs =
+                                                            await SharedPreferences
+                                                                .getInstance();
+                                                        prefs.clear();
+                                                        Navigator.of(context)
+                                                            .pushReplacementNamed(
+                                                                '/');
+                                                      },
+                                                      child: Text('Yes'),
+                                                    ),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(
+                                                            context, false);
+                                                      },
+                                                      child: Text('No'),
+                                                    )
+                                                  ]);
+                                            });
+                                      },
+                                      child: Text(
+                                        'Log Out',
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -376,81 +463,6 @@ class _ProfilePageNewState extends State<ProfilePageNew> {
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
-                          child: Row(
-                            children: [
-                              (userId == null)
-                                  ? InkWell(
-                                      onTap: () async {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return LoginPageNew();
-                                        }));
-                                      },
-                                      child: Text(
-                                        'Log In',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    )
-                                  : InkWell(
-                                      onTap: () async {
-                                        await showDialog<bool>(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                  title: Text('Exit'),
-                                                  content: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(top: 10),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                              'Are You Sure You want to Log Out'),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  actions: <Widget>[
-                                                    ElevatedButton(
-                                                      onPressed: () async {
-                                                        SharedPreferences
-                                                            prefs =
-                                                            await SharedPreferences
-                                                                .getInstance();
-                                                        prefs.clear();
-                                                        Navigator.of(context)
-                                                            .pushReplacementNamed(
-                                                                '/');
-                                                      },
-                                                      child: Text('Yes'),
-                                                    ),
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(
-                                                            context, false);
-                                                      },
-                                                      child: Text('No'),
-                                                    )
-                                                  ]);
-                                            });
-                                      },
-                                      child: Text(
-                                        'Log Out',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ),
-                            ],
                           ),
                         ),
                       ],

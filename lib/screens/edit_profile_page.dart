@@ -22,6 +22,12 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   String? email = "";
+  String? name = "";
+  String? address = "";
+  String? phone = "";
+  String? pincode = "";
+  String? district = "";
+  String? state = "";
   String? customerIdtest;
   late UserBloc userBloc;
   TextEditingController emailController = TextEditingController();
@@ -38,11 +44,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   Future<String?> getEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-  email = prefs.getString("email");
+    email = prefs.getString("email");
+    name = prefs.getString("name");
+    address = prefs.getString("address");
+    district = prefs.getString("district");
+    phone = prefs.getString("phone");
+    state = prefs.getString("state");
+    pincode = prefs.getString("pincode");
+
     customerIdtest = prefs.getString('customerId');
 
     this.email = email;
-    emailController.text =(this.email ==null)?'': this.email!;
+    emailController.text = (this.email == null) ? '' : this.email!;
+    mobileNumberController.text = (this.phone == null) ? '' : this.phone!;
+    nameController.text = (this.name == null) ? '' : this.name!;
+    addressController.text = (this.address == null) ? '' : this.address!;
+    distController.text = (this.district == null) ? '' : this.district!;
+    stateController.text = (this.state == null) ? '' : this.state!;
+    pincodeController.text = (this.pincode == null) ? '' : this.pincode!;
+
     userBloc = BlocProvider.of<UserBloc>(context);
     return email;
   }
@@ -70,14 +90,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.remove('isRegistered');
           if (widget.function != null) {
-            BlocProvider.of<UserBloc>(context).add(FetchCustomerInformationEvent(email));
+            BlocProvider.of<UserBloc>(context)
+                .add(FetchCustomerInformationEvent(email));
             widget.function!();
-
           } else {
             Navigator.pushAndRemoveUntil(context,
                 MaterialPageRoute(builder: (context) {
-                  return MainPage(0);
-                }), (route) => false);
+              return MainPage(0);
+            }), (route) => false);
           }
         }
       },
@@ -91,28 +111,38 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   return MaterialButton(
                     minWidth: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    onPressed: () {
-                      // if (this._formKey.currentState!.validate()) {
-                      //   // Delete this after the information has been saved
-                      //   CustomerRegistration customerRegistration =
-                      //       CustomerRegistration();
-                      //   customerRegistration.customerMobile =
-                      //       this.mobileNumberController.text;
-                      //   customerRegistration.customerEmail =
-                      //       this.emailController.text;
-                      //   customerRegistration.customerName =
-                      //       this.nameController.text;
-                      //   customerRegistration.customerDistrict =
-                      //       this.distController.text;
-                      //   customerRegistration.customerAddress =
-                      //       this.addressController.text;
-                      //   customerRegistration.customerState =
-                      //       this.stateController.text;
-                      //   customerRegistration.customerPincode =
-                      //       this.pincodeController.text;
-                      //   customerRegistration.customerId = this.customerId;
-                      //   userBloc.add(UpdateCustomerEvent(customerRegistration));
-                      // }
+                    onPressed: () async {
+                      if (this._formKey.currentState!.validate()) {
+                        // Delete this after the information has been saved
+                        CustomerRegistration customerRegistration =
+                            CustomerRegistration();
+                        customerRegistration.customerMobile =
+                            this.mobileNumberController.text;
+                        customerRegistration.email = this.emailController.text;
+                        customerRegistration.name = this.nameController.text;
+                        customerRegistration.customerDist =
+                            this.distController.text;
+                        customerRegistration.customerAddress =
+                            this.addressController.text;
+                        customerRegistration.customerState =
+                            this.stateController.text;
+                        customerRegistration.customerPincode =
+                            this.pincodeController.text;
+                        customerRegistration.id = this.customerId;
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('name', this.nameController.text);
+                        prefs.setString(
+                            'phone', this.mobileNumberController.text);
+                        prefs.setString('district', this.distController.text);
+                        prefs.setString('state', this.stateController.text);
+                        prefs.setString('pincode', this.pincodeController.text);
+                        prefs.setString('address', this.addressController.text);
+
+                        print(
+                            'New Details ${customerRegistration.customerPincode} ${customerRegistration.customerDist}');
+                        userBloc.add(UpdateCustomerEvent(customerRegistration));
+                      }
                     },
                     child: Text("Save".toUpperCase(),
                         textAlign: TextAlign.center,
@@ -124,7 +154,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
               },
             )),
         appBar: AppBar(
-          title:widget.isAddressUpdate?Text("Edit Address Details") :Text("Edit Profile Details"),
+          title: widget.isAddressUpdate
+              ? Text("Edit Address Details")
+              : Text("Edit Profile Details"),
         ),
         body: SingleChildScrollView(
           child: BlocBuilder<UserBloc, UserState>(
@@ -144,7 +176,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 //       state.customerlist.customerPincode ?? "";
                 // }
 
-
                 return Container(
                   height: MediaQuery.of(context).size.height - 120,
                   padding: EdgeInsets.all(20.0),
@@ -154,9 +185,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                         TextFormField(
+                        TextFormField(
                           controller: nameController,
-                         // enabled: widget.isAddressUpdate ? false : true,
+                          // enabled: widget.isAddressUpdate ? false : true,
                           decoration: InputDecoration(
                               hintText: "Name",
                               fillColor: Colors.white,
@@ -214,7 +245,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               fillColor: Colors.white,
                               filled: true,
                               contentPadding:
-                              EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                  EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0))),
                           validator: (value) {
@@ -258,7 +289,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             return null;
                           },
                         ),
-
                         TextFormField(
                           controller: pincodeController,
                           decoration: InputDecoration(
