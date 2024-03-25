@@ -10,12 +10,13 @@ import 'package:itcity_online_store/api/services/order_api.dart';
 import 'package:itcity_online_store/blocs/blocs.dart';
 import 'package:itcity_online_store/resources/values.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 enum Availability { LOADING, AVAILABLE, UNAVAILABLE }
 
 extension on Availability {
   String stringify() => this.toString().split('.').last;
 }
-
 
 class OrderSucessNew extends StatefulWidget {
   final OrderStatusNew? orderStatusNew;
@@ -29,14 +30,23 @@ class OrderSucessNew extends StatefulWidget {
 
 class _OrderSucessNewState extends State<OrderSucessNew> {
   OrderApi? orderApi;
+  String? email = "";
+  String? name = "";
+  String? address = "";
+  String? phone = "";
+  String? pincode = "";
+  String? district = "";
+  String? state = "";
+
   final InAppReview _inAppReview = InAppReview.instance;
   String _appStoreId = '';
   String _microsoftStoreId = '';
   Availability _availability = Availability.LOADING;
-  bool goHomePressed =false;
+  bool goHomePressed = false;
 
   @override
   void initState() {
+    _getDetails();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
         final isAvailable = await _inAppReview.isAvailable();
@@ -53,29 +63,30 @@ class _OrderSucessNewState extends State<OrderSucessNew> {
     // TODO: implement initState
     super.initState();
   }
+
   void _setAppStoreId(String id) => _appStoreId = id;
 
   void _setMicrosoftStoreId(String id) => _microsoftStoreId = id;
 
-   _requestReview() {
+  _requestReview() {
     _inAppReview.requestReview();
     setState(() {
       goHomePressed = true;
     });
-
   }
 
   Future<void> _openStoreListing() => _inAppReview.openStoreListing(
-    appStoreId: _appStoreId,
-    microsoftStoreId: _microsoftStoreId,
-  );
+        appStoreId: _appStoreId,
+        microsoftStoreId: _microsoftStoreId,
+      );
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.pushReplacementNamed(context, '/home');
-      } as Future<bool> Function()?,
+        return true;
+      }, // as Future<bool> Function()?
       child: Scaffold(
         backgroundColor: AppColors.WHITE,
         appBar: AppBar(
@@ -101,7 +112,7 @@ class _OrderSucessNewState extends State<OrderSucessNew> {
           child: Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
-           // height: MediaQuery.of(context).size.height,
+            // height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 Container(
@@ -116,9 +127,8 @@ class _OrderSucessNewState extends State<OrderSucessNew> {
                           child: Text(
                             widget.orderStatusNew!.customerName == null
                                 ? "THANK YOU FOR YOUR ORDER!"
-                                : "THANK YOU FOR YOUR ORDER , " +
-                                    widget.orderStatusNew!.customerName!
-                                        .toUpperCase(),
+                                : "THANK YOU FOR YOUR ORDER ,${(name==null)?widget.orderStatusNew!.customerName!
+                                        .toUpperCase():name!.toUpperCase()}",
                             style: TextStyle(
                                 fontSize: 22,
                                 color: AppColors.LOGO_BLACK,
@@ -166,56 +176,86 @@ class _OrderSucessNewState extends State<OrderSucessNew> {
                 OrderDetailsSection(
                   orderId: widget.orderStatusNew!.orderId,
                 ),
-            Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  decoration: BoxDecoration(
-
-                    color: Colors.white,
-                    border: Border.all(
-
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
                         color: AppColors.LOGO_ORANGE,
                         width: 1,
-
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                      SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Shipping Address',style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 22,)),
-
-
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Shipping Address,',
+                                  style: TextStyle(
+                                    color: AppColors.LOGO_BLACK,
+                                    fontSize: 22,
+                                  )),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          // Container(
+                          //     width: MediaQuery.of(context).size.width,
+                          //     child: Text(
+                          //       widget.orderStatusNew!.paymentAddress!,
+                          //       style: TextStyle(
+                          //           color: AppColors.GREY_TEXT, fontSize: 22),
+                          //     )),
+                          // Text(widget.orderStatusNe,
+                          //     style: TextStyle(
+                          //         color: AppColors.LOGO_BLACK, fontSize: 20)),
+                          Text(name!.toUpperCase(),
+                              style: TextStyle(
+                                  color: AppColors.LOGO_BLACK, fontSize: 20)),
+                          Text(address!.toUpperCase(),
+                              style: TextStyle(
+                                  color: AppColors.LOGO_BLACK, fontSize: 20)),
+                          Text(district!.toUpperCase(),
+                              style: TextStyle(
+                                  color: AppColors.LOGO_BLACK, fontSize: 20)),
+                          Text(state!.toUpperCase(),
+                              style: TextStyle(
+                                  color: AppColors.LOGO_BLACK, fontSize: 20)),
+                          Text("Pin:"+pincode!,
+                              style: TextStyle(
+                                  color: AppColors.LOGO_BLACK, fontSize: 20)),
+                          Text("Mob: " + phone!,
+                              style: TextStyle(
+                                  color: AppColors.LOGO_BLACK, fontSize: 20)),
+                          Text("Email: " + email!,
+                              style: TextStyle(
+                                  color: AppColors.LOGO_BLACK, fontSize: 20)),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 5,),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Text(widget.orderStatusNew!.paymentAddress!,style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 22),)),
-            // Text(widget.orderStatusNe,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
-            // Text(customer.customerState,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
-            // Text(customer.customerPincode,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
-            // Text("mob: "+customer.customerMobile,style: TextStyle(color: AppColors.LOGO_BLACK,fontSize: 20)),
-
-
-            ],
-            ),
                   ),
                 ),
-          ),
                 SizedBox(
                   height: 20.0,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text("Your Order is placed succesfully. We will contact you soon with Delivery Details." ,
-                    style: TextStyle(fontSize:18,),textAlign: TextAlign.center,),
+                  child: Text(
+                    "Your Order is placed succesfully. We will contact you soon with Delivery Details.",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 SizedBox(
                   height: 15.0,
@@ -223,27 +263,24 @@ class _OrderSucessNewState extends State<OrderSucessNew> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                   child: Material(
-
                     elevation: 5.0,
                     borderRadius: BorderRadius.circular(5.0),
                     color: AppColors.LOGO_ORANGE,
                     child: MaterialButton(
                       minWidth: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                      onPressed: (){
-                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/home', (route) => false);
                         // if(goHomePressed){
                         //
                         // }else {
                         //   _requestReview;
                         // }
-
-
                       },
                       child: Text(" GO HOME ".toUpperCase(),
                           textAlign: TextAlign.center,
-                          style:
-                          TextStyle(color: Colors.white,fontSize: 20)),
+                          style: TextStyle(color: Colors.white, fontSize: 20)),
                     ),
                   ),
                 ),
@@ -256,6 +293,17 @@ class _OrderSucessNewState extends State<OrderSucessNew> {
         ),
       ),
     );
+  }
+
+  void _getDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    email = prefs.getString("email");
+    name = prefs.getString("name");
+    address = prefs.getString("address");
+    district = prefs.getString("district");
+    phone = prefs.getString("phone");
+    state = prefs.getString("state");
+    pincode = prefs.getString("pincode");
   }
 }
 
@@ -272,10 +320,8 @@ class _OrderDetailsSectionState extends State<OrderDetailsSection> {
   OrderDetails? orderDetails;
   ProductOrderDetails? productOrderDetails;
 
-
   @override
   void initState() {
-
     BlocProvider.of<OrderBloc>(context)
         .add(GetOrderDetailsEvent(widget.orderId));
     // TODO: implement initState
@@ -300,7 +346,8 @@ class _OrderDetailsSectionState extends State<OrderDetailsSection> {
         }
         if (state is GetOrderDetailsLoadedState) {
           orderDetails = BlocProvider.of<OrderBloc>(context).orderDetails;
-          productOrderDetails = BlocProvider.of<OrderBloc>(context).productOrderDetails;
+          productOrderDetails =
+              BlocProvider.of<OrderBloc>(context).productOrderDetails;
           return Container(
             color: AppColors.GREY,
             width: MediaQuery.of(context).size.width,
@@ -360,38 +407,48 @@ class _OrderDetailsSectionState extends State<OrderDetailsSection> {
                     ),
                   ),
                 ),
-               ListView.builder(
-                 shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: productOrderDetails!.data!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             Container(
-                               width: MediaQuery.of(context).size.width * .55,
-                                 child: Text(productOrderDetails!.data![index].name!,style: TextStyle(
-                                   fontSize: 15,
-                                   color: AppColors.GREY_TEXT,
-                                   fontFamily: 'Myriad-semi',
-                                   fontWeight: FontWeight.w700,
-                                 ),
-                                   textAlign: TextAlign.left,)),
-                             Text(productOrderDetails!.data![index].qty.toString() + " X "+orderDetails!.data![0].country!+ " " + productOrderDetails!.data![index].price.toString(),style: TextStyle(
-                               fontSize: 17,
-                               color: AppColors.GREY_TEXT,
-                               fontFamily: 'Myriad-semi',
-                               fontWeight: FontWeight.w700,
-                             ),
-                               textAlign: TextAlign.left,)
-                           ],
-                         ),
-                      );
-                    },
-                  ),
-
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: productOrderDetails!.data!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              width: MediaQuery.of(context).size.width * .55,
+                              child: Text(
+                                productOrderDetails!.data![index].name!,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.GREY_TEXT,
+                                  fontFamily: 'Myriad-semi',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                textAlign: TextAlign.left,
+                              )),
+                          Text(
+                            productOrderDetails!.data![index].qty.toString() +
+                                " X " +
+                                orderDetails!.data!.country! +
+                                " " +
+                                productOrderDetails!.data![index].price
+                                    .toString(),
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: AppColors.GREY_TEXT,
+                              fontFamily: 'Myriad-semi',
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.left,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
                 Container(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -408,8 +465,9 @@ class _OrderDetailsSectionState extends State<OrderDetailsSection> {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        orderDetails!.data![0].country! + ' '+
-                      orderDetails!.data![0].productSubTotal! ,
+                        orderDetails!.data!.country! +
+                            ' ' +
+                            orderDetails!.data!.productSubTotal!,
                         style: TextStyle(
                           fontSize: 20,
                           color: AppColors.GREY_TEXT,
@@ -434,8 +492,10 @@ class _OrderDetailsSectionState extends State<OrderDetailsSection> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Text(orderDetails!.data![0].country! + ' '+
-                      orderDetails!.data![0].shippingCharge!,
+                      Text(
+                        orderDetails!.data!.country! +
+                            ' ' +
+                            orderDetails!.data!.shippingCharge!,
                         style: TextStyle(
                           fontSize: 20,
                           color: AppColors.GREY_TEXT,
@@ -461,10 +521,12 @@ class _OrderDetailsSectionState extends State<OrderDetailsSection> {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        orderDetails!.data![0].country! + ' '+
-                            (double.parse(orderDetails!.data![0].productSubTotal!) +
-                                double.parse(
-                                    orderDetails!.data![0].shippingCharge!))
+                        orderDetails!.data!.country! +
+                            ' ' +
+                            (double.parse(
+                                        orderDetails!.data!.productSubTotal!) +
+                                    double.parse(
+                                        orderDetails!.data!.shippingCharge!))
                                 .toStringAsFixed(2),
                         style: TextStyle(
                           fontSize: 20,
@@ -477,7 +539,6 @@ class _OrderDetailsSectionState extends State<OrderDetailsSection> {
                     ],
                   ),
                 ),
-
               ],
             ),
           );

@@ -1,35 +1,23 @@
 class OrderDetails {
-  List<Data>? data;
+  Data? data;
   bool? success;
   List<Null>? messages;
 
   OrderDetails({this.data, this.success, this.messages});
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      data = [];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     success = json['success'];
-    // if (json['messages'] != null) {
-    //   messages = new List<Null>();
-    //   json['messages'].forEach((v) {
-    //     messages.add(new Null.fromJson(v));
-    //   });
-    // }
+ 
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     data['success'] = this.success;
-    // if (this.messages != null) {
-    //   data['messages'] = this.messages.map((v) => v.toJson()).toList();
-    // }
+
     return data;
   }
 }
@@ -37,26 +25,26 @@ class OrderDetails {
 class Data {
   int? purchaseId;
   int? customerId;
-  Null orderId;
-  Null customerType;
+  Null? orderId;
+  String? customerType;
   String? products;
   String? productSubTotal;
-  Null productPurchaseId;
+  Null? productPurchaseId;
   String? purchaseDate;
   String? country;
   String? shippingCharge;
 
   Data(
       {this.purchaseId,
-        this.customerId,
-        this.orderId,
-        this.customerType,
-        this.products,
-        this.productSubTotal,
-        this.productPurchaseId,
-        this.purchaseDate,
-        this.country,
-        this.shippingCharge});
+      this.customerId,
+      this.orderId,
+      this.customerType,
+      this.products,
+      this.productSubTotal,
+      this.productPurchaseId,
+      this.purchaseDate,
+      this.country,
+      this.shippingCharge});
 
   Data.fromJson(Map<String, dynamic> json) {
     purchaseId = json['purchase_id'];

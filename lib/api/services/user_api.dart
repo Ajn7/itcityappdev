@@ -46,8 +46,10 @@ class UserApi {
   }
 
   Future updateUser(CustomerRegistration user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? id = prefs.getString('customerId');
     String customerJson =
-        '{"customer_name":"${user.name}","customer_mobile": "${user.name}","customer_address":"${user.name}","customer_state":"${user.name}","customer_dist":"${user.name}","customer_pincode":"${user.name}","customer_id":${user.name}}';
+        '{"name":"${user.name}","mobile": "${user.customerMobile}","street_avenue":"${user.customerAddress}","customer_state":"${user.customerState}","customer_dist":"${user.customerDist}","customer_pincode":"${user.customerPincode}","id":$id}';
     print(customerJson);
     Response response = await _newApiClient.invokeAPI(
         _updateCustomerDetailsPath, 'POST', customerJson);

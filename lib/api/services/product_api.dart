@@ -145,7 +145,7 @@ class ProductApi {
   Future<String?> createUserReview(Review review) async {
     String jsonString =
         '{"author_name": "${review.authorName}","product_id":"${review.productId}","text":"${review.text}","rating":"${review.rating}","review_status":"1"}';
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_createUserReviewPath', 'POST', jsonString);
 
     return (jsonDecode(response.body)['data']).cast<String>();
@@ -217,7 +217,7 @@ class ProductApi {
 
   Future<PostReviewModel> PostRandomReview(
       String? author, String? productId, String? text, int? rating) async {
-    Response response = await _apiClient.invokeAPI(
+    Response response = await _newApiClient.invokeAPI(
         '$_postReviewPath?author_name=$author&product_id=$productId&text=$text&rating=$rating',
         'POST',
         null);

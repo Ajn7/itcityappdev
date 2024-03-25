@@ -1,31 +1,31 @@
 class OrderStatusNew{
   int? orderId;
-  Null orderNumber;
+  int? orderNumber;
   int? customerId;
   int? purchaseId;
-  Null customerGroupId;
+  int? customerGroupId;
   String? customerName;
   String? customerEmail;
   String? customerMob;
   String? paymentName;
   String? paymentAddress;
   String? paymentRegionId;
-  Null paymentZoneId;
-  Null paymentZoneName;
+  int? paymentZoneId;
+  String? paymentZoneName;
   String? paymentMethod;
-  Null paymentCode;
+  dynamic paymentCode;
   String? shippingAddress;
   String? shippingName;
   String? shippingRegionId;
   String? shippingZoneId;
-  Null shippingMethod;
+  dynamic shippingMethod;
   String? orderStatusId;
   String? totalAmnt;
-  Null ipAddress;
-  Null userAgent;
+  dynamic ipAddress;
+  dynamic userAgent;
   String? remarks;
   String? createdAt;
-  Null updatedAt;
+  dynamic updatedAt;
 
 OrderStatusNew();
   @override

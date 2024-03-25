@@ -61,7 +61,7 @@ class _ProductCardState extends State<ProductCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * .26,
+                      height: MediaQuery.of(context).size.height * .20,
                       width: MediaQuery.of(context).size.width * .48,
                       //margin: EdgeInsets.all(20),
                       padding: EdgeInsets.all(15),

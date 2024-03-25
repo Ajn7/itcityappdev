@@ -13,11 +13,11 @@ class CategoryCard extends StatefulWidget {
 }
 
 class _CategoryCardState extends State<CategoryCard> {
-  List<Category>? categoryList =[];
+  List<Category>? categoryList = [];
   @override
   void initState() {
     super.initState();
-   // BlocProvider.of<CategoryBloc>(context).add(FetchCategory());
+    // BlocProvider.of<CategoryBloc>(context).add(FetchCategory());
   }
 
   @override
@@ -26,12 +26,11 @@ class _CategoryCardState extends State<CategoryCard> {
       categoryList = BlocProvider.of<CategoryBloc>(context).categoryList;
       if (state is CategoryLoadingState) {
         return Center(
-                child: SpinKitRipple(
-                  color: Theme.of(context).primaryColor,
-                  size: 50,
-                ));
+            child: SpinKitRipple(
+          color: Theme.of(context).primaryColor,
+          size: 50,
+        ));
       }
-
 
       return Container(
         height: 135.0,
@@ -40,14 +39,14 @@ class _CategoryCardState extends State<CategoryCard> {
           padding: EdgeInsets.only(left: 2),
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-
             itemCount: categoryList == null ? 0 : categoryList!.length,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
                       return ProductByCategoryPage(
                         categoryId: categoryList == null
                             ? 0
@@ -59,43 +58,43 @@ class _CategoryCardState extends State<CategoryCard> {
                     }));
                   },
                   child: Column(
-
-
                     children: [
-
                       Container(
-                          width: 75,
-                          height: 80,
-
-                          padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.LOGO_ORANGE,width: 2.5),
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(categoryList == null
-                                  ? ''
-                                  : categoryImage +
-                                  categoryList![index].categoryImage!),
-                              fit: BoxFit.contain,
-                            ),
-                          )),
+                        width: 75,
+                        height: 80,
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.LOGO_ORANGE, width: 2.5),
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(categoryList == null
+                                ? ''
+                                : categoryImage +
+                                    categoryList![index].categoryImage!),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
                       Container(
                         width: 75,
                         child: Padding(
                           padding: EdgeInsets.all(2),
                           child: Text(
-                              categoryList == null
-                                  ? ''
-                                  : categoryList![index].categoryName!,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: (TextStyle(
-                               // fontFamily: 'YanoneKaffeesatz',
-                                fontSize: 12,
-                                color: AppColors.LOGO_BLACK,
-                                fontWeight: FontWeight.w500,
-                              )),textAlign: TextAlign.center,),
+                            categoryList == null
+                                ? ''
+                                : categoryList![index].categoryName!,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: (TextStyle(
+                              // fontFamily: 'YanoneKaffeesatz',
+                              fontSize: 12,
+                              color: AppColors.LOGO_BLACK,
+                              fontWeight: FontWeight.w500,
+                            )),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       )
                     ],

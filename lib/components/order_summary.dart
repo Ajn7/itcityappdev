@@ -18,11 +18,13 @@ class _OrderSummaryState extends State<OrderSummary> {
   dynamic delivery = 1;
   String? country;
   String? currency = ' ';
+  String? totalAmount='';
   getCountry() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       this.currency = prefs.getString('currency');
       this.country = prefs.getString('country');
+      this.totalAmount=prefs.getString('totalAmount');
     });
   }
   @override
@@ -37,9 +39,11 @@ class _OrderSummaryState extends State<OrderSummary> {
   builder: (context, state) {
     if(state is CreatePurchaseSuccessState){
 
-      total =
-          state.purchase.productSubTotal;
+      
+          //state.purchase.productSubTotal;
       delivery = state.purchase.ShippingCharge;
+      print('delivery charge $delivery');
+      total =delivery+ num.parse(totalAmount!);
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -62,7 +66,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Subtotal',style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 18,)),
-                            total != null? Text(currency!+ ' ' + total.toStringAsFixed(2),style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 18,)): Text(' ')
+                            total != null? Text(totalAmount!,style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 18,)): Text(' ')
 
                           ],
                         )),
@@ -71,7 +75,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Shipping Charge',style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 18,)),
-                            total != null? Text(currency!+ ' '+delivery.toStringAsFixed(2),style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 18,)): Text(' ')
+                            total != null? Text(delivery.toStringAsFixed(2),style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 18,)): Text(' ')
 
                           ],
                         )),
@@ -80,7 +84,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Total',style: TextStyle(color: AppColors.LOGO_ORANGE,fontSize: 22,)),
-                            total != null? Text(currency!+ ' '+(total+delivery).toStringAsFixed(2),style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 20,)): Text(' ')
+                            total != null? Text('$currency ${total.toStringAsFixed(2)}',style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 20,)): Text(' ')
 
                           ],
                         )),

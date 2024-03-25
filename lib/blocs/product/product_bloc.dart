@@ -192,19 +192,24 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
   }
 
-  void _mapFetchMultiImageByProductIdToState(
-      Emitter<ProductState> emit, ProductEvent event, var id) async {
-    emit(ProductByProductIdLoadingState());
+ void _mapFetchMultiImageByProductIdToState(
+    Emitter<ProductState> emit,
+    ProductEvent event,
+    var id
+) async {
+    emit(MultiImageByProductIdLoadingState());
     try {
-      multipleImageModel = await productApi.getmultiImagesByProductId(id);
-
-      // if (product != null) {
-
-      emit(MultiImageByProductIdLoadedState());
+      multipleImageModel=MultipleImageModel();
+        multipleImageModel = await productApi.getmultiImagesByProductId(id);
+        
+        // Emit MultiImageByProductIdLoadedState with the fetched multipleImageModel
+        emit(MultiImageByProductIdLoadedState(multipleImageModel!));
+        print("MultiImageByProductIdLoadedState emitted successfully");
     } catch (e) {
-      print("error in loading product>>>>>>>>>>>" + e.toString());
+        print("error in loading product >>>>>>>>>> " + e.toString());
     }
-  }
+}
+
 
   void _mapFetchProductStockListByProductIdToState(
       Emitter<ProductState> emit, ProductEvent event, var id) async {

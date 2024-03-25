@@ -60,7 +60,7 @@ class _ProductDetailsNewState extends State<ProductDetailsNew> {
     }
   }
 
-  Future<void> getEmail() async {
+  void getEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userId = prefs.getString('customerId');
   }
@@ -70,8 +70,9 @@ class _ProductDetailsNewState extends State<ProductDetailsNew> {
   void dispose() {
     Loader.hide();
     // TODO: implement dispose
-    product = null;
-    multipleImageModel = null;
+    product = Product();
+    multipleImageModel = MultipleImageModel();
+ 
     super.dispose();
   }
 
@@ -84,7 +85,6 @@ class _ProductDetailsNewState extends State<ProductDetailsNew> {
       this.currency = prefs.getString('currency');
       this.country = prefs.getString('country');
     });
-    print('widget product id: ${widget.productId} and : ${currency}');
     BlocProvider.of<ProductBloc>(context)
         .add(FetchProductByProductId(widget.productId, currency));
     BlocProvider.of<ProductBloc>(context)
@@ -94,19 +94,13 @@ class _ProductDetailsNewState extends State<ProductDetailsNew> {
   @override
   void initState() {
     BlocProvider.of<RandomReviewBloc>(context).add(FetchReview());
+    multipleImageModel = MultipleImageModel();
+    product=Product();
     checkCartCount();
-    //getCountry();
-    getProductDetails();
-
-    //this.getEmail();
+    getCountry();
+    this.getEmail();
 
     super.initState();
-  }
-
-  Future<void> getProductDetails() async {
-    //product
-    await getCountry();
-    await getEmail();
   }
 
   togglevisibility() {
@@ -295,52 +289,23 @@ class _ProductDetailsNewState extends State<ProductDetailsNew> {
       },
       child: BlocBuilder<ProductBloc, ProductState>(
         buildWhen: (pstate, state) {
-          if (state is ProductByProductIdLoadedState &&
-              pstate is MultiImageByProductIdLoadedState) {
-            print('inside build product');
+          if (state is MultiImageByProductIdLoadedState) {
             multipleImageModel =
                 BlocProvider.of<ProductBloc>(context).multipleImageModel;
-
             if (product == null) {
-              product = BlocProvider.of<ProductBloc>(context).currentProduct;
-
+              product = product ??
+                  BlocProvider.of<ProductBloc>(context).currentProduct;
               if (product != null) {
                 value = BlocProvider.of<CartBloc>(context)
                     .productCount[product!.productId!];
               }
-
-              print("This is the value: $value");
-              print(
-                  "This is the value 1: ${BlocProvider.of<CartBloc>(context).productCount}");
-
-              // Make sure to set the product count value in countCubit here if needed
+              print("This is the value" + value.toString());
+              print("This is the value" +
+                  BlocProvider.of<CartBloc>(context).productCount.toString());
               // countCubit.setValue(value??0);
             }
-
-            return true; // Assuming this is returning a boolean value for some condition
-          } else {
-            print('error while fetching data ');
+            return true;
           }
-
-          // if (state is ProductByProductIdLoadedState &&
-          //     pstate is MultiImageByProductIdLoadedState) {
-          //   print('inside build product');
-          //   multipleImageModel =
-          //       BlocProvider.of<ProductBloc>(context).multipleImageModel;
-          //   if (product == null) {
-          //     product = product ??
-          //         BlocProvider.of<ProductBloc>(context).currentProduct;
-          //     if (product != null) {
-          //       value = BlocProvider.of<CartBloc>(context)
-          //           .productCount[product!.productId!];
-          //     }
-          //     print("This is the value" + value.toString());
-          //     print("This is the value 1" +
-          //         BlocProvider.of<CartBloc>(context).productCount.toString());
-          //     // countCubit.setValue(value??0);
-          //   }
-          //   return true;
-          // }
 
           // if (state is ProductByProductIdLoadedState) {
           //   if (product == null) {

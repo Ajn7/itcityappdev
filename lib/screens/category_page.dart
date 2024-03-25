@@ -17,79 +17,78 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  List<Category>? categoryList =[];
+  List<Category>? categoryList = [];
   TextEditingController tcontroller = TextEditingController();
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
         categoryList = BlocProvider.of<CategoryBloc>(context).categoryList;
         if (state is CategoryLoadingState) {
           return Center(
               child: SpinKitRipple(
-                color: Theme.of(context).primaryColor,
-                size: 50,
-              ));
+            color: Theme.of(context).primaryColor,
+            size: 50,
+          ));
         }
 
         return Scaffold(
           appBar: AppBar(
             elevation: 1,
             backgroundColor: AppColors.WHITE,
-
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(5),
-              child: Row (
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-
-                    IconButton(onPressed: (){
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                IconButton(
+                    onPressed: () {
                       Navigator.of(context).maybePop();
-                    }, icon: Icon(Icons.arrow_back_ios,color: AppColors.LOGO_ORANGE,)),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SearchPage()));
-                      },
-                      child: Container(
-                        height: 34,
-                        width: MediaQuery.of(context).size.width * .75,
-                        alignment: Alignment.bottomCenter,
-                        //margin: EdgeInsets.fromLTRB(5, 10, 15, 10),
-                        child: TextField(
-                          enabled: false,
-                          controller: tcontroller,
-                          decoration: InputDecoration(
-                            // fillColor: Theme.of(context).inputDecorationTheme.fillColor,
-                              fillColor: AppColors.GREY,
-                              contentPadding: EdgeInsets.fromLTRB(25, 2, 25, 2),
-                              filled: true,
-                              hoverColor: Colors.grey,
-                              border: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(50.0),
-                                  ),
-                                  borderSide: BorderSide(color: Colors.white)),
-                              hintText: "Search Product, brands and more",
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.search),
-                                padding: EdgeInsets.only(right: 20), onPressed: null,
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: AppColors.LOGO_ORANGE,
+                    )),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SearchPage()));
+                  },
+                  child: Container(
+                    height: 34,
+                    width: MediaQuery.of(context).size.width * .75,
+                    alignment: Alignment.bottomCenter,
+                    //margin: EdgeInsets.fromLTRB(5, 10, 15, 10),
+                    child: TextField(
+                      enabled: false,
+                      controller: tcontroller,
+                      decoration: InputDecoration(
+                          // fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+                          fillColor: AppColors.GREY,
+                          contentPadding: EdgeInsets.fromLTRB(25, 2, 25, 2),
+                          filled: true,
+                          hoverColor: Colors.grey,
+                          border: OutlineInputBorder(
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(50.0),
                               ),
-                              hintStyle:
+                              borderSide: BorderSide(color: Colors.white)),
+                          hintText: "Search Product, brands and more",
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.search),
+                            padding: EdgeInsets.only(right: 20),
+                            onPressed: null,
+                          ),
+                          hintStyle:
                               Theme.of(context).inputDecorationTheme.hintStyle),
-                        ),
-                      ),
                     ),
-
-                  ]),
+                  ),
+                ),
+              ]),
             ),
           ),
           body: LayoutBuilder(
@@ -100,15 +99,20 @@ class _CategoryPageState extends State<CategoryPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(25, 10, 0, 10),
-                      child: Text('Categories',style: TextStyle(color: AppColors.GREY_TEXT,fontSize: 26),),
+                      child: Text(
+                        'Categories',
+                        style:
+                            TextStyle(color: AppColors.GREY_TEXT, fontSize: 26),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GridView.builder(
-                        itemCount: categoryList!.length,
+                          itemCount: categoryList!.length,
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             childAspectRatio: .92,
                             mainAxisSpacing: 0,
@@ -116,38 +120,50 @@ class _CategoryPageState extends State<CategoryPage> {
                           ),
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  return ProductByCategoryPage(
-                                    categoryId: categoryList == null
-                                        ? 0
-                                        : categoryList![index].categoryId,
-                                    categoryName: categoryList == null
-                                        ? ''
-                                        : categoryList![index].categoryName,
-                                  );
-                                }));
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ProductByCategoryPage(
+                                        categoryId: categoryList == null
+                                            ? 0
+                                            : categoryList![index].categoryId,
+                                        categoryName: categoryList == null
+                                            ? ''
+                                            : categoryList![index].categoryName,
+                                      );
+                                    },
+                                  ),
+                                );
                               },
                               child: Container(
-                               // color: AppColors.GREY,
-                               // width: MediaQuery.of(context).size.width ,
+                                // color: AppColors.GREY,
+                                // width: MediaQuery.of(context).size.width ,
                                 child: Column(
                                   children: [
-
                                     Container(
-                                       width: MediaQuery.of(context).size.width *.23,
-                                       height: MediaQuery.of(context).size.width * .23,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .23,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                .23,
 
                                         //padding: EdgeInsets.fromLTRB(10, 10, 20, 5),
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: AppColors.LOGO_ORANGE,width: 2.5),
+                                          border: Border.all(
+                                              color: AppColors.LOGO_ORANGE,
+                                              width: 2.5),
                                           color: Colors.white,
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
-                                            image: NetworkImage(categoryList == null
-                                                ? ''
-                                                : categoryImage +
-                                                categoryList![index].categoryImage!),
+                                            image: NetworkImage(
+                                                categoryList == null
+                                                    ? ''
+                                                    : categoryImage +
+                                                        categoryList![index]
+                                                            .categoryImage!),
                                             fit: BoxFit.fitWidth,
                                           ),
                                         )),
@@ -158,7 +174,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                         child: Text(
                                           categoryList == null
                                               ? ''
-                                              : categoryList![index].categoryName!,
+                                              : categoryList![index]
+                                                  .categoryName!,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
                                           style: (TextStyle(
@@ -166,7 +183,9 @@ class _CategoryPageState extends State<CategoryPage> {
                                             fontSize: 15,
                                             color: AppColors.LOGO_BLACK,
                                             //fontWeight: FontWeight.w500,
-                                          )),textAlign: TextAlign.center,),
+                                          )),
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                     )
                                   ],
@@ -179,7 +198,6 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
               );
             },
-
           ),
         );
       },

@@ -1,4 +1,6 @@
 
+import 'package:itcity_online_store/api/models/MultipleImageModel.dart';
+
 abstract class ProductState {}
 
 class ProductInitialState extends ProductState {}
@@ -11,8 +13,12 @@ class ProductErrorState extends ProductState {}
 
 class ProductByProductIdLoadingState extends ProductState {}
 
-class ProductByProductIdLoadedState extends ProductState {}
-class MultiImageByProductIdLoadedState extends ProductState {}
+class ProductByProductIdLoadedState extends ProductState {}class MultiImageByProductIdLoadedState extends ProductState {
+  final MultipleImageModel multipleImageModel;
+
+  MultiImageByProductIdLoadedState(this.multipleImageModel);
+}
+
 
 class ProductByProductIdErrorState extends ProductState {}
 
@@ -60,6 +66,7 @@ class ProductByBrandByBrandIdLoadedState extends ProductState {}
 class ProductByBrandByBrandIdErrorState extends ProductState {}
 
 class CreateUserReviewLoadingState extends ProductState {}
+class MultiImageByProductIdLoadingState extends  ProductState {}
 
 class CreateUserReviewSuccessState extends ProductState {}
 
