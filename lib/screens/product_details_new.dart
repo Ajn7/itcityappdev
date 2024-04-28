@@ -1163,7 +1163,7 @@ class _ProductDetailsNewState extends State<ProductDetailsNew> {
         buildWhen: (pstate, state) {
           if ((state is ProductByProductIdLoadedState &&
               pstate is MultiImageByProductIdLoadedState)||(pstate is ProductByProductIdLoadedState &&
-              state is MultiImageByProductIdLoadedState)) {
+              state is MultiImageByProductIdLoadedState)) {//new 
           
             multipleImageModel =
                 BlocProvider.of<ProductBloc>(context).multipleImageModel;
